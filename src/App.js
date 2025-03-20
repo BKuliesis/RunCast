@@ -4,7 +4,7 @@ import Body from './components/Body';
 import Footer from './components/Footer';
 import { updateTheme } from './utils/Theme';
 
-function setipLocalStorage() {
+function setupLocalStorage() {
   if (!localStorage.getItem("mode")) {
     localStorage.setItem("mode", "basic");
   }
@@ -21,7 +21,7 @@ function setipLocalStorage() {
 
 function App() {
   useEffect(() => {
-    setipLocalStorage();
+    setupLocalStorage();
     updateTheme();
   }
   , []);
