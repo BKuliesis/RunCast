@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Navbar.module.css";
-import searchIcon from "../assets/search.svg";
-import Setting from "./Setting";
 import { Wind, Star, Zap, SunMoon, Sun, Moon, Menu } from "lucide-react";
 import { updateTheme } from "../utils/Theme";
 
@@ -9,7 +7,6 @@ function Navbar() {
     const minDesktopWidth = 930;
     const maxMobileWidth = 465;
     const [desktopMenuActive, setDesktopMenuActive] = useState(window.innerWidth > minDesktopWidth);
-    const [tabletMenuActive, setTabletMenuActive] = useState(window.innerWidth > maxMobileWidth && window.innerWidth <= minDesktopWidth);
     const [mobileMenuActive, setMobileMenuActive] = useState(window.innerWidth < maxMobileWidth);
 
     const [modeActive, setModeActive] = useState(false);
@@ -26,11 +23,11 @@ function Navbar() {
     const unitsRef = useRef(null);
     const themeRef = useRef(null);
     const menuRef = useRef(null);
+    
 
     useEffect(() => {
         function handleResize() {
             setDesktopMenuActive(window.innerWidth > minDesktopWidth);
-            setTabletMenuActive(window.innerWidth > maxMobileWidth && window.innerWidth <= minDesktopWidth);
             setMobileMenuActive(window.innerWidth < maxMobileWidth);
 
             setModeActive(false);
@@ -86,6 +83,10 @@ function Navbar() {
         setThemeActive(prev => !prev);
     }
 
+    const handleMenuClick = () => {
+        setMenuActive(prev => !prev);
+    }
+
     const handeModeChange = (mode) => {
         setMode(mode);
         localStorage.setItem("mode", mode);
@@ -107,18 +108,14 @@ function Navbar() {
         updateTheme();
     }
 
-    const handleMenuClick = () => {
-        setMenuActive(prev => !prev);
-    }
-
     const modeOptions = () => {
         return (
             <>
                 <button onClick={() => handeModeChange("basic")}>
-                    <Star fill={mode === "basic" ? "#2C2C2C" : "none"} size={14} strokeWidth={2} />Basic Mode
+                    <Star className={mode === "basic" ? styles.solid : ""} size={14} strokeWidth={2} />Basic Mode
                 </button>
                 <button onClick={() => handeModeChange("pro")}>
-                    <Zap fill={mode === "pro" ? "#2C2C2C" : "none"} size={14} strokeWidth={1.75} />Pro Mode
+                    <Zap className={mode === "pro" ? styles.solid : ""} size={14} strokeWidth={1.75} />Pro Mode
                 </button>
             </>
         );
@@ -158,13 +155,13 @@ function Navbar() {
         return (
             <>
                 <button onClick={() => handeThemeChange("system")}>
-                        <SunMoon fill={theme === "system" ? "#2C2C2C" : "none"} size={14} strokeWidth={2} />System Default
+                        <SunMoon className={theme === "system" ? styles.solid : ""} size={14} strokeWidth={2} />System Default
                 </button>
                 <button onClick={() => handeThemeChange("light")}>
-                    <Sun fill={theme === "light" ? "#2C2C2C" : "none"} size={14} strokeWidth={2} />Light mode
+                    <Sun className={theme === "light" ? styles.solid : ""} size={14} strokeWidth={2} />Light mode
                 </button>
                 <button onClick={() => handeThemeChange("dark")}>
-                    <Moon fill={theme === "dark" ? "#2C2C2C" : "none"} size={14} strokeWidth={2} />Dark mode
+                    <Moon className={theme === "dark" ? styles.solid : ""} size={14} strokeWidth={2} />Dark mode
                 </button>
             </>
         );
@@ -178,7 +175,7 @@ function Navbar() {
             {!desktopMenuActive && (
                 <div className={styles.menu}  ref={menuRef}>
                     <button>
-                        <Menu size={24} onClick={() => handleMenuClick()} />
+                        <Menu size={24} onClick={handleMenuClick} />
                     </button>
                     {menuActive && (
                         <div className={styles.dropdownMenu}>
@@ -202,19 +199,53 @@ function Navbar() {
             )}
             <div className={styles.search}>
                 <input type="text" placeholder="Search location" />
-                <button onClick={handleSearch}><img src={searchIcon} alt="" /></button>                
+                <button onClick={handleSearch}>
+                <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.4167 21.875L13.8542 15.3125C13.3333 15.7292 12.7344 16.059 12.0573 16.3021C11.3802 16.5451 10.6597 16.6667 9.89583 16.6667C8.00347 16.6667 6.40191 16.0113 5.09115 14.7005C3.78038 13.3898 3.125 11.7882 3.125 9.89583C3.125 8.00347 3.78038 6.40191 5.09115 5.09115C6.40191 3.78038 8.00347 3.125 9.89583 3.125C11.7882 3.125 13.3898 3.78038 14.7005 5.09115C16.0113 6.40191 16.6667 8.00347 16.6667 9.89583C16.6667 10.6597 16.5451 11.3802 16.3021 12.0573C16.059 12.7344 15.7292 13.3333 15.3125 13.8542L21.875 20.4167L20.4167 21.875ZM9.89583 14.5833C11.1979 14.5833 12.3047 14.1276 13.2161 13.2161C14.1276 12.3047 14.5833 11.1979 14.5833 9.89583C14.5833 8.59375 14.1276 7.48698 13.2161 6.57552C12.3047 5.66406 11.1979 5.20833 9.89583 5.20833C8.59375 5.20833 7.48698 5.66406 6.57552 6.57552C5.66406 7.48698 5.20833 8.59375 5.20833 9.89583C5.20833 11.1979 5.66406 12.3047 6.57552 13.2161C7.48698 14.1276 8.59375 14.5833 9.89583 14.5833Z"/>
+                </svg>
+                </button>                
             </div>
             {desktopMenuActive && (
             <div className={styles.settings}>
-                <Setting title="Mode" handleClick={handleModeClick} isActive={modeActive} ref={modeRef}>
-                    {modeOptions()}
-                </Setting>
-                <Setting title="Units" handleClick={handleUnitsClick} isActive={unitsActive} ref={unitsRef}>
-                    {unitsOptions()}
-                </Setting>
-                <Setting title="Theme" handleClick={handleThemeClick} isActive={themeActive} ref={themeRef}>
-                    {themeOptions()}
-                </Setting>
+                <div className={styles.setting} ref={modeRef}>
+                    <button onClick={handleModeClick}>
+                        <span>Mode</span>
+                        <svg className={modeActive ? styles.rotated : ""} width="10" height="5" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 5L0 0H10L5 5Z"/>
+                        </svg>
+                    </button>
+                    {modeActive && (
+                        <div className={styles.dropdownMenu}>
+                            {modeOptions()}
+                        </div>
+                    )}
+                </div>
+                <div className={styles.setting} ref={unitsRef}>
+                    <button onClick={handleUnitsClick}>
+                        <span>Units</span>
+                        <svg className={unitsActive ? styles.rotated : ""} width="10" height="5" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 5L0 0H10L5 5Z"/>
+                        </svg>
+                    </button>
+                    {unitsActive && (
+                        <div className={styles.dropdownMenu}>
+                            {unitsOptions()}
+                        </div>
+                    )}
+                </div>
+                <div className={styles.setting} ref={themeRef}>
+                    <button onClick={handleThemeClick}>
+                        <span>Theme</span>
+                        <svg className={themeActive ? styles.rotated : ""} width="10" height="5" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 5L0 0H10L5 5Z"/>
+                        </svg>
+                    </button>
+                    {themeActive && (
+                        <div className={styles.dropdownMenu}>
+                            {themeOptions()}
+                        </div>
+                    )}
+                </div>
             </div>
             )}
         </div>

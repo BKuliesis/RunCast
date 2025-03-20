@@ -1,14 +1,44 @@
 /* Root Variables */
-/* Light Theme */
 :root {
-    --primary-color: #1C2B4A;
-    --secondary-color: #F2EFE3;
-    --card-background: #FFFFFF;
-    --text-color: #2C2C2C;
-    --muted-text: #555;
-    --hover-color: #F0F0F0;
+    /* Navbar Colors */
+    --navbar-bg-color: #1C2A4F;
+    --navbar-text-color: #FFFFFF;
+    --search-bg-color: #354267;
+    --search-placeholder-color: rgba(255, 255, 255, 0.75);
+    --dropdown-bg-color: #FFFFFF;
+    --dropdown-hover-color: #F0F0F0;
+
+    /* Body Colors */
+    --bg-color: #F6F4EA;
+    --card-bg-color: #FFFFFF;
+    --text-color: #203775;
+    --temperature-color: #0D1F4F;
+    --scroll-bar-color: #D2D7E3;
+    --horizonal-line-color: rgba(32, 55, 117, 0.2);
+
+    /* Header Colors */
+    --header-text-color: #FFFFFF;
+    --image-overlay: rgba(0, 0, 0, 0.15);
+    --header-overlay: rgba(13, 31, 78, 0.6);
+
+    /* Weather Icon Colors */
+    --sun-color: #FBB930;
+    --cloud-color: #A3B6C2;
+    --rain-color: #2F85BF;
+    --snow-color: #D3E0E0;
+    --wind-color: #A3B6C2;
+    --precipitation-color: #35ABFA;
+    
+    /* Running Conditions Colors */
+    --conditions-explanation-color: #5068AA;
+    --circle-bg-color: #BCC2D2;
+    --circle-severe-color: #FF4D4D;
+    --circle-moderate-color: #FF9335;
+    --circle-good-color: #4CAF50;
+
+    /* Other */
     --shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-    --border-radius: 12px;
+    --border-radius: 16px;
     --padding: 16px;
     --spacing-lg: 20px;
     --spacing-md: 12px;
@@ -19,7 +49,35 @@
 
 /* Dark Theme */
 [data-theme="dark"] {
-    /* Need to implement colors */
+        /* Navbar Colors */
+        --navbar-bg-color: #0F172E;
+        --navbar-text-color: #E0E8FD;
+        --search-bg-color: #1C2746;
+        --search-placeholder-color: rgba(224, 232, 253, 0.75);
+        --dropdown-bg-color: #121b30;
+        --dropdown-hover-color: #202c47;
+    
+        /* Body Colors */
+        --bg-color: #090E1B;
+        --card-bg-color: #18233E;
+        --text-color: #CBD2E7;
+        --temperature-color: #FFFFFF;
+        --scroll-bar-color: #323F5F;
+        --horizonal-line-color: rgba(203, 210, 231, 0.2);
+    
+        /* Header Colors */
+        --image-overlay: rgba(0, 0, 0, 0.35);
+    
+        /* Weather Icon Colors */
+        --sun-color: #FFDA46;
+        --cloud-color: #FFFFFF;
+        --rain-color: #25A8FF;
+        --snow-color: #FFFFFF;
+        --wind-color: #c4d5e0;
+        --precipitation-color: #31C5FF;
+        
+        /* Running Conditions Colors */
+        --conditions-explanation-color: #8E9FCB;
 }
 
 /* Global Styles */
@@ -31,7 +89,7 @@
 }
 
 body {
-    background-color: var(--secondary-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
 }
@@ -63,95 +121,4 @@ h6 {
 /* Paragraphs */
 p {
     font-size: 16px;
-    color: var(--muted-text);
-    margin-bottom: var(--spacing-sm);
-}
-
-/* Weather Header */
-.weather-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--card-background);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    margin: var(--spacing-lg);
-    text-align: center;
-}
-
-.weather-header .temperature {
-    font-size: 48px;
-    font-weight: bold;
-    font-family: var(--number-font);
-}
-
-.weather-header .description {
-    font-size: 20px;
-    color: var(--muted-text);
-}
-
-/* Forecast Section */
-.forecast-container {
-    display: flex;
-    gap: var(--spacing-lg);
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.forecast-card {
-    background: var(--card-background);
-    padding: var(--padding);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    min-width: 180px;
-    text-align: center;
-}
-
-.forecast-card h3 {
-    font-size: 18px;
-    margin-bottom: var(--spacing-sm);
-}
-
-/* Running Conditions */
-.running-conditions {
-    background: var(--card-background);
-    padding: var(--padding);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    text-align: center;
-    margin: var(--spacing-lg) auto;
-    width: 250px;
-}
-
-.running-conditions .rating {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FF9800;
-}
-
-/* Clothing Recommendation */
-.clothing-container {
-    background: var(--card-background);
-    padding: var(--padding);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    margin: var(--spacing-lg) auto;
-    width: 250px;
-}
-
-.clothing-container ul {
-    list-style: none;
-}
-
-.clothing-container ul li {
-    padding: var(--spacing-sm) 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .forecast-container {
-        flex-direction: column;
-        align-items: center;
-    }
 }
