@@ -24,8 +24,6 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(weather);
-
   useEffect(() => {
     async function inititalize() {
       setupLocalStorage();
