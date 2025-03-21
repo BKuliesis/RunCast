@@ -1,4 +1,4 @@
-import Header from "./bodyComponents/Header";
+import Header from "./body_components/Header";
 
 function Body({ weather }) {
     return (

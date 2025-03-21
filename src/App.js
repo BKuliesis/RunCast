@@ -31,8 +31,9 @@ function App() {
   }
   , []);
 
-  const handleSearch = (search) => {
-    setWeather(getWeather(search));
+  const handleSearch = async (search) => {
+    const weather = await getWeather(search);
+    setWeather(weather);
   }
 
   return (
