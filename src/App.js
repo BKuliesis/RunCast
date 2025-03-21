@@ -21,18 +21,27 @@ function setupLocalStorage() {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  console.log(weather);
 
   useEffect(() => {
-    setupLocalStorage();
-    updateTheme();
-    setLoading(false);
+    async function inititalize() {
+      setupLocalStorage();
+      updateTheme();
+      await handleSearch("London");
+      setLoading(false);
+    }
+    inititalize();
   }
   , []);
 
-  const handleSearch = async (search) => {
+  async function handleSearch (search) {
     const weather = await getWeather(search);
+    if (!weather) {
+      return;
+    }
     setWeather(weather);
   }
 
