@@ -1,5 +1,5 @@
-import Header from "./bodyComponents/Header";
-import Panels from "./bodyComponents/Panels";
+import Header from "./body_components/Header";
+import Panels from "./body_components/Panels";
 
 function Body({ weather }) {
     return (

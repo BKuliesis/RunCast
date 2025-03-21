@@ -3,7 +3,9 @@ import styles from "./body_components/Panels.css";
 import axios from "axios";
 
 function Panels ({ weather }) {
-
+    const [currentWeather, setCurrentWeather] = useState(null);
+    const [forecast, setForecast] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     return null;
 }
