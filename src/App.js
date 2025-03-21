@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Body from './components/Body';
 import Footer from './components/Footer';
 import { updateTheme } from './utils/Theme';
+import getWeather from './api/weather';
 
 function setupLocalStorage() {
   if (!localStorage.getItem("mode")) {
@@ -21,6 +22,7 @@ function setupLocalStorage() {
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     setupLocalStorage();
@@ -29,11 +31,15 @@ function App() {
   }
   , []);
 
+  const handleSearch = (search) => {
+    setWeather(getWeather(search));
+  }
+
   return (
     loading ? null : (
       <div className="App">
-        <Navbar />
-        <Body />
+        <Navbar handleSearch={handleSearch} />
+        <Body weather={weather} />
         <Footer />
       </div>
     )
