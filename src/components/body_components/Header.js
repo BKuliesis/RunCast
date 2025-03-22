@@ -2,8 +2,6 @@ import styles from './Header.module.css';
 import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightning, CloudMoon, CloudMoonRain, Sun, Wind, Moon } from "lucide-react";
 
 function Header({ weather }) {
-    console.log(weather);
-
     function getDescription() {
         const { description } = weather.weather[0];
     
