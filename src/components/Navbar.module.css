@@ -19,25 +19,27 @@
 .logo h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: normal;
+    font-size: 32px;
+    margin: 0;
 }
 
 /* Search Bar */
 .search {
     position: relative;
     background-color: var(--search-bg-color);
-    width: 350px;
-    max-width: 350px;
+    width: 451px;
+    max-width: 451px;
     border: none;
     border-radius: 8px;
 }
 
 .search input {
     background-color: transparent;
-    width: 313px;
-    max-width: 313px;
+    width: calc(451px - 37px);
+    max-width: calc(451px - 37px);
     border: none;
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 18px;
+    padding: calc(var(--spacing-sm) * 0.65) var(--spacing-md);
+    font-size: 20px;
     color: var(--navbar-text-color);
 }
 
@@ -87,7 +89,7 @@
 }
 
 .setting span {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .setting span + svg {
@@ -109,6 +111,7 @@
     width: max-content;
     padding: 8px 0;
     border: 1px solid var(--text-color);
+    z-index: 10;
 }
 
 .dropdownMenu::before {
@@ -181,7 +184,7 @@ span.unitsSectionTitle {
     font-weight: 700;
 }
 
-hr {
+.navbar hr {
     width: 100%;
     margin: var(--spacing-sm) auto;
     border: none;
@@ -221,7 +224,7 @@ hr {
 }
 
 /* Responsive Design */
-@media (max-width: 930px) {
+@media (max-width: 1057px) {
     .navbar {
         grid-template-columns: auto auto 1fr;
     }
@@ -236,7 +239,7 @@ hr {
     }
 }
 
-@media (max-width: 465px) {
+@media (max-width: 482px) {
     .navbar {
         grid-template-columns: auto 1fr;
         column-gap: var(--spacing-md);

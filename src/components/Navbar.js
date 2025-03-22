@@ -4,10 +4,10 @@ import { Wind, Star, Zap, SunMoon, Sun, Moon, Menu } from "lucide-react";
 import { updateTheme } from "../utils/Theme";
 
 function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, handleUnitsChange }) {
-    const minDesktopWidth = 930;
-    const maxMobileWidth = 465;
+    const minDesktopWidth = 1057;
+    const maxMobileWidth = 482;
     const [desktopMenuActive, setDesktopMenuActive] = useState(window.innerWidth > minDesktopWidth);
-    const [mobileMenuActive, setMobileMenuActive] = useState(window.innerWidth < maxMobileWidth);
+    const [mobileMenuActive, setMobileMenuActive] = useState(window.innerWidth <= maxMobileWidth);
 
     const [modeActive, setModeActive] = useState(false);
     const [unitsActive, setUnitsActive] = useState(false);
@@ -26,7 +26,7 @@ function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, h
     useEffect(() => {
         function handleResize() {
             setDesktopMenuActive(window.innerWidth > minDesktopWidth);
-            setMobileMenuActive(window.innerWidth < maxMobileWidth);
+            setMobileMenuActive(window.innerWidth <= maxMobileWidth);
 
             setModeActive(false);
             setUnitsActive(false);

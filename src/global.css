@@ -100,38 +100,38 @@ body {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 80px;
+    font-weight: 500;
 }
 
 h2 {
-    font-size: 29px;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: calc(var(--spacing-sm) * 0.5);
 }
 
 h3 {
-    font-size: 24px;
-}
-
-h4 {
     font-size: 20px;
-}
-
-h5 {
-    font-size: 18px;
-}
-
-h6 {
-    font-size: 16px;
+    font-weight: 300;
 }
 
 /* Paragraphs */
 p {
     font-size: 16px;
+    font-weight: 300;
+}
+
+/* Horizontal Line */
+
+hr {
+    border: none;
+    border-top: 1px solid var(--horizonal-line-color);
 }
 
 /* Panels */
 
 .panel {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
     border-radius: 10px;
     background-color: var(--card-bg-color);
     color: var(--text-color);

@@ -24,6 +24,7 @@ function setupLocalStorage() {
 function App() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentSearch, setCurrentSearch] = useState("London");
 
   const [mode, setMode] = useState("");
   const [tempUnits, setTempUnits] = useState("");
@@ -36,7 +37,7 @@ function App() {
       setTempUnits(localStorage.getItem("tempUnits"));
       setSpeedUnits(localStorage.getItem("speedUnits"));
       updateTheme();
-      await handleSearch("London");
+      await handleSearch(currentSearch);
       setLoading(false);
     }
     inititalize();
@@ -44,13 +45,12 @@ function App() {
   , []);
 
   useEffect(() => {
-    handleSearch("London");
+    handleSearch(currentSearch);
   }, [tempUnits, speedUnits]);
 
-  async function handleSearch(search) {
-    const tempUnits = localStorage.getItem("tempUnits");
-    const speedUnits = localStorage.getItem("speedUnits");
-  
+  async function handleSearch(search) {  
+    if (!search || search.trim() === "") return;
+
     let weather = await getWeather(search, tempUnits);
     if (!weather) return;
   
@@ -75,6 +75,8 @@ function App() {
     weather = roundWeatherData(weather);
   
     setWeather(weather);
+
+    setCurrentSearch(search);
   }
 
   function handleModeChange(newMode) {

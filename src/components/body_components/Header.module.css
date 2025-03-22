@@ -71,21 +71,10 @@
     filter: drop-shadow(var(--shadow));
 }
 
-.header h1 {
-    font-size: 80px;
-    font-weight: 500;
-}
-
 .header h2 {
-    font-size: 24px;
-    font-weight: 600;
     max-width: 363px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.header p {
-    font-size: 20px;
-    font-weight: 300;
+    margin: 0;
 }

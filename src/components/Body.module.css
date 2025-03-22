@@ -5,3 +5,13 @@
     margin: var(--spacing-md) auto;
     width: fit-content;
 }
+
+/* Responsive Design */
+
+@media screen and (max-width: 906px) {
+    .body {
+        grid-template-columns: 1fr;
+        width: 100%;
+        padding: 0 var(--spacing-lg);
+    }
+}

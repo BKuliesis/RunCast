@@ -140,7 +140,7 @@ function Header({ weather }) {
         }}>
             <div className={styles.heading}>
                 <h2>{weather.name}, {weather.sys.country}</h2>
-                <p>As of {formatGMT()} GMT</p>
+                <h3>As of {formatGMT()} GMT</h3>
             </div>
             <div className={styles.body}>
                 <div className={styles.info}>
