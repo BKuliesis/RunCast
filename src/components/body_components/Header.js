@@ -39,7 +39,7 @@ function Header({ weather }) {
         const windSpeed = weather.wind.speed;
         const isNight = icon.includes("n");
     
-        // Wind override (if clear/cloudy and strong wind)
+        // Wind override — prioritize wind if strong and weather is otherwise calm
         if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
             return <Wind size={size} strokeWidth={strokeWidth} />;
         }
@@ -51,15 +51,14 @@ function Header({ weather }) {
         }
     
         if (main === "Clouds") {
-            if (description === "few clouds") {
+            if (["few clouds", "scattered clouds"].includes(description)) {
                 return isNight
                     ? <CloudMoon size={size} strokeWidth={strokeWidth} />
                     : <CloudSun size={size} strokeWidth={strokeWidth} />;
             }
-            if (description === "scattered clouds" || description === "broken clouds") {
-                return <Cloudy size={size} strokeWidth={strokeWidth} />;
-            }
-            return <Cloudy size={size} strokeWidth={strokeWidth} />;
+            return isNight
+                ? <CloudMoon size={size} strokeWidth={strokeWidth} />
+                : <Cloudy size={size} strokeWidth={strokeWidth} />;
         }
     
         if (main === "Rain") {
@@ -85,8 +84,11 @@ function Header({ weather }) {
             return <CloudSnow size={size} strokeWidth={strokeWidth} />;
         }
     
-        return <Cloudy size={size} strokeWidth={strokeWidth} />;
+        return isNight
+            ? <CloudMoon size={size} strokeWidth={strokeWidth} />
+            : <Cloudy size={size} strokeWidth={strokeWidth} />;
     }
+    
     
 
     function getBackground() {
@@ -105,7 +107,9 @@ function Header({ weather }) {
                     ? "https://images.unsplash.com/photo-1693267438751-69f4aa7ffd19?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     : "https://images.unsplash.com/photo-1542349314-b0ceb4d90f2d?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
             }
-            return "https://images.unsplash.com/photo-1614959909713-128c622fad23?q=80&w=1227&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+            return isNight 
+                ? "https://images.unsplash.com/photo-1500740516770-92bd004b996e?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                : "https://media.gettyimages.com/id/1145484204/video/moving-rain-cloudy-with-overcast-sky.jpg?s=640x640&k=20&c=wbiHD5-I6sE3RlkNUp0UXoGFhGW7xpV_372BF7aSRxE=";
         }
     
         if (main === "Rain" || main === "Drizzle") {
@@ -122,7 +126,9 @@ function Header({ weather }) {
             return "https://images.unsplash.com/photo-1511131341194-24e2eeeebb09?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
         }
     
-        return "https://images.unsplash.com/photo-1614959909713-128c622fad23?q=80&w=1227&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        return isNight 
+            ? "https://images.unsplash.com/photo-1500740516770-92bd004b996e?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            : "https://media.gettyimages.com/id/1145484204/video/moving-rain-cloudy-with-overcast-sky.jpg?s=640x640&k=20&c=wbiHD5-I6sE3RlkNUp0UXoGFhGW7xpV_372BF7aSRxE=";
     }    
     
     function formatGMT() {
