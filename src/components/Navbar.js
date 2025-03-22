@@ -3,7 +3,7 @@ import styles from "./Navbar.module.css";
 import { Wind, Star, Zap, SunMoon, Sun, Moon, Menu } from "lucide-react";
 import { updateTheme } from "../utils/Theme";
 
-function Navbar({ handleSearch }) {
+function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, handleUnitsChange }) {
     const minDesktopWidth = 930;
     const maxMobileWidth = 465;
     const [desktopMenuActive, setDesktopMenuActive] = useState(window.innerWidth > minDesktopWidth);
@@ -14,9 +14,6 @@ function Navbar({ handleSearch }) {
     const [themeActive, setThemeActive] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
 
-    const [mode, setMode] = useState(localStorage.getItem("mode"));
-    const [tempUnits, setTempUnits] = useState(localStorage.getItem("tempUnits"));
-    const [speedUnits, setSpeedUnits] = useState(localStorage.getItem("speedUnits"));
     const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
     const modeRef = useRef(null);
@@ -88,22 +85,7 @@ function Navbar({ handleSearch }) {
         setMenuActive(prev => !prev);
     }
 
-    const handeModeChange = (mode) => {
-        setMode(mode);
-        localStorage.setItem("mode", mode);
-    }
-
-    const handeTempUnitsChange = (units) => {
-        setTempUnits(units);
-        localStorage.setItem("tempUnits", units);
-    }
-
-    const handeSpeedUnitsChange = (units) => {
-        setSpeedUnits(units);
-        localStorage.setItem("speedUnits", units);
-    }
-
-    const handeThemeChange = (theme) => {
+    const handleThemeChange = (theme) => {
         setTheme(theme);
         localStorage.setItem("theme", theme);
         updateTheme();
@@ -112,10 +94,10 @@ function Navbar({ handleSearch }) {
     const modeOptions = () => {
         return (
             <>
-                <button onClick={() => handeModeChange("basic")}>
+                <button onClick={() => handleModeChange("basic")}>
                     <Star className={mode === "basic" ? styles.solid : ""} size={14} strokeWidth={2} />Basic Mode
                 </button>
-                <button onClick={() => handeModeChange("pro")}>
+                <button onClick={() => handleModeChange("pro")}>
                     <Zap className={mode === "pro" ? styles.solid : ""} size={14} strokeWidth={1.75} />Pro Mode
                 </button>
             </>
@@ -128,10 +110,10 @@ function Navbar({ handleSearch }) {
                 <div className={styles.unitsSection}>
                     <span className={styles.unitsSectionTitle}>Temperature</span>
                     <div className={styles.unitOptions}>
-                        <button onClick={() => handeTempUnitsChange("celcius")}>
-                        <span className={tempUnits === "celcius" ? styles.selected : ""}>C°</span>
+                        <button onClick={() => handleUnitsChange("celcius", speedUnits)}>
+                            <span className={tempUnits === "celcius" ? styles.selected : ""}>C°</span>
                         </button>
-                        <button onClick={() => handeTempUnitsChange("fahrenheit")}>
+                        <button onClick={() => handleUnitsChange("fahrenheit", speedUnits)}>
                             <span className={tempUnits === "fahrenheit" ? styles.selected : ""}>F°</span>
                         </button>
                     </div>
@@ -140,11 +122,11 @@ function Navbar({ handleSearch }) {
                 <div className={styles.unitsSection}>
                     <span className={styles.unitsSectionTitle}>Speed</span>
                     <div className={styles.unitOptions}>
-                        <button onClick={() => handeSpeedUnitsChange("kilometers")}>
-                        <span className={speedUnits === "kilometers" ? styles.selected : ""}>kmph</span>
+                        <button onClick={() => handleUnitsChange(tempUnits, "m/s")}>
+                            <span className={speedUnits === "m/s" ? styles.selected : ""}>m/s</span>
                         </button>
-                        <button onClick={() => handeSpeedUnitsChange("miles")}>
-                            <span className={speedUnits === "miles" ? styles.selected : ""}>mph</span>
+                        <button onClick={() => handleUnitsChange(tempUnits, "miles/hour")}>
+                            <span className={speedUnits === "miles/hour" ? styles.selected : ""}>mph</span>
                         </button>
                     </div>
                 </div>
@@ -155,13 +137,13 @@ function Navbar({ handleSearch }) {
     const themeOptions = () => {
         return (
             <>
-                <button onClick={() => handeThemeChange("system")}>
+                <button onClick={() => handleThemeChange("system")}>
                         <SunMoon className={theme === "system" ? styles.solid : ""} size={14} strokeWidth={2} />System Default
                 </button>
-                <button onClick={() => handeThemeChange("light")}>
+                <button onClick={() => handleThemeChange("light")}>
                     <Sun className={theme === "light" ? styles.solid : ""} size={14} strokeWidth={2} />Light mode
                 </button>
-                <button onClick={() => handeThemeChange("dark")}>
+                <button onClick={() => handleThemeChange("dark")}>
                     <Moon className={theme === "dark" ? styles.solid : ""} size={14} strokeWidth={2} />Dark mode
                 </button>
             </>

@@ -1,6 +1,5 @@
 import styles from './Header.module.css';
 import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightning, CloudMoon, CloudMoonRain, Sun, Wind, Moon } from "lucide-react";
-import { roundToNearestHalf } from '../../utils/Round';
 
 function Header({ weather }) {
     console.log(weather);
@@ -145,9 +144,9 @@ function Header({ weather }) {
             </div>
             <div className={styles.body}>
                 <div className={styles.info}>
-                    <h1>{roundToNearestHalf(weather.main.temp)}°</h1>
+                    <h1>{weather.main.temp}°</h1>
                     <h2>{getDescription()}</h2>
-                    <h2>Feels like: {roundToNearestHalf(weather.main.feels_like)}°</h2>
+                    <h2>Feels like: {weather.main.feels_like}°</h2>
                 </div>
                 <div className={styles.weatherIcon}>
                     {getIcon()}
