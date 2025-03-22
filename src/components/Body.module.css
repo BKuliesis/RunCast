@@ -1,0 +1,7 @@
+.body {
+    display: grid;
+    grid-template-columns: 564px 291px;
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) auto;
+    width: fit-content;
+}
