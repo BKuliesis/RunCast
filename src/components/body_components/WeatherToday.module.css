@@ -1,0 +1,11 @@
+.informationRow {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--spacing-sm);
+    padding: 0 var(--spacing-sm);
+}
+
+.informationRow + hr {
+    margin: calc(var(--spacing-sm) * 0.7) 0 calc(var(--spacing-sm) * 0.5);
+}

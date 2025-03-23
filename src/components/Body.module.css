@@ -1,0 +1,17 @@
+.body {
+    display: grid;
+    grid-template-columns: 564px 291px;
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) auto;
+    width: fit-content;
+}
+
+/* Responsive Design */
+
+@media screen and (max-width: 906px) {
+    .body {
+        grid-template-columns: 1fr;
+        width: 100%;
+        padding: 0 var(--spacing-lg);
+    }
+}

@@ -1,0 +1,80 @@
+.header * {
+    color: var(--header-text-color);
+}
+
+.header {
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    text-align: left;
+    height: 238px;
+    position: relative;
+}
+
+.header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: var(--image-overlay);
+    z-index: 1;
+}
+
+.heading, .body {
+    position: relative;
+    z-index: 2;
+}
+
+.heading {
+    background-color: var(--header-overlay);
+    width: 100%;
+    height: 53px;
+    border-radius: 10px 10px 0 0;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    display: flex;
+    align-items: baseline;
+    column-gap: var(--spacing-sm);
+}
+
+.body {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+}
+
+.info {
+    display: grid;
+    grid-template-rows: 64px 26px 26px;
+    justify-content: left;
+    align-items: center;
+    row-gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+
+}
+
+.weatherIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md);
+}
+
+.header h1, .header h2, .header p {
+    text-shadow: var(--shadow);
+}
+
+.header svg {
+    filter: drop-shadow(var(--shadow));
+}
+
+.header h2 {
+    max-width: 363px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}

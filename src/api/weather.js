@@ -1,33 +1,35 @@
 import axios from 'axios';
 
-const fetchWeatherData = async (lat, lon) => {
-    try {
-        const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=a2ee72491e2b768975ee7b4ea79b2278`
-        );
-        return response.data;
+const API_KEY = "a2ee72491e2b768975ee7b4ea79b2278";
 
+const fetchWeatherData = async (lat, lon, tempUnits) => {
+    try {
+        const units = tempUnits === "celcius" ? "metric" : "imperial";
+        
+        const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`
+        );
+        
+        return response.data;
     } catch (error) {
         console.error('Error fetching weather data:', error);
         return null;
     }
 };
 
-// Fetch coordinates (latitude and longitude) using the Geocoding API
-const fetchCoordinates = async (location) => {
+const fetchCoordinates = async (location, tempUnits) => {
     try {
-        // Make a request to OpenWeatherMap's Geocoding API
         const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${location},GB&appid=a2ee72491e2b768975ee7b4ea79b2278`
+            `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`
         );
 
-        if (response.data.cod === "404") {
-            console.log("City or area not found.");
-            return;
+        if (response.data.length === 0) {
+            console.log("Location not found");
+            return null;
         }
 
-        const { lat, lon } = response.data.coord; // Extract latitude and longitude from the response
-        return fetchWeatherData(lat, lon); // Fetch weather data using the coordinates
+        const { lat, lon } = response.data[0];
+        return fetchWeatherData(lat, lon, tempUnits);
     } catch (error) {
         console.error('Error fetching coordinates:', error);
         return null;
