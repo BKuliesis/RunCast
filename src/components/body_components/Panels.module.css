@@ -3,10 +3,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 350px;
+    width: 100%;
     padding: 0 var(--spacing-sm);
-    margin: 3% 27%;
+    margin: 3% 0%;
     border-radius: 10px;
-    box-shadow: var(--shadow);
     background-color: var(--card-bg-color);
     color: var(--text-color);
     text-align: center;
@@ -27,6 +28,11 @@
 .panelCell{
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    width: 90%;
+    justify-content: space-between;
     align-items: center;
+}
+
+hr {
+    margin: calc(var(--spacing-sm) * 0.7) 0 calc(var(--spacing-sm) * 0.5);
 }

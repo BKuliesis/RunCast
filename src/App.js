@@ -23,6 +23,7 @@ function setupLocalStorage() {
 
 function App() {
   const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState(null); // Added for forecast data
   const [loading, setLoading] = useState(true);
   const [currentSearch, setCurrentSearch] = useState("London");
 
@@ -51,9 +52,15 @@ function App() {
   async function handleSearch(search) {  
     if (!search || search.trim() === "") return;
 
-    let weather = await getWeather(search, tempUnits);
-    if (!weather) return;
-  
+    let response = await getWeather(search, tempUnits);
+    if (!response) return;
+
+    let weather = response.weatherResponse;
+
+    let forecast = response.forecastResponse; // Added for forecast data
+
+
+
     // Convert wind speed units
     const rawSpeed = weather.wind.speed;
     const apiSpeedUnit = tempUnits === "celsius" ? "m/s" : "mph";
@@ -73,8 +80,11 @@ function App() {
   
     // Round all numbers to the nearest 0.5
     weather = roundWeatherData(weather);
+    forecast = roundWeatherData(forecast); // Added for forecast data
   
     setWeather(weather);
+
+    setForecast(forecast); // Added for forecast data
 
     setCurrentSearch(search);
   }
@@ -103,7 +113,7 @@ function App() {
           handleModeChange={handleModeChange}
           handleUnitsChange={handleUnitsChange}
         />
-        <Body weather={weather} />
+        <Body weather={weather} forecast={forecast} />
         <Footer />
       </div>
     )
