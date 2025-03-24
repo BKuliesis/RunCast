@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import styles from './Clothing.module.css';
 
-const Clothing = ({ temperature, isRaining }) => {
-    const getClothingRecommendation = () => {
-        let recommendations = [];
+
+const Clothing = ({ weather }) => {
+  const [tempUnits, setTempUnits] = useState(localStorage.getItem('tempUnits') || 'celcius');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Get the raw temperature value
+  const rawTemp = weather?.main?.temp || 0;
+  
+  // Convert to Celsius if needed
+  const temperature = tempUnits === 'fahrenheit'
+      ? Math.round((rawTemp - 32) * 5/9)
+      : rawTemp;
+
+  // Rain check
+  const isRaining = weather?.weather?.some(condition => 
+      condition.main.toLowerCase().includes('rain')
+  ) || false;
+
+  // Listen for localStorage changes
+  useEffect(() => {
+      const handleStorageChange = () => {
+          setIsLoading(true);
+          const newUnits = localStorage.getItem('tempUnits') || 'celcius';
+          setTempUnits(newUnits);
+          setTimeout(() => setIsLoading(false), 100); // Brief loading state
+      };
+
+      window.addEventListener('storage', handleStorageChange);
+      return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const getClothingRecommendation = () => {
+      if (isLoading) return [{ item: "Updating...", icon: "⏳" }];
+      
+      let recommendations = [];
       
         if (temperature < 0) {
           recommendations.push(
