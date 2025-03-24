@@ -86,8 +86,6 @@ function Header({ weather }) {
             ? <CloudMoon size={size} strokeWidth={strokeWidth} />
             : <Cloudy size={size} strokeWidth={strokeWidth} />;
     }
-    
-    
 
     function getBackground() {
         const { main, description, icon } = weather.weather[0];
