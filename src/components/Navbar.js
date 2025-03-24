@@ -110,8 +110,8 @@ function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, h
                 <div className={styles.unitsSection}>
                     <span className={styles.unitsSectionTitle}>Temperature</span>
                     <div className={styles.unitOptions}>
-                        <button onClick={() => handleUnitsChange("celcius", speedUnits)}>
-                            <span className={tempUnits === "celcius" ? styles.selected : ""}>C°</span>
+                        <button onClick={() => handleUnitsChange("celsius", speedUnits)}>
+                            <span className={tempUnits === "celsius" ? styles.selected : ""}>C°</span>
                         </button>
                         <button onClick={() => handleUnitsChange("fahrenheit", speedUnits)}>
                             <span className={tempUnits === "fahrenheit" ? styles.selected : ""}>F°</span>

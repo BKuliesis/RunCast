@@ -11,7 +11,7 @@ function setupLocalStorage() {
     localStorage.setItem("mode", "basic");
   }
   if (!localStorage.getItem("tempUnits")) {
-    localStorage.setItem("tempUnits", "celcius");
+    localStorage.setItem("tempUnits", "celsius");
   }
   if (!localStorage.getItem("speedUnits")) {
     localStorage.setItem("speedUnits", "m/s");
