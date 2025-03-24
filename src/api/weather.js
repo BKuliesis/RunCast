@@ -4,7 +4,7 @@ const API_KEY = "a2ee72491e2b768975ee7b4ea79b2278";
 
 const fetchWeatherData = async (lat, lon, tempUnits) => {
     try {
-        const units = tempUnits === "celcius" ? "metric" : "imperial";
+        const units = tempUnits === "c" ? "metric" : "imperial";
         
         const response = await axios.get(
             `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`

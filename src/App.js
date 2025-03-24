@@ -11,7 +11,7 @@ function setupLocalStorage() {
     localStorage.setItem("mode", "basic");
   }
   if (!localStorage.getItem("tempUnits")) {
-    localStorage.setItem("tempUnits", "celsius");
+    localStorage.setItem("tempUnits", "c");
   }
   if (!localStorage.getItem("speedUnits")) {
     localStorage.setItem("speedUnits", "m/s");
@@ -56,7 +56,7 @@ function App() {
   
     // Convert wind speed units
     const rawSpeed = weather.wind.speed;
-    const apiSpeedUnit = tempUnits === "celsius" ? "m/s" : "mph";
+    const apiSpeedUnit = tempUnits === "c" ? "m/s" : "mph";
   
     let convertedSpeed;
   
