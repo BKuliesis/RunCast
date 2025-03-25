@@ -11,7 +11,7 @@ const Clothing = ({ weather }) => {
   
   // Convert to Celsius if needed
   const temperature = tempUnits === 'fahrenheit'
-      ? Math.round((rawTemp - 32) * 5/9)
+      ? (rawTemp - 32) * 5/9
       : rawTemp;
 
   // Rain check
