@@ -1,11 +1,9 @@
 .recommendation {
-    margin-top: 20px;
     padding: var(--padding);
     border-radius: var(--border-radius);
     background-color: var(--card-bg-color);
     max-width: 320px;
     width: 100%;
-    box-shadow: var(--shadow);
   }
   
   .title {

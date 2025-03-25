@@ -1,96 +1,84 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react';
 import styles from './Clothing.module.css';
 
-
 const Clothing = ({ weather }) => {
-  const [tempUnits, setTempUnits] = useState(localStorage.getItem('tempUnits') || 'celcius');
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // Get the raw temperature value
+  // Get raw temperature (from API, could be °C or °F)
   const rawTemp = weather?.main?.temp || 0;
-  
-  // Convert to Celsius if needed
-  const temperature = tempUnits === 'fahrenheit'
-      ? (rawTemp - 32) * 5/9
-      : rawTemp;
 
   // Rain check
   const isRaining = weather?.weather?.some(condition => 
       condition.main.toLowerCase().includes('rain')
   ) || false;
 
-  // Listen for localStorage changes
-  useEffect(() => {
-      const handleStorageChange = () => {
-          setIsLoading(true);
-          const newUnits = localStorage.getItem('tempUnits') || 'celcius';
-          setTempUnits(newUnits);
-          setTimeout(() => setIsLoading(false), 100); // Brief loading state
-      };
+  // Convert temperature based on localStorage (no React state)
+  const temperature = useMemo(() => {
+    const units = localStorage.getItem('tempUnits') || 'c';
+    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
+    
+    // Round to nearest 0.5
+    return Math.round(convertedTemp * 2) / 2;
+  }, [rawTemp]);
 
-      window.addEventListener('storage', handleStorageChange);
-      return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
-
-  const getClothingRecommendation = () => {
-      if (isLoading) return [{ item: "Updating...", icon: "⏳" }];
-      
-      let recommendations = [];
-      
-        if (temperature < 0) {
-          recommendations.push(
-            { item: "Warm Hat", icon: "🧢" },
-            { item: "Thick Gloves", icon: "🧤" },
-            { item: "Thermal Base Layer", icon: "🥼" },
-            { item: "Long Sleeve Shirt", icon: "👕" },
-            { item: "Heavy Jacket", icon: "🧥" },
-            { item: "Thick Trousers", icon: "👖" },
-            { item: "Warm Running Shoes", icon: "👟" }
-          );
-        } else if (temperature >= 0 && temperature < 5) {
-          recommendations.push(
-            { item: "Hat", icon: "🧢" },
-            { item: "Gloves", icon: "🧤" },
-            { item: "Long Sleeve Shirt", icon: "👕" },
-            { item: "Jacket", icon: "🧥" },
-            { item: "Trousers", icon: "👖" },
-            { item: "Running Shoes", icon: "👟" }
-          );
-        } else if (temperature >= 5 && temperature < 10) {
-          recommendations.push(
-            { item: "T-Shirt", icon: "👕" },
-            { item: "Light Jacket", icon: "🧥" },
-            { item: "Trousers", icon: "👖" },
-            { item: "Running Shoes", icon: "👟" }
-          );
-        } else if (temperature >= 10 && temperature < 20) {
-          recommendations.push(
-            { item: "T-Shirt", icon: "👕" },
-            { item: "Shorts", icon: "🩳" },
-            { item: "Running Shoes", icon: "👟" }
-          );
-        } else if (temperature >= 20) {
-          recommendations.push(
-            { item: "Vest", icon: "🦺" },
-            { item: "Shorts", icon: "🩳" },
-            { item: "Light Running Shoes", icon: "👟" }
-          );
-        }
-      
-        if (isRaining) {
-          recommendations.push({ item: "Raincoat", icon: "🌧️" });
-        }
-      
-        return recommendations;
-      };
+  console.log("Temperatue: " + temperature)
+  console.log("RawTemp: " + rawTemp)
+  console.log("Units: " + localStorage.getItem('tempUnits'))
+  // Memoize recommendations to prevent flickering
+  const recommendations = useMemo(() => {
+    let recs = [];
+    
+    if (temperature < 0) {
+      recs.push(
+        { item: "Warm Hat", icon: "🧢" },
+        { item: "Thick Gloves", icon: "🧤" },
+        { item: "Thermal Base Layer", icon: "🥼" },
+        { item: "Long Sleeve Shirt", icon: "👕" },
+        { item: "Heavy Jacket", icon: "🧥" },
+        { item: "Thick Trousers", icon: "👖" },
+        { item: "Warm Running Shoes", icon: "👟" }
+      );
+    } else if (temperature >= 0 && temperature < 5) {
+      recs.push(
+        { item: "Hat", icon: "🧢" },
+        { item: "Gloves", icon: "🧤" },
+        { item: "Long Sleeve Shirt", icon: "👕" },
+        { item: "Jacket", icon: "🧥" },
+        { item: "Trousers", icon: "👖" },
+        { item: "Running Shoes", icon: "👟" }
+      );
+    } else if (temperature >= 5 && temperature < 10) {
+      recs.push(
+        { item: "T-Shirt", icon: "👕" },
+        { item: "Light Jacket", icon: "🧥" },
+        { item: "Trousers", icon: "👖" },
+        { item: "Running Shoes", icon: "👟" }
+      );
+    } else if (temperature >= 10 && temperature < 20) {
+      recs.push(
+        { item: "T-Shirt", icon: "👕" },
+        { item: "Shorts", icon: "🩳" },
+        { item: "Running Shoes", icon: "👟" }
+      );
+    } else if (temperature >= 20) {
+      recs.push(
+        { item: "Vest", icon: "🦺" },
+        { item: "Shorts", icon: "🩳" },
+        { item: "Light Running Shoes", icon: "👟" }
+      );
+    }
+    
+    if (isRaining) {
+      recs.push({ item: "Raincoat", icon: "🌧️" });
+    }
+    
+    return recs;
+  }, [temperature, isRaining]);
 
   return (
     <div className={styles.recommendation}>
       <h2 className={styles.title}>Recommended Clothing</h2>
       <table className={styles.table}>
-
         <tbody>
-          {getClothingRecommendation().map((rec, index) => (
+          {recommendations.map((rec, index) => (
             <tr key={index}>
               <td>{rec.icon}</td>
               <td>{rec.item}</td>
