@@ -110,11 +110,11 @@ function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, h
                 <div className={styles.unitsSection}>
                     <span className={styles.unitsSectionTitle}>Temperature</span>
                     <div className={styles.unitOptions}>
-                        <button onClick={() => handleUnitsChange("celsius", speedUnits)}>
-                            <span className={tempUnits === "celsius" ? styles.selected : ""}>C°</span>
+                        <button onClick={() => handleUnitsChange("c", speedUnits)}>
+                            <span className={tempUnits === "c" ? styles.selected : ""}>C°</span>
                         </button>
-                        <button onClick={() => handleUnitsChange("fahrenheit", speedUnits)}>
-                            <span className={tempUnits === "fahrenheit" ? styles.selected : ""}>F°</span>
+                        <button onClick={() => handleUnitsChange("f", speedUnits)}>
+                            <span className={tempUnits === "f" ? styles.selected : ""}>F°</span>
                         </button>
                     </div>
                 </div>
@@ -125,8 +125,8 @@ function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, h
                         <button onClick={() => handleUnitsChange(tempUnits, "m/s")}>
                             <span className={speedUnits === "m/s" ? styles.selected : ""}>m/s</span>
                         </button>
-                        <button onClick={() => handleUnitsChange(tempUnits, "miles/hour")}>
-                            <span className={speedUnits === "miles/hour" ? styles.selected : ""}>mph</span>
+                        <button onClick={() => handleUnitsChange(tempUnits, "mph")}>
+                            <span className={speedUnits === "mph" ? styles.selected : ""}>mph</span>
                         </button>
                     </div>
                 </div>
