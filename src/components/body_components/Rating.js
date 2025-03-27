@@ -38,7 +38,8 @@ function Rating({ weather }) {
     else if (windMS > 8) rating += 2;
     else if (windMS > 5) rating += 1;
 
-    if (humidity < 30 || humidity > 70) rating += 1;
+    if (humidity < 20 || humidity > 90) rating += 2;
+    else if (humidity < 30 || humidity > 70) rating += 1;
 
     return Math.max(1, Math.min(rating, 10));
   }, [tempC, condition, humidity, windMS]);
@@ -54,19 +55,94 @@ function Rating({ weather }) {
     return "var(--circle-severe-color)";
   };
 
-  const getStatusLabel = () => {
+  const getStatusLabel = (temp, humidity, wind, condition) => {
     const lower = condition.toLowerCase();
-
-    if (lower.includes("rain") || lower.includes("drizzle")) return "Wet Conditions";
-    if (lower.includes("snow")) return "Snowy Conditions";
-    if (lower.includes("storm") || lower.includes("thunder")) return "Storm Risk";
-    if (lower.includes("fog")) return "Low Visibility";
-    if (lower.includes("clear")) {
-      return rating <= 3 ? "Ideal Conditions" : "Warm & Dry";
+    let reasons = [];
+  
+    if (lower.includes("storm") || lower.includes("thunder")) {
+      return "Storm risk – avoid running";
     }
-    if (lower.includes("cloud")) return "Cloudy";
-    return "Check Conditions";
+  
+    if (lower.includes("snow")) {
+      reasons.push("Snowy conditions");
+    }
+  
+    if (lower.includes("rain") || lower.includes("drizzle")) {
+      reasons.push("Wet and slippery");
+    }
+  
+    if (lower.includes("fog")) {
+      reasons.push("Low visibility");
+    }
+  
+    if (temp < 0) {
+      reasons.push("Freezing temperatures");
+    } else if (temp >= 30) {
+      reasons.push("High heat – hydrate well");
+    }
+  
+    if (humidity > 90) {
+      reasons.push("Very humid – expect discomfort");
+    } else if (humidity > 70) {
+      reasons.push("Humid air");
+    } else if (humidity < 20) {
+      reasons.push("Dry air – stay hydrated");
+    }
+  
+    if (wind > 12) {
+      reasons.push("Strong winds");
+    } else if (wind > 8) {
+      reasons.push("Windy conditions");
+    }
+  
+    if (reasons.length === 0 && lower.includes("clear")) {
+      return "Ideal conditions";
+    }
+  
+    return reasons.join(" · ");
   };
+
+  const getSubtext = (temp, humidity, wind, condition, lastRain) => {
+    const lower = condition.toLowerCase();
+  
+    if (lower.includes("storm") || lower.includes("thunder")) {
+      return "Avoid outdoor activity until conditions improve.";
+    }
+  
+    if (lower.includes("snow")) {
+      return "Trails may be icy – use caution.";
+    }
+  
+    if (lower.includes("rain") || lower.includes("drizzle")) {
+      return lastRain
+        ? `Rained ${lastRain}, expect wet surfaces.`
+        : "Watch for puddles and slippery paths.";
+    }
+  
+    if (lower.includes("fog")) {
+      return "Low visibility – wear bright or reflective gear.";
+    }
+  
+    if (humidity > 90) {
+      return "High humidity – stay well hydrated.";
+    }
+  
+    if (temp >= 30) {
+      return "Heat can build up quickly – slow your pace if needed.";
+    }
+  
+    if (wind > 12) {
+      return "Strong winds – consider a more sheltered route.";
+    }
+  
+    if (lower.includes("clear")) {
+      return "Perfect day for a run – enjoy!";
+    }
+  
+    return "Conditions vary – check updates before heading out.";
+  };
+  
+  
 
   return (
     <div className={styles.ratingContainer}>
@@ -90,13 +166,9 @@ function Rating({ weather }) {
           <span className={styles.number}>{rating}</span>
         </div>
         <div className={styles.details}>
-          <p className={styles.status}>{getStatusLabel()}</p>
+          <p className={styles.status}>{getStatusLabel(tempC, humidity, windMS, condition)}</p>
           <p className={styles.subtext}>
-            {lastRain
-              ? `Rained ${lastRain}, expect wet paths.`
-              : condition.toLowerCase().includes("clear")
-              ? "Ideal time to run."
-              : "Check for local updates."}
+            {getSubtext(tempC, humidity, windMS, condition, lastRain)}
           </p>
         </div>
       </div>
