@@ -2,6 +2,10 @@ function roundToNearestHalf(num) {
     return Math.round(num * 2) / 2;
 }
 
+function roundTwoSig(num) {
+  return Number(num.toPrecision(2));
+}
+
 export function roundWeatherData(obj) {
     if (Array.isArray(obj)) {
       return obj.map(roundWeatherData);
@@ -14,7 +18,7 @@ export function roundWeatherData(obj) {
     }
   
     if (typeof obj === 'number') {
-      return roundToNearestHalf(obj);
+      return roundTwoSig(obj);
     }
   
     return obj;
