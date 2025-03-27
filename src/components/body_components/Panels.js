@@ -85,7 +85,7 @@ function Panels ({ forecast }) {
                             alt={hour.weather[0].description}
                             className="panelCell"
                         />
-                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{hour.pop * 100}%</p>                
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{hour.pop * 100}%</p>                
                     </div>
                     ))}
                 </div>
@@ -109,7 +109,7 @@ function Panels ({ forecast }) {
                             alt={day.weather[0].description}
                             className="panelCell"
                         />
-                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{day.pop * 100}%</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{day.pop * 100}%</p>
                     </div>
                     ))}
                 </div>
