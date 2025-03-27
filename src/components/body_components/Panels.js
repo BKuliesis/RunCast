@@ -8,6 +8,8 @@ function Panels ({ forecast }) {
         return <p>Loading forecast...</p>
     }
 
+    {/* Added in case I found suitable icons for the weather forecast */}
+
     function weatherIcon( weather ) {
         const size = 100;
         const strokeWidth = 2.25;
