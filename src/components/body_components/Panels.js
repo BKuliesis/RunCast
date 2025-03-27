@@ -1,4 +1,5 @@
-import styles from "./Panels.module.css";
+import "../../global.css";
+import "./Panels.css";
 import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightning, CloudMoon, CloudMoonRain, Sun, Wind, Moon } from "lucide-react";
 
 function Panels ({ forecast }) {
@@ -67,43 +68,45 @@ function Panels ({ forecast }) {
     return (
         <div>
             {/* Hourly Forecast Panel */}
-            <div className={styles.panel}>
+            <div className="panel forecast">
                 <h2>Hourly Forecast</h2>
-                <div className={styles.panelList}>
+                <div className="panelList">    
                     {forecast.list.slice(0, 8).map((hour, index) => (
-                    <div className={styles.panelCell} key={index}>
-                        <p>
+                    <div className="panelListItem" key={index}>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>
                             {new Date(hour.dt * 1000).toLocaleTimeString([], {
                                 hour: '2-digit',
                                 minute: '2-digit' 
                             })}
                         </p>
-                        <p>{hour.main.temp}°</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{hour.main.temp}°</p>
                         <img
                             src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
                             alt={hour.weather[0].description}
+                            className="panelCell"
                         />
-                        <p>{hour.pop * 100}%</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{hour.pop * 100}%</p>                
                     </div>
                     ))}
                 </div>
             </div>
 
             {/* Daily Forecast Panel */}
-            <div className={styles.panel}>
+            <div className="panel forecast">
                 <h2>Daily Forecast</h2>
-                <div className={styles.panelList}>
+                <div className="panelList">
                     {forecast.list
                     .filter((_, i) => i % 8 === 0)
                     .map((day, index) => (
-                    <div className={styles.panelCell} key={index}>
-                        <p>{new Date(day.dt * 1000).toLocaleTimeString()}</p>
-                        <p>{day.main.temp}°</p>
+                    <div className="panelListItem" key={index}>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{new Date(day.dt * 1000).toLocaleTimeString()}</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{day.main.temp}°</p>
                         <img
                             src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
                             alt={day.weather[0].description}
+                            className="panelCell"
                         />
-                        <p>{day.pop * 100}%</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>{day.pop * 100}%</p>
                     </div>
                     ))}
                 </div>
@@ -113,5 +116,3 @@ function Panels ({ forecast }) {
 }
 
 export default Panels;
-
-

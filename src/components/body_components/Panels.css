@@ -1,0 +1,36 @@
+.forecast {
+    height: 350px;
+    margin: 0 0 12px 0;
+}
+
+.panelList {
+    display: flex; 
+    flex-direction: column;
+    gap: 10px;
+    height: 90%;
+    width: 100%;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar-color) var(--card-bg-color);
+}
+
+.panelListItem {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    row-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--horizonal-line-color);
+}
+
+.panelCell {
+    width : 60px;
+    height: 60px;
+    padding: var(--padding);
+}
+
+.bold {
+    font-weight: bold;
+}
