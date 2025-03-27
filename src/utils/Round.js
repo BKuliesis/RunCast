@@ -3,7 +3,7 @@ function roundToNearestHalf(num) {
 }
 
 function roundTwoSig(num) {
-  return Number(num.toPrecision(2));
+  return Math.round(Number(num.toPrecision(2)) * 100) / 100;
 }
 
 export function roundWeatherData(obj) {
@@ -18,7 +18,7 @@ export function roundWeatherData(obj) {
     }
   
     if (typeof obj === 'number') {
-      return roundTwoSig(obj);
+      return roundToNearestHalf(obj);
     }
   
     return obj;
