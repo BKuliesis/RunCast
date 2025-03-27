@@ -25,12 +25,24 @@
     border-bottom: 1px solid var(--horizonal-line-color);
 }
 
+.panelListItem:last-child {
+    border-bottom: none;
+}
+
 .panelCell {
     width : 60px;
     height: 60px;
-    padding: var(--padding);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .bold {
     font-weight: bold;
+}
+
+
+#tempNo {
+    font-size: 1.5rem;
 }
