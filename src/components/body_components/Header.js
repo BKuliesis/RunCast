@@ -36,16 +36,20 @@ function Header({ weather }) {
         const { main, description, icon } = weather.weather[0];
         let windSpeed = weather.wind.speed;
         const isNight = icon.includes("n");
+
+        console.log(`Weather: ${main}, Description: ${description}, Icon: ${icon}, Wind Speed: ${windSpeed}`);
     
         // Wind override — prioritize wind if strong and weather is otherwise calm
         if (localStorage.getItem("speedUnits") === "mph") {
-            windSpeed = windSpeed / 2.23694;
+            if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
+                return <Wind size={size} strokeWidth={strokeWidth} />;
+            }
+        } else {
+            if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
+                windSpeed = windSpeed * 2.23694;
+            }
         }
 
-        if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-            return <Wind size={size} strokeWidth={strokeWidth} />;
-        }
-    
         if (main === "Clear") {
             return isNight
                 ? <Moon size={size} strokeWidth={strokeWidth} />

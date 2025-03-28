@@ -5,34 +5,20 @@ import Footer from './components/Footer';
 import { updateTheme } from './utils/Theme';
 import getWeather from './api/weather';
 
-function setupLocalStorage() {
-  if (!localStorage.getItem("mode")) {
-    localStorage.setItem("mode", "basic");
-  }
-  if (!localStorage.getItem("tempUnits")) {
-    localStorage.setItem("tempUnits", "c");
-  }
-  if (!localStorage.getItem("speedUnits")) {
-    localStorage.setItem("speedUnits", "m/s");
-  }
-  if (!localStorage.getItem("theme")) {
-    localStorage.setItem("theme", "system");
-  }
-}
-
 function App() {
   const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState(null); // Added for forecast data
   const [loading, setLoading] = useState(true);
   const [currentSearch, setCurrentSearch] = useState("London");
 
-  const [mode, setMode] = useState("");
-  const [tempUnits, setTempUnits] = useState("");
-  const [speedUnits, setSpeedUnits] = useState("");
+  const [mode, setMode] = useState(localStorage.getItem("mode") || "basic");
+  const [tempUnits, setTempUnits] = useState(localStorage.getItem("tempUnits") || "c");
+  const [speedUnits, setSpeedUnits] = useState(localStorage.getItem("speedUnits") || "m/s");
 
   useEffect(() => {
     async function inititalize() {
-      setupLocalStorage();
+      if (!localStorage.getItem("theme")) {
+        localStorage.setItem("theme", "system");
+      }
       setMode(localStorage.getItem("mode"));
       setTempUnits(localStorage.getItem("tempUnits"));
       setSpeedUnits(localStorage.getItem("speedUnits"));
@@ -55,8 +41,8 @@ function App() {
     if (!response) return;
 
     let weather = response.weatherResponse;
-
     let forecast = response.forecastResponse;
+    
     // Convert wind speed units
     const rawSpeed = weather.wind.speed;
     const apiSpeedUnit = tempUnits === "c" ? "m/s" : "mph";
@@ -74,8 +60,6 @@ function App() {
     weather.wind.speed = Math.round(convertedSpeed * 10) / 10;
     weather.wind.unit = speedUnits;
 
-    console.log(forecast);
-
     const roundedWeather = Object.fromEntries(Object.entries(weather.main).map(([key, value]) => [key, Math.round(value)]));
     weather.main = roundedWeather;
 
@@ -87,10 +71,10 @@ function App() {
     );
     forecast.list = roundedForecastWeather;
   
-    setWeather(weather);
-
-    setForecast(forecast);
-
+    setWeather({
+      weather,
+      forecast,
+    });
     setCurrentSearch(search);
   }
 
@@ -118,7 +102,7 @@ function App() {
           handleModeChange={handleModeChange}
           handleUnitsChange={handleUnitsChange}
         />
-        <Body weather={weather} forecast={forecast} />
+        <Body weather={weather} />
         <Footer />
       </div>
     )

@@ -8,12 +8,12 @@ const fetchWeatherData = async (lat, lon, tempUnits) => {
         
         const [weatherResponse, forecastResponse] = await Promise.all([
             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`),
-            axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`) // Added for forecast data
+            axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
         ]); 
         
         return {
             weatherResponse: weatherResponse.data,
-            forecastResponse: forecastResponse.data, // Added for forecast data
+            forecastResponse: forecastResponse.data,
         };
     } catch (error) {
         console.error('Error fetching weather data:', error);
