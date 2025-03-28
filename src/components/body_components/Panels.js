@@ -1,6 +1,5 @@
 import "../../global.css";
 import "./Panels.css";
-import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightning, CloudMoon, CloudMoonRain, Sun, Wind, Moon } from "lucide-react";
 
 function Panels ({ forecast }) {
 
@@ -11,60 +10,59 @@ function Panels ({ forecast }) {
     {/* Added in case I found suitable icons for the weather forecast */}
 
     function weatherIcon( weather ) {
-        const size = 100;
-        const strokeWidth = 2.25;
+        const style={width: '60px', height: 'auto'};
         const { main, description, icon } = weather.weather[0];
         const windSpeed = weather.wind.speed;
         const isNight = icon.includes("n");
     
         // Wind override — prioritize wind if strong and weather is otherwise calm
         if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-            return <Wind size={size} strokeWidth={strokeWidth} />;
+            return <img src="/assets/windy.svg" alt="Windy" style={style}/>;
         }
     
         if (main === "Clear") {
             return isNight
-                ? <Moon size={size} strokeWidth={strokeWidth} />
-                : <Sun size={size} strokeWidth={strokeWidth} />;
+                ? <img src="/assets/clear-night.svg" alt="Clear Night" style={style}/>
+                : <img src="/assets/clear-sun.svg" alt="Clear Sun" style={style}/>;
         }
     
         if (main === "Clouds") {
             if (["few clouds", "scattered clouds"].includes(description)) {
                 return isNight
-                    ? <CloudMoon size={size} strokeWidth={strokeWidth} />
-                    : <CloudSun size={size} strokeWidth={strokeWidth} />;
+                    ? <img src="/assets/cloudy-night.svg" alt="Cloudy Night" style={style}/>
+                    : <img src="/assets/cloudy-sun.svg" alt="Cloudy Sun" style={style}/>;
             }
             return isNight
-                ? <CloudMoon size={size} strokeWidth={strokeWidth} />
-                : <Cloudy size={size} strokeWidth={strokeWidth} />;
+                ? <img src="/assets/cloudy-night.svg" alt="Cloudy Night" style={style}/>
+                : <img src="/assets/cloudy.svg" alt="Cloudy" style={style}/>;
         }
     
         if (main === "Rain") {
             if (description.includes("light")) {
                 return isNight
-                    ? <CloudMoonRain size={size} strokeWidth={strokeWidth} />
-                    : <CloudSunRain size={size} strokeWidth={strokeWidth} />;
+                    ? <img src="assets/cloudy-rain-night.svg" alt="Cloudy Rain" style={style}/>
+                    : <img src="/assets/cloudy-rain-sun.svg" alt="Cloudy Rain" style={style}/>;
             }
-            return <CloudRainWind size={size} strokeWidth={strokeWidth} />;
+            return <img src="/assets/cloudy-rain.svg" alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Drizzle") {
             return isNight
-                ? <CloudMoonRain size={size} strokeWidth={strokeWidth} />
-                : <CloudSunRain size={size} strokeWidth={strokeWidth} />;
+                ? <img src="assets/cloudy-rain-night.svg" alt="Cloudy Rain" style={style}/>
+                : <img src="/assets/cloudy-rain-sun.svg" alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Thunderstorm") {
-            return <CloudLightning size={size} strokeWidth={strokeWidth} />;
+            return <img src="/assets/lightning.svg" alt="Lightning" style={style}/>;
         }
     
         if (main === "Snow") {
-            return <CloudSnow size={size} strokeWidth={strokeWidth} />;
+            return <img src="/assets/snow.svg" alt="Snow" style={style}/>;
         }
     
         return isNight
-            ? <CloudMoon size={size} strokeWidth={strokeWidth} />
-            : <Cloudy size={size} strokeWidth={strokeWidth} />;
+            ? <img src="/assets/cloudy-night.svg" alt="Cloudy Night" style={style}/>
+            : <img src="/assets/cloudy.svg" alt="Cloudy" style={style}/>;
     }
 
     return (
@@ -82,11 +80,7 @@ function Panels ({ forecast }) {
                             })}
                         </p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`} id="tempNo">{hour.main.temp}°</p>
-                        <img
-                            src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
-                            alt={hour.weather[0].description}
-                            className="panelCell"
-                        />
+                        <p className="panelCell">{weatherIcon(hour)}</p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{hour.pop * 100}%</p>                
                     </div>
                     ))}
@@ -106,11 +100,7 @@ function Panels ({ forecast }) {
                             .toLocaleDateString('en-UK', {weekday: 'short', day: 'numeric'})}
                         </p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`} id="tempNo">{day.main.temp}°</p>
-                        <img
-                            src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
-                            alt={day.weather[0].description}
-                            className="panelCell"
-                        />
+                        <p className="panelCell">{weatherIcon(day)}</p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{day.pop * 100}%</p>
                     </div>
                     ))}
