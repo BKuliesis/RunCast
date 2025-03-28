@@ -120,7 +120,7 @@ function Navbar({ handleSearch, mode, tempUnits, speedUnits, handleModeChange, h
                 </div>
                 <hr className={styles.unitsSpliter}/>
                 <div className={styles.unitsSection}>
-                    <span className={styles.unitsSectionTitle}>Speed</span>
+                    <span className={styles.unitsSectionTitle}>Wind Speed</span>
                     <div className={styles.unitOptions}>
                         <button onClick={() => handleUnitsChange(tempUnits, "m/s")}>
                             <span className={speedUnits === "m/s" ? styles.selected : ""}>m/s</span>

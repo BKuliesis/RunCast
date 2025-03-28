@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { roundWeatherData } from './utils/Round';
 import Navbar from './components/Navbar';
 import Body from './components/Body';
 import Footer from './components/Footer';
@@ -72,22 +71,25 @@ function App() {
       convertedSpeed = rawSpeed;
     }
   
-    weather.wind.speed = convertedSpeed;
+    weather.wind.speed = Math.round(convertedSpeed * 10) / 10;
     weather.wind.unit = speedUnits;
 
-    const pops = forecast.list.map(item => item.pop);
-  
-    // Round all numbers to the nearest 0.5
-    const roundedWeather = roundWeatherData(weather);
-    const roundedForecast = roundWeatherData(forecast);
-    roundedForecast.list.forEach((item, index) => {
-      item.pop = pops[index];
+    console.log(forecast);
+
+    const roundedWeather = Object.fromEntries(Object.entries(weather.main).map(([key, value]) => [key, Math.round(value)]));
+    weather.main = roundedWeather;
+
+    const roundedForecastWeather = forecast.list.map(item => {
+      const roundedMain = Object.fromEntries(Object.entries(item.main).map(([key, value]) => [key, Math.round(value)]));
+      item.main = roundedMain;
+      return item;
     }
     );
+    forecast.list = roundedForecastWeather;
   
-    setWeather(roundedWeather);
+    setWeather(weather);
 
-    setForecast(roundedForecast);
+    setForecast(forecast);
 
     setCurrentSearch(search);
   }
