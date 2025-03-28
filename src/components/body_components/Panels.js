@@ -1,5 +1,6 @@
 import "../../global.css";
 import "./Panels.css";
+import Drop from "./Drop.svg";
 
 function Panels ({ forecast }) {
 
@@ -81,7 +82,7 @@ function Panels ({ forecast }) {
                         </p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`} id="tempNo">{hour.main.temp}°</p>
                         <p className="panelCell">{weatherIcon(hour)}</p>
-                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{hour.pop * 100}%</p>                
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}><img src={Drop} style={{width: '10px', height: 'auto'}}/>{hour.pop * 100}%</p>                
                     </div>
                     ))}
                 </div>
@@ -101,7 +102,7 @@ function Panels ({ forecast }) {
                         </p>
                         <p className={`panelCell ${index === 0 ? "bold" : ""}`} id="tempNo">{day.main.temp}°</p>
                         <p className="panelCell">{weatherIcon(day)}</p>
-                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}>💧{day.pop * 100}%</p>
+                        <p className={`panelCell ${index === 0 ? "bold" : ""}`}><img src={Drop} style={{width: '10px', height: 'auto'}}/>{day.pop * 100}%</p>
                     </div>
                     ))}
                 </div>
