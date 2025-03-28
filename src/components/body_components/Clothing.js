@@ -99,12 +99,12 @@ const Clothing = ({ weather }) => {
   }, [temperature, isRaining]);
 
   return (
-    <div className={styles.recommendation}>
-      <h2 className={styles.title}>Recommended Clothing</h2>
+    <div className="panel" style={{height: "fit-content"}}>
+      <h2>Recommended Clothing</h2>
       <ul className={styles.list}>
         {recommendations.map((rec, index) => (
           <li key={index} className={styles.listItem}>
-            <span className={styles.icon}>{rec.icon}</span>
+            {rec.icon}
             <span>{rec.item}</span>
             {rec.item.includes('(optional)') && (
               <span className={styles.optionalTag}>Optional</span>
