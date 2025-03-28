@@ -20,7 +20,7 @@
 
 .panelListItem {
     display: grid;
-    grid-template-columns: 60px 60px 60px 62px;
+    grid-template-columns: 60px 52px 60px 62px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -37,7 +37,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    column-gap: var(--spacing-sm);
 }
 
 .bold {
@@ -56,6 +55,10 @@
 }
 
 .drop {
+    column-gap: var(--spacing-sm);
+}
+
+.drop svg {
     color: var(--precipitation-color);
     height: 9px;
     width: auto;

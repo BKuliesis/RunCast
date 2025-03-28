@@ -90,9 +90,9 @@ function Panels ({ forecast }) {
                                 minute: '2-digit' 
                             })}
                         </p>
-                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}>{hour.main.temp}°</p>
+                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{hour.main.temp}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(hour)}</p>
-                        <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}><Drop className={styles.drop}/>{hour.pop * 100}%</p>                
+                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{hour.pop * 100}%</p>                
                     </div>
                     ))}
                 </div>
@@ -110,9 +110,9 @@ function Panels ({ forecast }) {
                             {index === 0 ? 'Today' : new Date(day.dt * 1000)
                             .toLocaleDateString('en-UK', {weekday: 'short', day: 'numeric'})}
                         </p>
-                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}>{day.main.temp}°</p>
+                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(day)}</p>
-                        <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}><Drop className={styles.drop}/>{day.pop * 100}%</p>
+                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{day.pop * 100}%</p>
                     </div>
                     ))}
                 </div>
