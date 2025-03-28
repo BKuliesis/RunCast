@@ -66,6 +66,21 @@ function App() {
     const roundedForecastWeather = forecast.list.map(item => {
       const roundedMain = Object.fromEntries(Object.entries(item.main).map(([key, value]) => [key, Math.round(value)]));
       item.main = roundedMain;
+      const rawSpeed = item.wind.speed;
+      const apiSpeedUnit = tempUnits === "c" ? "m/s" : "mph";
+    
+      let convertedSpeed;
+    
+      if (apiSpeedUnit === "m/s" && speedUnits === "mph") {
+        convertedSpeed = rawSpeed * 2.23694;
+      } else if (apiSpeedUnit === "mph" && speedUnits === "m/s") {
+        convertedSpeed = rawSpeed / 2.23694;
+      } else {
+        convertedSpeed = rawSpeed;
+      }
+
+      item.wind.speed = Math.round(convertedSpeed * 10) / 10;
+      item.wind.unit = speedUnits;
       return item;
     }
     );

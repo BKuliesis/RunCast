@@ -27,8 +27,14 @@ function Panels ({ forecast }) {
         const isNight = icon.includes("n");
     
         // Wind override — prioritize wind if strong and weather is otherwise calm
-        if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-            return <img src={Windy} alt="Windy" style={style}/>;
+        if (localStorage.getItem("speedUnits") === "mph") {
+            if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
+                return <img src={Windy} alt="Windy" style={style}/>;
+            }
+        } else {
+            if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
+                return <img src={Windy} alt="Windy" style={style}/>;
+            }
         }
     
         if (main === "Clear") {
