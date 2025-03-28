@@ -1,7 +1,7 @@
 import styles from "./Body.module.css";
 import Header from "./body_components/Header";
 import WeatherToday from "./body_components/WeatherToday";
-import PanelsHourly from "./body_components/Panels";
+import Panels from "./body_components/Panels";
 
 function Body({ weather, forecast }) {
 
@@ -9,7 +9,7 @@ function Body({ weather, forecast }) {
         <div className={styles.body}>
             <Header weather={weather} />
             <WeatherToday weather={weather} />
-            <PanelsHourly forecast={forecast} />
+            <Panels forecast={forecast} />
         </div>
     );
 }
