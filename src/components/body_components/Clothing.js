@@ -43,10 +43,6 @@ const Clothing = ({ weather }) => {
     return Math.round(convertedTemp * 2) / 2;
   }, [rawTemp]);
 
-  console.log("Temperature: " + temperature);
-  console.log("RawTemp: " + rawTemp);
-  console.log("Units: " + localStorage.getItem('tempUnits'));
-
   // Memoize recommendations to prevent flickering
   const recommendations = useMemo(() => {
     let recs = [];

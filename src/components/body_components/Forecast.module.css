@@ -1,28 +1,31 @@
-.forecast {
-    height: 350px;
-    margin: 0 0 12px 0;
+.panels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
 
 .panelList {
     display: flex; 
     flex-direction: column;
-    gap: 10px;
-    height: 90%;
+    gap: calc(var(--spacing-sm) * 0.125);
+    height: 100%;
     width: 100%;
     align-items: center;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar-color) var(--card-bg-color);
+    max-height: 308px;
+    padding-right: var(--spacing-sm);
 }
 
 .panelListItem {
-    display: flex;
-    flex-direction: row;
-    width: 90%;
-    row-gap: 10px;
+    display: grid;
+    grid-template-columns: 60px 90px 60px 62px;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--horizonal-line-color);
+    padding: 0 var(--spacing-lg);
 }
 
 .panelListItem:last-child {
@@ -30,12 +33,11 @@
 }
 
 .panelCell {
-    width : 60px;
     height: 60px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    text-align: center;
+    column-gap: var(--spacing-sm);
 }
 
 .bold {
@@ -43,8 +45,20 @@
 }
 
 
-#tempNo {
-    font-size: 1.5rem;
+.temp {
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--temperature-color);
+}
+
+.temp.bold {
+    font-weight: 600;
+}
+
+.drop {
+    color: var(--precipitation-color);
+    height: 9px;
+    width: auto;
 }
 
 

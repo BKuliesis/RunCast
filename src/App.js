@@ -57,10 +57,7 @@ function App() {
 
     let weather = response.weatherResponse;
 
-    let forecast = response.forecastResponse; // Added for forecast data
-
-
-
+    let forecast = response.forecastResponse;
     // Convert wind speed units
     const rawSpeed = weather.wind.speed;
     const apiSpeedUnit = tempUnits === "c" ? "m/s" : "mph";
@@ -77,14 +74,20 @@ function App() {
   
     weather.wind.speed = convertedSpeed;
     weather.wind.unit = speedUnits;
+
+    const pops = forecast.list.map(item => item.pop);
   
     // Round all numbers to the nearest 0.5
-    weather = roundWeatherData(weather);
-    forecast = roundWeatherData(forecast); // Added for forecast data
+    const roundedWeather = roundWeatherData(weather);
+    const roundedForecast = roundWeatherData(forecast);
+    roundedForecast.list.forEach((item, index) => {
+      item.pop = pops[index];
+    }
+    );
   
-    setWeather(weather);
+    setWeather(roundedWeather);
 
-    setForecast(forecast); // Added for forecast data
+    setForecast(roundedForecast);
 
     setCurrentSearch(search);
   }
