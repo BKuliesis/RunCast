@@ -14,6 +14,8 @@ import { ReactComponent as Drop} from "../../assets/drop.svg";
 
 function Panels ({ forecast }) {
 
+    console.log(forecast)
+
     if (!forecast || !forecast.list) {
         return <p>Loading forecast...</p>
     }
@@ -88,9 +90,10 @@ function Panels ({ forecast }) {
                     {forecast.list.slice(0, 8).map((hour, index) => (
                     <div className={styles.panelListItem} key={index}>
                         <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
-                            {index === 0 ? 'Now' : new Date(hour.dt * 1000).toLocaleTimeString([], {
+                            {index === 0 ? 'Now' : new Date(hour.dt * 1000).toLocaleTimeString('en-UK', {
                                 hour: '2-digit',
-                                minute: '2-digit' 
+                                minute: '2-digit',
+                                timeZone: 'GMT'
                             })}
                         </p>
                         <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{hour.main.temp}</span>°</p>
@@ -110,7 +113,11 @@ function Panels ({ forecast }) {
                     <div className={styles.panelListItem} key={index}>
                         <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
                             {index === 0 ? 'Today' : new Date(day.dt * 1000)
-                            .toLocaleDateString('en-UK', {weekday: 'short', day: 'numeric'})}
+                            .toLocaleDateString('en-UK', {
+                                weekday: 'short', 
+                                day: 'numeric',
+                                timeZone: 'GMT'
+                            })}
                         </p>
                         <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(day)}</p>
