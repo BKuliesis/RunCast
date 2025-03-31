@@ -9,3 +9,9 @@
 .informationRow + hr {
     margin: calc(var(--spacing-sm) * 0.7) 0 calc(var(--spacing-sm) * 0.5);
 }
+
+.wind {
+    display: flex;
+    align-items: center;
+    column-gap: var(--spacing-sm);
+}

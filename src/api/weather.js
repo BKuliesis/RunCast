@@ -6,21 +6,25 @@ const WEATHERAPI_KEY = "fec1915ba4454050a19133641253103";
 const fetchWeatherData = async (lat, lon, tempUnits) => {
     try {
         const units = tempUnits === "c" ? "metric" : "imperial";
-        
-        const [weatherResponse, forecastResponse] = await Promise.all([
+        const weatherapiUnits = tempUnits === "c" ? "c" : "f";
+
+        const [weatherResponse, forecastResponse, weatherapiResponse] = await Promise.all([
             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`),
-            axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`)
-        ]); 
-        
+            axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`),
+            axios.get(`https://api.weatherapi.com/v1/current.json?key=${WEATHERAPI_KEY}&q=${lat},${lon}`)
+        ]);
+
         return {
             weatherResponse: weatherResponse.data,
             forecastResponse: forecastResponse.data,
+            extra: weatherapiResponse.data,
         };
     } catch (error) {
         console.error('Error fetching weather data:', error);
         return null;
     }
 };
+
 
 const fetchHistoricalRain = async (location) => {
     try {

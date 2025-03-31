@@ -30,7 +30,7 @@ function Body({ weather }) {
                     <Forecast forecast={weather.forecast} />
                 </div>
                 <div>
-                    <WeatherToday weather={weather.weather} />
+                    <WeatherToday weather={weather.weather} extra={weather.extra} />
                     <Rating weather={weather.weather} recentRain={weather.recentRain} />
                     <Clothing weather={weather.weather} /> 
                 </div>
@@ -38,7 +38,7 @@ function Body({ weather }) {
         ) : (
             <div className={styles.body}>
                 <Header weather={weather.weather} />
-                <WeatherToday weather={weather.weather} />
+                <WeatherToday weather={weather.weather} extra={weather.extra} />
                 <Rating weather={weather.weather} recentRain={weather.recentRain} />
                 <Clothing weather={weather.weather} /> 
                 <Forecast forecast={weather.forecast} />
