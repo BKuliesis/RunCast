@@ -1,7 +1,7 @@
 .panels {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-md) !important;
 }
 
 .panelList {
@@ -62,4 +62,21 @@
     color: var(--precipitation-color);
     height: 9px;
     width: auto;
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 463px) {
+    .temp {
+        font-size: 24px;
+    }
+
+    .panelCell {
+        height: 50px;
+    }
+
+    .panelListItem {
+        padding: 0 var(--spacing-sm);
+    }
+    
 }

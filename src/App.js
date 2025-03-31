@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Body from './components/Body';
-import Footer from './components/Footer';
 import { updateTheme } from './utils/Theme';
 import getWeather from './api/weather';
 
@@ -120,7 +119,6 @@ function App() {
           handleUnitsChange={handleUnitsChange}
         />
         <Body weather={weather} />
-        <Footer />
       </div>
     )
   );

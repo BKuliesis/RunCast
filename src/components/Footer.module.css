@@ -1,0 +1,11 @@
+.footer {
+    background: var(--navbar-bg-color);
+    color: var(--navbar-text-color);
+}
+
+.footer div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md) 0;
+}

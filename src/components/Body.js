@@ -42,7 +42,6 @@ function Body({ weather }) {
                 <Rating weather={weather.weather} recentRain={weather.recentRain} />
                 <Clothing weather={weather.weather} /> 
                 <Forecast forecast={weather.forecast} />
-                
             </div>
         )
     );

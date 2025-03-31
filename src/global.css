@@ -99,6 +99,16 @@ body {
     line-height: 1.6;
 }
 
+#root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.App {
+    min-height: 100vh;
+}
+
 h1 {
     font-size: 80px;
     font-weight: 500;
