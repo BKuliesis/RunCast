@@ -18,8 +18,6 @@ function Panels ({ forecast }) {
         return <p>Loading forecast...</p>
     }
 
-    {/* Added in case I found suitable icons for the weather forecast */}
-
     function weatherIcon( weather ) {
         const style={width: '60px', height: 'auto'};
         const { main, description, icon } = weather.weather[0];
@@ -84,7 +82,6 @@ function Panels ({ forecast }) {
 
     return (
         <div className={styles.panels}>
-            {/* Hourly Forecast Panel */}
             <div className="panel" style={{paddingRight: "12px"}}>
                 <h2>Hourly Forecast</h2>
                 <div className={styles.panelList}>    
@@ -104,7 +101,6 @@ function Panels ({ forecast }) {
                 </div>
             </div>
 
-            {/* Daily Forecast Panel */}
             <div className="panel">
                 <h2>Daily Forecast</h2>
                 <div className={styles.panelList} style={{maxHeight: 'fit-content', overflow: 'hidden'}}>
