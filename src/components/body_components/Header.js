@@ -38,10 +38,16 @@ function Header({ weather }) {
         const isNight = icon.includes("n");
     
         // Wind override — prioritize wind if strong and weather is otherwise calm
-        if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-            return <Wind size={size} strokeWidth={strokeWidth} />;
+        if (localStorage.getItem("speedUnits") === "mph") {
+            if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
+                return <Wind size={size} strokeWidth={strokeWidth} />;
+            }
+        } else {
+            if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
+                return <Wind size={size} strokeWidth={strokeWidth} />;
+            }
         }
-    
+
         if (main === "Clear") {
             return isNight
                 ? <Moon size={size} strokeWidth={strokeWidth} />
@@ -146,9 +152,9 @@ function Header({ weather }) {
             </div>
             <div className={styles.body}>
                 <div className={styles.info}>
-                    <h1>{weather.main.temp}°</h1>
+                    <h1><span className="number">{weather.main.temp}</span>°</h1>
                     <h2>{getDescription()}</h2>
-                    <h2>Feels like: {weather.main.feels_like}°</h2>
+                    <h2>Feels like: <span className="number">{weather.main.feels_like}</span>°</h2>
                 </div>
                 <div className={styles.weatherIcon}>
                     {getIcon()}

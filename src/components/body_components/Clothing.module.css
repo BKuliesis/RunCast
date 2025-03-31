@@ -1,0 +1,27 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-sm) 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-md);
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  column-gap: var(--spacing-md);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listItem svg {
+  height: 38px;
+  width: 38px;
+}
+
+.optionalTag {
+  font-weight: 300;
+}

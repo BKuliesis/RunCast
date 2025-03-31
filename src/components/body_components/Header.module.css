@@ -48,11 +48,11 @@
 
 .info {
     display: grid;
-    grid-template-rows: 64px 26px 26px;
+    grid-template-rows: 70px 26px 26px;
     justify-content: left;
     align-items: center;
     row-gap: var(--spacing-sm);
-    margin: var(--spacing-lg) 0 var(--spacing-sm);
+    margin: var(--spacing-md) 0 var(--spacing-sm);
 
 }
 

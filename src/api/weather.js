@@ -3,16 +3,19 @@ import axios from 'axios';
 const OPENWEATHER_API_KEY = "a2ee72491e2b768975ee7b4ea79b2278";
 const WEATHERAPI_KEY = "fec1915ba4454050a19133641253103"; 
 
-
 const fetchWeatherData = async (lat, lon, tempUnits) => {
     try {
         const units = tempUnits === "c" ? "metric" : "imperial";
-
-        const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`
-        );
-
-        return response.data;
+      
+        const [weatherResponse, forecastResponse] = await Promise.all([
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`),
+            axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`)
+        ]); 
+        
+        return {
+            weatherResponse: weatherResponse.data,
+            forecastResponse: forecastResponse.data,
+        };
     } catch (error) {
         console.error('Error fetching weather data:', error);
         return null;

@@ -30,7 +30,7 @@ function WeatherToday({ weather }) {
             <div className={styles.informationRow}>
                 <Wind size={size} strokeWidth={strokeWidth} />
                 <p>Wind</p>
-                <p>{weather.wind.speed}{weather.wind.unit === "miles/hour" ? "mph" : "m/s"}</p>
+                <p>{weather.wind.speed}{weather.wind.unit === "mph" ? "mph" : "m/s"}</p>
             </div>
             <hr />
             <div className={styles.informationRow}>
