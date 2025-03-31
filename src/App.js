@@ -42,6 +42,7 @@ function App() {
 
     let weather = response.weatherResponse;
     let forecast = response.forecastResponse;
+    let recentRain = response.recentRain;
     
     // Convert wind speed units
     const rawSpeed = weather.wind.speed;
@@ -89,6 +90,7 @@ function App() {
     setWeather({
       weather,
       forecast,
+      recentRain,
     });
     setCurrentSearch(search);
   }

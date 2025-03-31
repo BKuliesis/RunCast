@@ -11,7 +11,7 @@ function Body({ weather }) {
             <Header weather={weather.weather} />
             <WeatherToday weather={weather.weather} />
             <Forecast forecast={weather.forecast} />
-              <Rating weather={weather.weather} />
+            <Rating weather={weather.weather} recentRain={weather.recentRain} />
             <Clothing weather={weather.weather} /> 
         </div>
     );

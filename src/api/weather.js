@@ -6,7 +6,7 @@ const WEATHERAPI_KEY = "fec1915ba4454050a19133641253103";
 const fetchWeatherData = async (lat, lon, tempUnits) => {
     try {
         const units = tempUnits === "c" ? "metric" : "imperial";
-      
+        
         const [weatherResponse, forecastResponse] = await Promise.all([
             axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`),
             axios.get(`https://api.openweathermap.org/data/2.5/forecast/?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_API_KEY}`)

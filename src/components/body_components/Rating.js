@@ -1,14 +1,12 @@
 import { useMemo } from 'react';
 import styles from './Rating.module.css';
 
-function Rating({ weather }) {
+function Rating({ weather, recentRain }) {
   const temperature = weather?.main?.temp ?? 0;
   const condition = weather?.weather?.[0]?.main ?? "Unknown";
   const humidity = weather?.main?.humidity ?? 50;
   const windSpeed = weather?.wind?.speed ?? 0;
   const windUnit = weather?.wind?.unit ?? "m/s";
-  const recentRain = weather?.recentRain ?? { rainedInLast6Hours: false, rainHoursCount: 0 };
-
   const tempUnits = localStorage.getItem("tempUnits") || "c";
   const tempC = tempUnits === "f" ? (temperature - 32) * (5 / 9) : temperature;
   const windMS = windUnit === "mph" ? windSpeed / 2.23694 : windSpeed;
@@ -108,7 +106,7 @@ function Rating({ weather }) {
 
   return (
     <div className={styles.ratingContainer}>
-      <h4 className={styles.title}>Running Conditions</h4>
+      <h2>Running Conditions</h2>
       <div className={styles.content}>
         <div className={styles.circleWrapper}>
           <svg className={styles.circleSvg} viewBox="0 0 36 36">
