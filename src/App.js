@@ -110,7 +110,7 @@ function App() {
   }
 
   return (
-    loading ? null : (
+    loading ? <div className="App"></div> : (
       <div className="App">
         <Navbar 
           handleSearch={handleSearch} 
