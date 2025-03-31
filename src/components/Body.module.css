@@ -6,11 +6,29 @@
     width: fit-content;
 }
 
+.body > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
 /* Responsive Design */
 @media screen and (max-width: 935px) {
     .body {
         grid-template-columns: 1fr;
         width: 100%;
         padding: 0 var(--spacing-lg);
+    }
+
+    .body > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+@media (max-width: 482px) {
+    .body {
+        padding: 0 var(--spacing-md);
     }
 }

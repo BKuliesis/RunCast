@@ -14,7 +14,7 @@
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar-color) var(--card-bg-color);
-    max-height: 308px;
+    max-height: 307px;
     padding-right: var(--spacing-sm);
 }
 

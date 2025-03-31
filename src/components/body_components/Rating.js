@@ -105,7 +105,7 @@ function Rating({ weather, recentRain }) {
   };
 
   return (
-    <div className={styles.ratingContainer}>
+    <div className="panel">
       <h2>Running Conditions</h2>
       <div className={styles.content}>
         <div className={styles.circleWrapper}>
