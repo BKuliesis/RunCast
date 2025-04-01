@@ -14,8 +14,6 @@ import { ReactComponent as Drop} from "../../assets/drop.svg";
 
 function Panels ({ forecast }) {
 
-    console.log(forecast)
-
     if (!forecast || !forecast.list) {
         return <p>Loading forecast...</p>
     }
