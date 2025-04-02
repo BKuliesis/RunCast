@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react';
 import styles from './Clothing.module.css';
-import { ReactComponent as WarmHat } from "../../assets/warmhat.svg";
-import { ReactComponent as Cap } from "../../assets/cap.svg";
-import { ReactComponent as Gloves } from "../../assets/gloves.svg";
-import { ReactComponent as LightJacket } from "../../assets/lightjacket.svg";
-import { ReactComponent as LongSleeve } from "../../assets/longsleeve.svg";
-import { ReactComponent as Mittens } from "../../assets/mittens.svg";
-import { ReactComponent as Shoes } from "../../assets/shoes.svg";
-import { ReactComponent as Shorts } from "../../assets/shorts.svg";
-import { ReactComponent as Thermals } from "../../assets/thermals.svg";
-import { ReactComponent as ThickTrousers } from "../../assets/thicktrousers.svg";
-import { ReactComponent as Trousers } from "../../assets/trousers.svg";
-import { ReactComponent as Vest } from "../../assets/vest.svg";
-import { ReactComponent as WarmJacket } from "../../assets/warmjacket.svg";
-import { ReactComponent as WarmShoes } from "../../assets/warmshoes.svg";
-import { ReactComponent as TShirt } from "../../assets/tshirt.svg";
+import { ReactComponent as WarmHat } from "../../assets/clothing-icons/warmhat.svg";
+import { ReactComponent as Cap } from "../../assets/clothing-icons/cap.svg";
+import { ReactComponent as Gloves } from "../../assets/clothing-icons/gloves.svg";
+import { ReactComponent as LightJacket } from "../../assets/clothing-icons/lightjacket.svg";
+import { ReactComponent as LongSleeve } from "../../assets/clothing-icons/longsleeve.svg";
+import { ReactComponent as Mittens } from "../../assets/clothing-icons/mittens.svg";
+import { ReactComponent as Shoes } from "../../assets/clothing-icons/shoes.svg";
+import { ReactComponent as Shorts } from "../../assets/clothing-icons/shorts.svg";
+import { ReactComponent as Thermals } from "../../assets/clothing-icons/thermals.svg";
+import { ReactComponent as ThickTrousers } from "../../assets/clothing-icons/thicktrousers.svg";
+import { ReactComponent as Trousers } from "../../assets/clothing-icons/trousers.svg";
+import { ReactComponent as Vest } from "../../assets/clothing-icons/vest.svg";
+import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmjacket.svg";
+import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
+import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
 
 const Clothing = ({ weather }) => {
   const rawTemp = weather?.main?.temp || 0;

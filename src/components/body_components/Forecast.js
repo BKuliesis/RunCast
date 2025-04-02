@@ -1,16 +1,16 @@
 import styles from "./Forecast.module.css";
-import ClearNight from "../../assets/clear-night.svg";
-import ClearSun from "../../assets/clear-sun.svg";
-import CloudyNight from "../../assets/cloudy-night.svg";
-import CloudyRainNight from "../../assets/cloudy-rain-night.svg";
-import CloudyRainSun from "../../assets/cloudy-rain-sun.svg";
-import CloudyRain from "../../assets/cloudy-rain.svg";
-import CloudySun from "../../assets/cloudy-sun.svg";
-import Cloudy from "../../assets/cloudy.svg";
-import Lightning from "../../assets/lightning.svg";
-import Snow from "../../assets/snow.svg";
-import Windy from "../../assets/windy.svg";
-import { ReactComponent as Drop} from "../../assets/drop.svg";
+import ClearNight from "../../assets/weather-icons/clear-night.svg";
+import ClearSun from "../../assets/weather-icons/clear-sun.svg";
+import CloudyNight from "../../assets/weather-icons/cloudy-night.svg";
+import CloudyRainNight from "../../assets/weather-icons/cloudy-rain-night.svg";
+import CloudyRainSun from "../../assets/weather-icons/cloudy-rain-sun.svg";
+import CloudyRain from "../../assets/weather-icons/cloudy-rain.svg";
+import CloudySun from "../../assets/weather-icons/cloudy-sun.svg";
+import Cloudy from "../../assets/weather-icons/cloudy.svg";
+import Lightning from "../../assets/weather-icons/lightning.svg";
+import Snow from "../../assets/weather-icons/snow.svg";
+import Windy from "../../assets/weather-icons/windy.svg";
+import { ReactComponent as Drop} from "../../assets/weather-icons/drop.svg";
 
 function Panels ({ forecast }) {
 
