@@ -1,15 +1,13 @@
 import styles from "./Forecast.module.css";
-import ClearNight from "../../assets/clear-night.svg";
-import ClearSun from "../../assets/clear-sun.svg";
-import CloudyNight from "../../assets/cloudy-night.svg";
-import CloudyRainNight from "../../assets/cloudy-rain-night.svg";
-import CloudyRainSun from "../../assets/cloudy-rain-sun.svg";
-import CloudyRain from "../../assets/cloudy-rain.svg";
-import CloudySun from "../../assets/cloudy-sun.svg";
-import Cloudy from "../../assets/cloudy.svg";
-import Lightning from "../../assets/lightning.svg";
-import Snow from "../../assets/snow.svg";
-import Windy from "../../assets/windy.svg";
+import ClearNight from "../../assets/clear-moon-dm.svg";
+import ClearSun from "../../assets/clear-sun-dm.svg";
+import CloudyNight from "../../assets/cloudy-moon-dm.svg";
+import CloudyRain from "../../assets/rain-dm.svg";
+import CloudySun from "../../assets/cloudy-sun-dm.svg";
+import Cloudy from "../../assets/cloudy-dm.svg";
+import Lightning from "../../assets/lightning-dm.svg";
+import Snow from "../../assets/snow-dm.svg";
+import Windy from "../../assets/windy-dm.svg";
 import { ReactComponent as Drop} from "../../assets/drop.svg";
 
 function Panels ({ forecast }) {
@@ -55,16 +53,16 @@ function Panels ({ forecast }) {
         if (main === "Rain") {
             if (description.includes("light")) {
                 return isNight
-                    ? <img src={CloudyRainNight} alt="Cloudy Rain" style={style}/>
-                    : <img src={CloudyRainSun} alt="Cloudy Rain" style={style}/>;
+                    ? <img src={CloudyRain} alt="Cloudy Rain" style={style}/>
+                    : <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
             }
             return <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Drizzle") {
             return isNight
-                ? <img src={CloudyRainNight} alt="Cloudy Rain" style={style}/>
-                : <img src={CloudyRainSun} alt="Cloudy Rain" style={style}/>;
+                ? <img src={CloudyRain} alt="Cloudy Rain" style={style}/>
+                : <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Thunderstorm") {
@@ -117,7 +115,7 @@ function Panels ({ forecast }) {
                                 timeZone: 'GMT'
                             })}
                         </p>
-                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp}</span>°</p>
+                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp_max}/{day.main.temp_min}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(day)}</p>
                         <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{day.pop * 100}%</p>
                     </div>
