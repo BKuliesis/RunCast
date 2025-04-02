@@ -78,6 +78,28 @@ function Panels ({ forecast }) {
             : <img src={Cloudy} alt="Cloudy" style={style}/>;
     }
 
+    const processDailyForecast = (forecast) => {
+        const dailyData = forecast.list.reduce((acc, entry) => {
+            const date = new Date(entry.dt * 1000).toISOString().spliy("T")[0];
+            if (!acc[date]) acc[date] = { temp: [], midday: null, pop: 0, entries: 0 };
+            acc[date].temps.push(entry.main.temp);
+            acc[date].pop += entry.pop;
+            acc[date].entries++;
+
+            const hour = new Date(entry.dt * 1000).getUTCHours();
+            if (hour === 12) acc[date].midday = entry;
+
+            return acc;   
+        }, {});
+
+        return Object.values(dailyData).slice(0, 5).map((day) => ({
+            maxTemp: Math.max(...day.temps),
+            minTemp: Math.min(...day.temps),
+            middayEntry: day.midday || forecast.list.find(e => new Date(e.dt * 1000).getUTCHours() === 12),
+            pop: Math.round((day.pop / day.entries) * 100),
+        }));
+    };
+
     return (
         <div className={styles.panels}>
             <div className="panel" style={{paddingRight: "12px"}}>
