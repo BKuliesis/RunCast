@@ -9,7 +9,7 @@
 
 .listItem {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   column-gap: var(--spacing-md);
   width: 100%;
 }

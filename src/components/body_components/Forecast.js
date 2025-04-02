@@ -96,7 +96,7 @@ function Panels ({ forecast }) {
                         </p>
                         <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{hour.main.temp}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(hour)}</p>
-                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{hour.pop * 100}%</p>                
+                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{Math.round(hour.pop * 100)}%</p>                
                     </div>
                     ))}
                 </div>
@@ -119,7 +119,7 @@ function Panels ({ forecast }) {
                         </p>
                         <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(day)}</p>
-                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{day.pop * 100}%</p>
+                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{Math.round(day.pop * 100)}%</p>
                     </div>
                     ))}
                 </div>
