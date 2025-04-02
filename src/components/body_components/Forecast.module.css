@@ -42,8 +42,6 @@
 .bold {
     font-weight: bold;
 }
-
-
 .temp {
     font-size: 32px;
     font-weight: 400;
@@ -52,6 +50,11 @@
 
 .temp.bold {
     font-weight: 600;
+}
+
+.MinDay {
+    font-size: 1rem;
+    margin-top: 1rem;
 }
 
 .drop {

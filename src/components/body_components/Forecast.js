@@ -80,25 +80,28 @@ function Panels ({ forecast }) {
 
     const processDailyForecast = (forecast) => {
         const dailyData = forecast.list.reduce((acc, entry) => {
-            const date = new Date(entry.dt * 1000).toISOString().spliy("T")[0];
-            if (!acc[date]) acc[date] = { temp: [], midday: null, pop: 0, entries: 0 };
+            const date = new Date(entry.dt * 1000).toISOString().split("T")[0]; // Extract YYYY-MM-DD
+            if (!acc[date]) acc[date] = { temps: [], midday: null, pop: 0, entries: 0 };
+    
             acc[date].temps.push(entry.main.temp);
-            acc[date].pop += entry.pop;
+            acc[date].pop += entry.pop; // Accumulate precipitation probability
             acc[date].entries++;
-
+    
+            // Select the midday entry (12:00 PM UTC)
             const hour = new Date(entry.dt * 1000).getUTCHours();
             if (hour === 12) acc[date].midday = entry;
-
-            return acc;   
+    
+            return acc;
         }, {});
-
+    
         return Object.values(dailyData).slice(0, 5).map((day) => ({
             maxTemp: Math.max(...day.temps),
             minTemp: Math.min(...day.temps),
-            middayEntry: day.midday || forecast.list.find(e => new Date(e.dt * 1000).getUTCHours() === 12),
+            middayEntry: day.midday || forecast.list.find(e => new Date(e.dt * 1000).getUTCHours() === 12), 
             pop: Math.round((day.pop / day.entries) * 100),
         }));
     };
+    
 
     return (
         <div className={styles.panels}>
@@ -124,26 +127,28 @@ function Panels ({ forecast }) {
 
             <div className="panel">
                 <h2>Daily Forecast</h2>
-                <div className={styles.panelList} style={{maxHeight: 'fit-content', overflow: 'hidden'}}>
-                    {forecast.list
-                    .filter((_, i) => i % 8 === 0)
-                    .map((day, index) => (
-                    <div className={styles.panelListItem} key={index}>
-                        <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
-                            {index === 0 ? 'Today' : new Date(day.dt * 1000)
-                            .toLocaleDateString('en-UK', {
-                                weekday: 'short', 
-                                day: 'numeric',
-                                timeZone: 'GMT'
-                            })}
-                        </p>
-                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{day.main.temp_max}/{day.main.temp_min}</span>°</p>
-                        <p className={styles.panelCell}>{weatherIcon(day)}</p>
-                        <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{Math.round(day.pop * 100)}%</p>
-                    </div>
+                <div className={styles.panelList} style={{ maxHeight: 'fit-content', overflow: 'hidden' }}>
+                    {processDailyForecast(forecast).map((day, index) => (
+                        <div className={styles.panelListItem} key={index}>
+                            <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
+                                {index === 0 ? 'Today' : new Date(day.middayEntry.dt * 1000).toLocaleDateString('en-UK', {
+                                    weekday: 'short',
+                                    day: 'numeric',
+                                    timeZone: 'GMT'
+                                })}
+                            </p>
+                            <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}>
+                                <span className="number">{Math.round(day.maxTemp)}</span>°
+                                <span className={styles.MinDay}>/{Math.round(day.minTemp)}°</span>
+                            </p>
+                            <p className={styles.panelCell}>{weatherIcon(day.middayEntry)}</p>
+                            <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}>
+                                <Drop />{day.pop}%
+                            </p>
+                        </div>
                     ))}
                 </div>
-            </div>
+            </div>  
         </div>
     );
 }
