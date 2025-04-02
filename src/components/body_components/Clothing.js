@@ -16,71 +16,161 @@ import { ReactComponent as WarmJacket } from "../../assets/warmjacket.svg";
 import { ReactComponent as WarmShoes } from "../../assets/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/tshirt.svg";
 
-
 const Clothing = ({ weather }) => {
-  // Get raw temperature (from API, could be °C or °F)
   const rawTemp = weather?.main?.temp || 0;
+  const isProMode = localStorage.getItem('mode') === 'pro';
 
-  // Rain check
   const isRaining = weather?.weather?.some(condition => 
-      condition.main.toLowerCase().includes('rain')
+    condition.main.toLowerCase().includes('rain')
   ) || false;
 
-  // Convert temperature based on localStorage (no React state)
   const temperature = useMemo(() => {
     const units = localStorage.getItem('tempUnits') || 'c';
     const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
-    
-    // Round to nearest 0.5
     return Math.round(convertedTemp * 2) / 2;
   }, [rawTemp]);
 
-  // Memoize recommendations to prevent flickering
   const recommendations = useMemo(() => {
     let recs = [];
     
     if (temperature < 0) {
       recs.push(
-        { item: "Warm Hat", icon: <WarmHat className={styles.icon} /> },
-        { item: "Thick Gloves", icon: <Mittens className={styles.icon} /> },
-        { item: "Thermal Base Layer", icon: <Thermals className={styles.icon} /> },
-        { item: "Long Sleeve Shirt", icon: <LongSleeve className={styles.icon} /> },
-        { item: "Heavy Jacket", icon: <WarmJacket className={styles.icon} /> },
-        { item: "Thick Trousers", icon: <ThickTrousers className={styles.icon} /> },
-        { item: "Warm Running Shoes", icon: <WarmShoes className={styles.icon} /> }
+        { 
+          item: "Warm Hat", 
+          icon: <WarmHat className={styles.icon} />,
+          explanation: "Essential for preventing heat loss through the head (up to 30% of body heat)" 
+        },
+        { 
+          item: "Thick Gloves", 
+          icon: <Mittens className={styles.icon} />,
+          explanation: "Protects against frostbite - mittens are warmer than gloves" 
+        },
+        { 
+          item: "Thermal Base Layer", 
+          icon: <Thermals className={styles.icon} />,
+          explanation: "Wicks moisture and provides essential insulation close to skin" 
+        },
+        { 
+          item: "Long Sleeve Shirt", 
+          icon: <LongSleeve className={styles.icon} />,
+          explanation: "Provides core insulation and protects arms from cold" 
+        },
+        { 
+          item: "Heavy Jacket", 
+          icon: <WarmJacket className={styles.icon} />,
+          explanation: "Windproof and insulated to retain body heat in extreme cold" 
+        },
+        { 
+          item: "Thick Trousers", 
+          icon: <ThickTrousers className={styles.icon} />,
+          explanation: "Insulated pants prevent heat loss from legs" 
+        },
+        { 
+          item: "Warm Running Shoes", 
+          icon: <WarmShoes className={styles.icon} />,
+          explanation: "Thermal and waterproof to protect feet from cold surfaces" 
+        }
       );
     } else if (temperature >= 0 && temperature < 5) {
       recs.push(
-        { item: "Hat", icon: <Cap className={styles.icon} /> },
-        { item: "Gloves", icon: <Gloves className={styles.icon} /> },
-        { item: "Long Sleeve Shirt", icon: <LongSleeve className={styles.icon} /> },
-        { item: "Jacket", icon: <WarmJacket className={styles.icon} /> },
-        { item: "Trousers", icon: <Trousers className={styles.icon} /> },
-        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
+        { 
+          item: "Hat", 
+          icon: <Cap className={styles.icon} />,
+          explanation: "Prevents significant heat loss from the head" 
+        },
+        { 
+          item: "Gloves", 
+          icon: <Gloves className={styles.icon} />,
+          explanation: "Protects hands from cold wind and maintains dexterity" 
+        },
+        { 
+          item: "Long Sleeve Shirt", 
+          icon: <LongSleeve className={styles.icon} />,
+          explanation: "Maintains core temperature in chilly conditions" 
+        },
+        { 
+          item: "Jacket", 
+          icon: <WarmJacket className={styles.icon} />,
+          explanation: "Provides wind protection and insulation" 
+        },
+        { 
+          item: "Trousers", 
+          icon: <Trousers className={styles.icon} />,
+          explanation: "Protects legs from wind chill" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard footwear with good grip for cold surfaces" 
+        }
       );
     } else if (temperature >= 5 && temperature < 10) {
       recs.push(
-        { item: "T-Shirt", icon: <TShirt className={styles.icon} /> },
-        { item: "Light Jacket", icon: <LightJacket className={styles.icon} /> },
-        { item: "Trousers", icon: <Trousers className={styles.icon} /> },
-        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
+        { 
+          item: "T-Shirt", 
+          icon: <TShirt className={styles.icon} />,
+          explanation: "Breathable base layer for mild conditions" 
+        },
+        { 
+          item: "Light Jacket", 
+          icon: <LightJacket className={styles.icon} />,
+          explanation: "Provides wind protection without overheating" 
+        },
+        { 
+          item: "Trousers", 
+          icon: <Trousers className={styles.icon} />,
+          explanation: "Light leg covering for cooler temperatures" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard running footwear" 
+        }
       );
     } else if (temperature >= 10 && temperature < 20) {
       recs.push(
-        { item: "T-Shirt", icon: <TShirt className={styles.icon} /> },
-        { item: "Shorts", icon: <Shorts className={styles.icon} /> },
-        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
+        { 
+          item: "T-Shirt", 
+          icon: <TShirt className={styles.icon} />,
+          explanation: "Light, breathable fabric for moderate temps" 
+        },
+        { 
+          item: "Shorts", 
+          icon: <Shorts className={styles.icon} />,
+          explanation: "Allows for better airflow and cooling" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard running footwear" 
+        }
       );
     } else if (temperature >= 20) {
       recs.push(
-        { item: "Vest", icon: <Vest className={styles.icon} /> },
-        { item: "Shorts", icon: <Shorts className={styles.icon} /> },
-        { item: "Light Running Shoes", icon: <Shoes className={styles.icon} /> }
+        { 
+          item: "Vest", 
+          icon: <Vest className={styles.icon} />,
+          explanation: "Minimal coverage while protecting core from sun" 
+        },
+        { 
+          item: "Shorts", 
+          icon: <Shorts className={styles.icon} />,
+          explanation: "Maximizes airflow and prevents overheating" 
+        },
+        { 
+          item: "Light Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Breathable footwear to prevent sweaty feet" 
+        }
       );
     }
     
     if (isRaining) {
-      recs.push({ item: "Raincoat", icon: <LightJacket className={styles.icon} /> });
+      recs.push({ 
+        item: "Raincoat", 
+        icon: <LightJacket className={styles.icon} />,
+        explanation: "Waterproof layer to keep you dry and maintain body temperature" 
+      });
     }
     
     return recs;
@@ -93,7 +183,12 @@ const Clothing = ({ weather }) => {
         {recommendations.map((rec, index) => (
           <li key={index} className={styles.listItem}>
             {rec.icon}
-            <span>{rec.item}</span>
+            <div className={styles.itemInfo}>
+              <span>{rec.item}</span>
+              {isProMode && (
+                <p className={styles.explanation}>{rec.explanation}</p>
+              )}
+            </div>
             {rec.item.includes('(optional)') && (
               <span className={styles.optionalTag}>Optional</span>
             )}
