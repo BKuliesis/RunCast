@@ -9,19 +9,36 @@
 
 .listItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to flex-start */
   column-gap: var(--spacing-md);
+  width: 100%; /* Ensure full width */
 }
 
-.listItem:last-child {
-  border-bottom: none;
-}
-
-.listItem svg {
+.icon {
+  flex: 0 0 38px; /* Fixed width for icons */
   height: 38px;
   width: 38px;
 }
 
+.itemInfo {
+  flex: 1; /* Takes remaining space */
+  min-width: 0; /* Prevents overflow */
+}
+
+.itemInfo span {
+  display: block; /* Makes the item name take full width */
+  margin-bottom: 0.25rem; /* Space between name and explanation */
+}
+
+.explanation {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  line-height: 1.4; /* Better readability */
+}
+
 .optionalTag {
   font-weight: 300;
+  margin-left: auto; /* Pushes to far right */
+  padding-left: var(--spacing-md); /* Prevents crowding */
 }

@@ -1,94 +1,176 @@
 import React, { useMemo } from 'react';
 import styles from './Clothing.module.css';
-import {
-   FaTshirt,
-   FaHatCowboySide,
-   FaVest,
-} from 'react-icons/fa';
-import { 
-  LiaHatCowboySideSolid,
-  LiaMittenSolid,
-
- } from "react-icons/lia";
- import { GiClothes,
-  GiShirt,
-  GiMonclerJacket,
-  GiArmoredPants,
-  GiFurBoot,
-  GiGloves,
-  GiRunningShoe,
-  GiSleevelessJacket,
-  GiShorts,
-  GiSleevelessTop,
-  } from "react-icons/gi";
-  import { PiPants } from "react-icons/pi";
-  import { IoShirtOutline } from "react-icons/io5";
-
+import { ReactComponent as WarmHat } from "../../assets/warmhat.svg";
+import { ReactComponent as Cap } from "../../assets/cap.svg";
+import { ReactComponent as Gloves } from "../../assets/gloves.svg";
+import { ReactComponent as LightJacket } from "../../assets/lightjacket.svg";
+import { ReactComponent as LongSleeve } from "../../assets/longsleeve.svg";
+import { ReactComponent as Mittens } from "../../assets/mittens.svg";
+import { ReactComponent as Shoes } from "../../assets/shoes.svg";
+import { ReactComponent as Shorts } from "../../assets/shorts.svg";
+import { ReactComponent as Thermals } from "../../assets/thermals.svg";
+import { ReactComponent as ThickTrousers } from "../../assets/thicktrousers.svg";
+import { ReactComponent as Trousers } from "../../assets/trousers.svg";
+import { ReactComponent as Vest } from "../../assets/vest.svg";
+import { ReactComponent as WarmJacket } from "../../assets/warmjacket.svg";
+import { ReactComponent as WarmShoes } from "../../assets/warmshoes.svg";
+import { ReactComponent as TShirt } from "../../assets/tshirt.svg";
 
 const Clothing = ({ weather }) => {
-  // Get raw temperature (from API, could be °C or °F)
   const rawTemp = weather?.main?.temp || 0;
+  const isProMode = localStorage.getItem('mode') === 'pro';
 
-  // Rain check
   const isRaining = weather?.weather?.some(condition => 
-      condition.main.toLowerCase().includes('rain')
+    condition.main.toLowerCase().includes('rain')
   ) || false;
 
-  // Convert temperature based on localStorage (no React state)
   const temperature = useMemo(() => {
     const units = localStorage.getItem('tempUnits') || 'c';
     const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
-    
-    // Round to nearest 0.5
     return Math.round(convertedTemp * 2) / 2;
   }, [rawTemp]);
 
-  // Memoize recommendations to prevent flickering
   const recommendations = useMemo(() => {
     let recs = [];
     
     if (temperature < 0) {
       recs.push(
-        { item: "Warm Hat", icon: <LiaHatCowboySideSolid /> },
-        { item: "Thick Gloves", icon: <LiaMittenSolid  /> },
-        { item: "Thermal Base Layer", icon: <GiClothes /> },
-        { item: "Long Sleeve Shirt", icon: <GiShirt /> },
-        { item: "Heavy Jacket", icon: <GiMonclerJacket /> },
-        { item: "Thick Trousers", icon: <GiArmoredPants /> },
-        { item: "Warm Running Shoes", icon: <GiFurBoot  /> }
+        { 
+          item: "Warm Hat", 
+          icon: <WarmHat className={styles.icon} />,
+          explanation: "Essential for preventing heat loss through the head (up to 30% of body heat)" 
+        },
+        { 
+          item: "Thick Gloves", 
+          icon: <Mittens className={styles.icon} />,
+          explanation: "Protects against frostbite - mittens are warmer than gloves" 
+        },
+        { 
+          item: "Thermal Base Layer", 
+          icon: <Thermals className={styles.icon} />,
+          explanation: "Wicks moisture and provides essential insulation close to skin" 
+        },
+        { 
+          item: "Long Sleeve Shirt", 
+          icon: <LongSleeve className={styles.icon} />,
+          explanation: "Provides core insulation and protects arms from cold" 
+        },
+        { 
+          item: "Heavy Jacket", 
+          icon: <WarmJacket className={styles.icon} />,
+          explanation: "Windproof and insulated to retain body heat in extreme cold" 
+        },
+        { 
+          item: "Thick Trousers", 
+          icon: <ThickTrousers className={styles.icon} />,
+          explanation: "Insulated pants prevent heat loss from legs" 
+        },
+        { 
+          item: "Warm Running Shoes", 
+          icon: <WarmShoes className={styles.icon} />,
+          explanation: "Thermal and waterproof to protect feet from cold surfaces" 
+        }
       );
     } else if (temperature >= 0 && temperature < 5) {
       recs.push(
-        { item: "Hat", icon: <LiaHatCowboySideSolid /> },
-        { item: "Gloves", icon: <GiGloves  /> },
-        { item: "Long Sleeve Shirt", icon: <GiShirt /> },
-        { item: "Jacket", icon: <GiMonclerJacket /> },
-        { item: "Trousers", icon: <PiPants /> },
-        { item: "Running Shoes", icon: <GiRunningShoe  /> }
+        { 
+          item: "Hat", 
+          icon: <Cap className={styles.icon} />,
+          explanation: "Prevents significant heat loss from the head" 
+        },
+        { 
+          item: "Gloves", 
+          icon: <Gloves className={styles.icon} />,
+          explanation: "Protects hands from cold wind and maintains dexterity" 
+        },
+        { 
+          item: "Long Sleeve Shirt", 
+          icon: <LongSleeve className={styles.icon} />,
+          explanation: "Maintains core temperature in chilly conditions" 
+        },
+        { 
+          item: "Jacket", 
+          icon: <WarmJacket className={styles.icon} />,
+          explanation: "Provides wind protection and insulation" 
+        },
+        { 
+          item: "Trousers", 
+          icon: <Trousers className={styles.icon} />,
+          explanation: "Protects legs from wind chill" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard footwear with good grip for cold surfaces" 
+        }
       );
     } else if (temperature >= 5 && temperature < 10) {
       recs.push(
-        { item: "T-Shirt", icon: <IoShirtOutline /> },
-        { item: "Light Jacket", icon: <GiSleevelessJacket  /> },
-        { item: "Trousers", icon: <PiPants /> },
-        { item: "Running Shoes", icon: <GiRunningShoe /> }
+        { 
+          item: "T-Shirt", 
+          icon: <TShirt className={styles.icon} />,
+          explanation: "Breathable base layer for mild conditions" 
+        },
+        { 
+          item: "Light Jacket", 
+          icon: <LightJacket className={styles.icon} />,
+          explanation: "Provides wind protection without overheating" 
+        },
+        { 
+          item: "Trousers", 
+          icon: <Trousers className={styles.icon} />,
+          explanation: "Light leg covering for cooler temperatures" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard running footwear" 
+        }
       );
     } else if (temperature >= 10 && temperature < 20) {
       recs.push(
-        { item: "T-Shirt", icon: <IoShirtOutline /> },
-        { item: "Shorts", icon: <GiShorts  /> },
-        { item: "Running Shoes", icon: <GiRunningShoe /> }
+        { 
+          item: "T-Shirt", 
+          icon: <TShirt className={styles.icon} />,
+          explanation: "Light, breathable fabric for moderate temps" 
+        },
+        { 
+          item: "Shorts", 
+          icon: <Shorts className={styles.icon} />,
+          explanation: "Allows for better airflow and cooling" 
+        },
+        { 
+          item: "Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Standard running footwear" 
+        }
       );
     } else if (temperature >= 20) {
       recs.push(
-        { item: "Vest", icon: <FaVest  /> },
-        { item: "Shorts", icon: <GiShorts /> },
-        { item: "Light Running Shoes", icon: <GiRunningShoe /> }
+        { 
+          item: "Vest", 
+          icon: <Vest className={styles.icon} />,
+          explanation: "Minimal coverage while protecting core from sun" 
+        },
+        { 
+          item: "Shorts", 
+          icon: <Shorts className={styles.icon} />,
+          explanation: "Maximizes airflow and prevents overheating" 
+        },
+        { 
+          item: "Light Running Shoes", 
+          icon: <Shoes className={styles.icon} />,
+          explanation: "Breathable footwear to prevent sweaty feet" 
+        }
       );
     }
     
     if (isRaining) {
-      recs.push({ item: "Raincoat", icon: <FaTshirt /> });
+      recs.push({ 
+        item: "Raincoat", 
+        icon: <LightJacket className={styles.icon} />,
+        explanation: "Waterproof layer to keep you dry and maintain body temperature" 
+      });
     }
     
     return recs;
@@ -101,7 +183,12 @@ const Clothing = ({ weather }) => {
         {recommendations.map((rec, index) => (
           <li key={index} className={styles.listItem}>
             {rec.icon}
-            <span>{rec.item}</span>
+            <div className={styles.itemInfo}>
+              <span>{rec.item}</span>
+              {isProMode && (
+                <p className={styles.explanation}>{rec.explanation}</p>
+              )}
+            </div>
             {rec.item.includes('(optional)') && (
               <span className={styles.optionalTag}>Optional</span>
             )}
