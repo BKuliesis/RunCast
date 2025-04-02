@@ -1,28 +1,20 @@
 import React, { useMemo } from 'react';
 import styles from './Clothing.module.css';
-import {
-   FaTshirt,
-   FaHatCowboySide,
-   FaVest,
-} from 'react-icons/fa';
-import { 
-  LiaHatCowboySideSolid,
-  LiaMittenSolid,
-
- } from "react-icons/lia";
- import { GiClothes,
-  GiShirt,
-  GiMonclerJacket,
-  GiArmoredPants,
-  GiFurBoot,
-  GiGloves,
-  GiRunningShoe,
-  GiSleevelessJacket,
-  GiShorts,
-  GiSleevelessTop,
-  } from "react-icons/gi";
-  import { PiPants } from "react-icons/pi";
-  import { IoShirtOutline } from "react-icons/io5";
+import { ReactComponent as WarmHat } from "../../assets/warmhat.svg";
+import { ReactComponent as Cap } from "../../assets/cap.svg";
+import { ReactComponent as Gloves } from "../../assets/gloves.svg";
+import { ReactComponent as LightJacket } from "../../assets/lightjacket.svg";
+import { ReactComponent as LongSleeve } from "../../assets/longsleeve.svg";
+import { ReactComponent as Mittens } from "../../assets/mittens.svg";
+import { ReactComponent as Shoes } from "../../assets/shoes.svg";
+import { ReactComponent as Shorts } from "../../assets/shorts.svg";
+import { ReactComponent as Thermals } from "../../assets/thermals.svg";
+import { ReactComponent as ThickTrousers } from "../../assets/thicktrousers.svg";
+import { ReactComponent as Trousers } from "../../assets/trousers.svg";
+import { ReactComponent as Vest } from "../../assets/vest.svg";
+import { ReactComponent as WarmJacket } from "../../assets/warmjacket.svg";
+import { ReactComponent as WarmShoes } from "../../assets/warmshoes.svg";
+import { ReactComponent as TShirt } from "../../assets/tshirt.svg";
 
 
 const Clothing = ({ weather }) => {
@@ -49,46 +41,46 @@ const Clothing = ({ weather }) => {
     
     if (temperature < 0) {
       recs.push(
-        { item: "Warm Hat", icon: <LiaHatCowboySideSolid /> },
-        { item: "Thick Gloves", icon: <LiaMittenSolid  /> },
-        { item: "Thermal Base Layer", icon: <GiClothes /> },
-        { item: "Long Sleeve Shirt", icon: <GiShirt /> },
-        { item: "Heavy Jacket", icon: <GiMonclerJacket /> },
-        { item: "Thick Trousers", icon: <GiArmoredPants /> },
-        { item: "Warm Running Shoes", icon: <GiFurBoot  /> }
+        { item: "Warm Hat", icon: <WarmHat className={styles.icon} /> },
+        { item: "Thick Gloves", icon: <Mittens className={styles.icon} /> },
+        { item: "Thermal Base Layer", icon: <Thermals className={styles.icon} /> },
+        { item: "Long Sleeve Shirt", icon: <LongSleeve className={styles.icon} /> },
+        { item: "Heavy Jacket", icon: <WarmJacket className={styles.icon} /> },
+        { item: "Thick Trousers", icon: <ThickTrousers className={styles.icon} /> },
+        { item: "Warm Running Shoes", icon: <WarmShoes className={styles.icon} /> }
       );
     } else if (temperature >= 0 && temperature < 5) {
       recs.push(
-        { item: "Hat", icon: <LiaHatCowboySideSolid /> },
-        { item: "Gloves", icon: <GiGloves  /> },
-        { item: "Long Sleeve Shirt", icon: <GiShirt /> },
-        { item: "Jacket", icon: <GiMonclerJacket /> },
-        { item: "Trousers", icon: <PiPants /> },
-        { item: "Running Shoes", icon: <GiRunningShoe  /> }
+        { item: "Hat", icon: <Cap className={styles.icon} /> },
+        { item: "Gloves", icon: <Gloves className={styles.icon} /> },
+        { item: "Long Sleeve Shirt", icon: <LongSleeve className={styles.icon} /> },
+        { item: "Jacket", icon: <WarmJacket className={styles.icon} /> },
+        { item: "Trousers", icon: <Trousers className={styles.icon} /> },
+        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
       );
     } else if (temperature >= 5 && temperature < 10) {
       recs.push(
-        { item: "T-Shirt", icon: <IoShirtOutline /> },
-        { item: "Light Jacket", icon: <GiSleevelessJacket  /> },
-        { item: "Trousers", icon: <PiPants /> },
-        { item: "Running Shoes", icon: <GiRunningShoe /> }
+        { item: "T-Shirt", icon: <TShirt className={styles.icon} /> },
+        { item: "Light Jacket", icon: <LightJacket className={styles.icon} /> },
+        { item: "Trousers", icon: <Trousers className={styles.icon} /> },
+        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
       );
     } else if (temperature >= 10 && temperature < 20) {
       recs.push(
-        { item: "T-Shirt", icon: <IoShirtOutline /> },
-        { item: "Shorts", icon: <GiShorts  /> },
-        { item: "Running Shoes", icon: <GiRunningShoe /> }
+        { item: "T-Shirt", icon: <TShirt className={styles.icon} /> },
+        { item: "Shorts", icon: <Shorts className={styles.icon} /> },
+        { item: "Running Shoes", icon: <Shoes className={styles.icon} /> }
       );
     } else if (temperature >= 20) {
       recs.push(
-        { item: "Vest", icon: <FaVest  /> },
-        { item: "Shorts", icon: <GiShorts /> },
-        { item: "Light Running Shoes", icon: <GiRunningShoe /> }
+        { item: "Vest", icon: <Vest className={styles.icon} /> },
+        { item: "Shorts", icon: <Shorts className={styles.icon} /> },
+        { item: "Light Running Shoes", icon: <Shoes className={styles.icon} /> }
       );
     }
     
     if (isRaining) {
-      recs.push({ item: "Raincoat", icon: <FaTshirt /> });
+      recs.push({ item: "Raincoat", icon: <LightJacket className={styles.icon} /> });
     }
     
     return recs;

@@ -13,6 +13,7 @@
   column-gap: var(--spacing-md);
 }
 
+
 .listItem:last-child {
   border-bottom: none;
 }
