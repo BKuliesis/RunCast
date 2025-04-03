@@ -3,11 +3,13 @@ import Navbar from './components/Navbar';
 import Body from './components/Body';
 import { updateTheme } from './utils/Theme';
 import getWeather from './api/weather';
+import getSearchSuggestions from './api/suggestions'; //
 
 function App() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentSearch, setCurrentSearch] = useState("London");
+  const [suggestions, setSuggestions] = useState([]);
 
   const [mode, setMode] = useState(localStorage.getItem("mode") || "basic");
   const [tempUnits, setTempUnits] = useState(localStorage.getItem("tempUnits") || "c");
@@ -115,11 +117,27 @@ function App() {
     updateTheme();
   }
 
+  async function handleSearchInputChange(input) {
+    if (!input || input.trim() === "") {
+      setSuggestions([]);
+      return;
+    }
+  
+    try {
+      const fetchedSuggestions = await getSearchSuggestions(input); // aaaaaaaaaaaaaaa
+      setSuggestions(fetchedSuggestions || []);
+    } catch (error) {
+      console.error("Error fetching search suggestions:", error);
+    }
+  }
+
   return (
     loading ? <div className="App"></div> : (
       <div className="App">
         <Navbar 
-          handleSearch={handleSearch} 
+          handleSearch={handleSearch}
+          handleSearchInputChange={handleSearchInputChange}
+          suggestions={suggestions} 
           mode={mode}
           tempUnits={tempUnits}
           speedUnits={speedUnits}
