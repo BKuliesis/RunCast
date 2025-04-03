@@ -3,6 +3,8 @@ import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightnin
 import { toF } from "../../utils/UnitsConversions";
 
 function Header({ weather }) {
+
+    // Rewrites the weather description
     function getDescription() {
         const { description } = weather.weather[0];
     
@@ -30,7 +32,7 @@ function Header({ weather }) {
             .join(" ");
     }
     
-
+    // Gets the weather icon based on the weather conditions
     function getIcon() {
         const size = 100;
         const strokeWidth = 2.25;
@@ -88,6 +90,7 @@ function Header({ weather }) {
             : <Cloudy size={size} strokeWidth={strokeWidth} />;
     }
 
+    // Gets the background image based on the weather conditions
     function getBackground() {
         const { main, description, icon } = weather.weather[0];
         const isNight = icon.includes("n");

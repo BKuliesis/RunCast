@@ -1,3 +1,4 @@
+// Extracts daily forecast data from the OpenWeather API response
 export const processDailyForecast = (forecast) => {
     const dailyData = forecast.list.reduce((acc, entry) => {
         const date = new Date(entry.dt * 1000).toISOString().split("T")[0]; // Extract YYYY-MM-DD

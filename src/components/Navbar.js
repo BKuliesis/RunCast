@@ -3,17 +3,20 @@ import styles from "./Navbar.module.css";
 import { Wind, Star, Zap, SunMoon, Sun, Moon, Menu } from "lucide-react";
 
 function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, tempUnits, speedUnits, theme, handleModeChange, handleUnitsChange, handleThemeChange }) {
+    // For resonsive design
     const minDesktopWidth = 1057;
     const maxMobileWidth = 482;
     const [desktopMenuActive, setDesktopMenuActive] = useState(window.innerWidth > minDesktopWidth);
     const [mobileMenuActive, setMobileMenuActive] = useState(window.innerWidth <= maxMobileWidth);
 
+    // Active dropdown menu states
     const [modeActive, setModeActive] = useState(false);
     const [unitsActive, setUnitsActive] = useState(false);
     const [themeActive, setThemeActive] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
+    // Refs for dropdown menus
     const modeRef = useRef(null);
     const unitsRef = useRef(null);
     const themeRef = useRef(null);
@@ -22,6 +25,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
 
     const [search, setSearch] = useState("");
 
+    // Determines whether mobile or desktop menu should be displayed
     useEffect(() => {
         function handleResize() {
             setDesktopMenuActive(window.innerWidth > minDesktopWidth);
@@ -38,6 +42,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
         };
     }, []);
 
+    // Close dropdown menus when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -81,6 +86,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
         setMenuActive(prev => !prev);
     }
 
+    // Mode dropdown menu content
     const modeOptions = () => {
         return (
             <>
@@ -94,6 +100,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
         );
     }
 
+    // Units dropdown menu content
     const unitsOptions = () => {
         return (
             <>
@@ -124,6 +131,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
         );
     }
 
+    // Theme dropdown menu content
     const themeOptions = () => {
         return (
             <>
@@ -142,6 +150,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
 
     return (
         <div className={styles.navbar}>
+            {/* Menu for devices with enough space */}
             {!desktopMenuActive && (
                 <div className={styles.menu}  ref={menuRef}>
                     <button>
@@ -161,12 +170,14 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                     )}
                 </div>
             )}
+            {/* Logo for devices if there is enough space */}
             {!mobileMenuActive && (
                 <div className={styles.logo}>
                     <h2>RunCast</h2>
                     <Wind size={42} strokeWidth={1.7} />
                 </div>
             )}
+            {/* Search bar */}
             <div className={styles.search} ref={searchRef}>
                 <form onSubmit={(e) => {
                     e.preventDefault();
@@ -195,6 +206,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                         </svg>
                     </button>    
                 </form>
+                {/* Suggestions dropdown */}
                 {showSuggestions && suggestions.length > 0 && (
                 <ul className={styles.suggestionsDropdown}>
                     {suggestions.map((suggestion, index) => (
@@ -212,8 +224,10 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                 </ul>
             )}          
             </div>
+            {/* Settings menu for devices with enough space */}
             {desktopMenuActive && (
             <div className={styles.settings}>
+                {/* Mode dropdown menu */}
                 <div className={styles.setting} ref={modeRef}>
                     <button onClick={handleModeClick}>
                         <span>Mode</span>
@@ -227,6 +241,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                         </div>
                     )}
                 </div>
+                {/* Units dropdown menu */}
                 <div className={styles.setting} ref={unitsRef}>
                     <button onClick={handleUnitsClick}>
                         <span>Units</span>
@@ -240,6 +255,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                         </div>
                     )}
                 </div>
+                {/* Theme dropdown menu */}
                 <div className={styles.setting} ref={themeRef}>
                     <button onClick={handleThemeClick}>
                         <span>Theme</span>

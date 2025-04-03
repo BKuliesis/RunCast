@@ -18,6 +18,7 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
     const maxMobileWidth = 518;
     const [isMobile, setIsMobile] = useState(window.innerWidth <= maxMobileWidth);
 
+    // Event listener to handle window resize
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= maxMobileWidth);
@@ -69,6 +70,7 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
     return (
         <div className="panel">
             <h2>Weather Today</h2>
+            {/* proLayout splits it into two columns */}
             <div className={localStorage.getItem("mode") === "pro" ? styles.proLayout : ""}>
                 <div>
                     <div className={styles.informationRow}>

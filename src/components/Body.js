@@ -10,6 +10,7 @@ function Body({ weather }) {
     const maxMobileWidth =  935;
     const [isMobile, setIsMobile] = useState(window.innerWidth <= maxMobileWidth);
 
+    // Check if the window is resized to mobile or desktop
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= maxMobileWidth);
@@ -24,15 +25,18 @@ function Body({ weather }) {
 
     return (
         !isMobile ? (
+            // Desktop layout
             <div className={styles.body}>
                 <div>
                     <Header weather={weather.weather} />
+                    {/* If pro mode, weather today is in left column */}
                     {localStorage.getItem('mode') === 'pro' && (
                         <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />
                     )}
                     <Forecast forecast={weather.forecast} />
                 </div>
                 <div>
+                    {/* If not pro mode, weather today is in right column */}
                     {localStorage.getItem('mode') !== 'pro' && (
                         <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />
                     )}
@@ -41,6 +45,7 @@ function Body({ weather }) {
                 </div>
             </div>
         ) : (
+            // Mobile layout
             <div className={styles.body}>
                 <Header weather={weather.weather} />
                 <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />

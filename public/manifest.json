@@ -3,12 +3,13 @@
   "name": "RunCast",
   "icons": [
     {
-      "src": "favicon.png",
-      "type": "image/png",
-      "sizes": "47x47"
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
