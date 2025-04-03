@@ -16,7 +16,7 @@ import { ReactComponent as Vest } from "../../assets/clothing-icons/vest.svg";
 import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmjacket.svg";
 import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
-import { ReactComponent as Reflective} from "../../assets/clothing-icons/reflectivetriangle.svg";
+import { ReactComponent as Reflective} from "../../assets/clothing-icons/warningsign.svg";
 
 const Clothing = ({ weather, recentRain }) => {
   //Get current temperature
