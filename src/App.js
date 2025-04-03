@@ -18,9 +18,11 @@ function App() {
 
   useEffect(() => {
     async function inititalize() {
-      if (!localStorage.getItem("theme")) {
-        localStorage.setItem("theme", "system");
-      }
+      localStorage.setItem("mode", mode);
+      localStorage.setItem("tempUnits", tempUnits);
+      localStorage.setItem("speedUnits", speedUnits);
+      localStorage.setItem("theme", theme);
+
       setMode(localStorage.getItem("mode"));
       setTempUnits(localStorage.getItem("tempUnits"));
       setSpeedUnits(localStorage.getItem("speedUnits"));
