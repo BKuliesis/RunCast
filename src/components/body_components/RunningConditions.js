@@ -16,14 +16,16 @@ function Rating({ weather, recentRain }) {
   const windSpeed = weather?.wind?.speed ?? 0;
   const windUnit = localStorage.getItem("speedUnits");
   const tempUnits = localStorage.getItem("tempUnits");
+  const isNight = weather?.weather?.[0]?.icon?.includes("n");
+
 
   // Calculate the rating based on temperature, humidity, wind speed, and recent rain
   const rating = useMemo(() => {
     let score = 10;
 
     // Temperature score calculation
-    if (temperature < 0) score -= 2;
-    else if (temperature < 4) score -= 1;
+    if (temperature < 0) score -= isNight ? 3 : 2;
+    else if (temperature < 4) score -= isNight ? 2 : 1;
     else if (temperature > 35) score -= 3;
     else if (temperature > 22) score -= 2;
     else if (temperature > 15) score -= 1;
@@ -65,6 +67,8 @@ function Rating({ weather, recentRain }) {
   const getPriorityLabel = () => {
     const lower = condition.toLowerCase();
     if (lower.includes("storm") || lower.includes("thunder")) return "Storm risk - avoid running";
+    if (isNight && lower.includes("fog")) return "Night fog - very low visibility";
+    if (isNight) return "Night time - wear reflectors";
     if (humidity > 90) return "Extremely humid - difficult conditions";
     if (humidity > 70) return "Very humid - hydration needed";
     if (humidity < 30) return "Dry air - hydration needed";
@@ -82,6 +86,8 @@ function Rating({ weather, recentRain }) {
   const getSubtext = () => {
     const lower = condition.toLowerCase();
     if (lower.includes("storm") || lower.includes("thunder")) return "Severe weather - stay indoors.";
+    if (isNight && lower.includes("fog")) return "Night fog reduces visibility even more.";
+    if (isNight) return "Stay visible - wear reflective gear or lights.";
     if (lower.includes("snow")) return "Snow may cause slippery paths.";
     if (lower.includes("rain") || lower.includes("drizzle")) return "Watch out for puddles and reduced grip.";
     if (recentRain?.rainedInLast6Hours) return `Rained ${recentRain.rainHoursCount} hour${recentRain.rainHoursCount === 1 ? "" : "s"} ago - trails may still be wet.`;
