@@ -12,6 +12,7 @@ function App() {
   const [mode, setMode] = useState(localStorage.getItem("mode") || "basic");
   const [tempUnits, setTempUnits] = useState(localStorage.getItem("tempUnits") || "c");
   const [speedUnits, setSpeedUnits] = useState(localStorage.getItem("speedUnits") || "m/s");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "system");
 
   useEffect(() => {
     async function inititalize() {
@@ -99,7 +100,6 @@ function App() {
   function handleModeChange(newMode) {
     setMode(newMode);
     localStorage.setItem("mode", newMode);
-    // Need to implement
   }
 
   function handleUnitsChange(newTempUnit, newSpeedUnit) {
@@ -107,6 +107,12 @@ function App() {
     setSpeedUnits(newSpeedUnit);
     localStorage.setItem("tempUnits", newTempUnit);
     localStorage.setItem("speedUnits", newSpeedUnit);
+  }
+
+  function handleThemeChange(newTheme) {
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateTheme();
   }
 
   return (
@@ -117,8 +123,10 @@ function App() {
           mode={mode}
           tempUnits={tempUnits}
           speedUnits={speedUnits}
+          theme={theme}
           handleModeChange={handleModeChange}
           handleUnitsChange={handleUnitsChange}
+          handleThemeChange={handleThemeChange}
         />
         <Body weather={weather} />
       </div>

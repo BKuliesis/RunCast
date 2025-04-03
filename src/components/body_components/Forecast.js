@@ -8,9 +8,10 @@ import Cloudy from "../../assets/weather-icons/cloudy-dm.svg";
 import Lightning from "../../assets/weather-icons/lightning-dm.svg";
 import Snow from "../../assets/weather-icons/snow-dm.svg";
 import Windy from "../../assets/weather-icons/windy-dm.svg";
-import { ReactComponent as Drop} from "../../assets/weather-icons/drop.svg";
+import { ReactComponent as Drop } from "../../assets/weather-icons/drop.svg";
 
 function Panels ({ forecast }) {
+    const isLightTheme = localStorage.getItem("theme") === "light";
 
     if (!forecast || !forecast.list) {
         return <p>Loading forecast...</p>
