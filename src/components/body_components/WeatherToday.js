@@ -2,6 +2,7 @@
 import styles from "./WeatherToday.module.css";
 import "../../global.css";
 import { Thermometer, Droplets, Droplet, Wind, Sunrise, Sunset, MoveUp, Cloud, Eye, WindArrowDown, Sun } from "lucide-react";
+import { processDailyForecast } from "../../utils/DailyForecast";
 
 const size = 16;
 const strokeWidth = 1.5;
@@ -11,7 +12,7 @@ function formatGMT(unixTime) {
     return date.toUTCString().slice(17, 22);
 }
 
-function WeatherToday({ weather, extra }) {
+function WeatherToday({ weather, forecast, extra }) {
     const getUVIndexLevel = () => {
         if (extra.uv <= 2) {
             return "Low";
@@ -26,23 +27,31 @@ function WeatherToday({ weather, extra }) {
         }
     };
 
+    const dailyForecast = processDailyForecast(forecast);
+
     return (
         <div className="panel">
             <h2>Weather Today</h2>
             <div className={styles.informationRow}>
                 <Thermometer size={size} strokeWidth={strokeWidth} />
                 <p>High/Low</p>
-                <p>{weather.main.temp_min}°/{weather.main.temp_max}°</p>
+                <p>{dailyForecast[0].maxTemp}°/{dailyForecast[0].minTemp}°</p>
             </div>
             <hr />
-                <div className={styles.informationRow}>
+            <div className={styles.informationRow}>
                 <Droplets size={size} strokeWidth={strokeWidth} />
-                <p>Humidity</p>
-                <p>{weather.main.humidity}%</p>
+                <p>Precipitation</p>
+                <p>{dailyForecast[0].pop}%</p>
             </div>
             <hr />
             {localStorage.getItem("mode") === "pro" && (
                 <>
+                    <div className={styles.informationRow}>
+                        <Droplet size={size} strokeWidth={strokeWidth} />
+                        <p>Humidity</p>
+                        <p>{weather.main.humidity}%</p>
+                    </div>
+                    <hr />
                     <div className={styles.informationRow}>
                         <Droplet size={size} strokeWidth={strokeWidth} />
                         <p>Dew Point</p>

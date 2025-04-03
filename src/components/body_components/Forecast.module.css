@@ -20,12 +20,16 @@
 
 .panelListItem {
     display: grid;
-    grid-template-columns: 60px 52px 60px 62px;
+    grid-template-columns: 45px 52px 50px 62px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--horizonal-line-color);
     padding: 0 var(--spacing-lg);
+}
+
+.dailyPanelListItem {
+    grid-template-columns: 50px 93px 50px 62px
 }
 
 .panelListItem:last-child {
@@ -39,22 +43,33 @@
     align-items: center;
 }
 
+.weatherIcon {
+    height: 50px;
+    width: auto;
+}
+
 .bold {
     font-weight: bold;
 }
 .temp {
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 300;
     color: var(--temperature-color);
 }
 
 .temp.bold {
-    font-weight: 600;
+    font-weight: 500;
 }
 
-.MinDay {
-    font-size: 1rem;
-    margin-top: 1rem;
+.minMax {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing-sm) * 0.5);
+}
+
+.min {
+    font-size: 16px;
+    font-weight: 200;
 }
 
 .drop {
@@ -70,16 +85,30 @@
 
 /* Responsive Design */
 @media screen and (max-width: 463px) {
+    .panelListItem {
+        grid-template-columns: 45px 40px 40px 62px;
+    }
+    
+    .dailyPanelListItem {
+        grid-template-columns: 50px 76px 40px 62px
+    }
+
     .temp {
         font-size: 24px;
     }
+    
+    .min {
+        font-size: 14px;
+    }
 
     .panelCell {
-        height: 50px;
+        height: 42px;
     }
 
     .panelListItem {
         padding: 0 var(--spacing-sm);
     }
-    
+    .weatherIcon {
+        height: 40px;
+    }
 }
