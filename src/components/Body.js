@@ -27,10 +27,15 @@ function Body({ weather }) {
             <div className={styles.body}>
                 <div>
                     <Header weather={weather.weather} />
+                    {localStorage.getItem('mode') === 'pro' && (
+                        <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />
+                    )}
                     <Forecast forecast={weather.forecast} />
                 </div>
                 <div>
-                    <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} />
+                    {localStorage.getItem('mode') !== 'pro' && (
+                        <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />
+                    )}
                     <Rating weather={weather.weather} recentRain={weather.recentRain} />
                     <Clothing weather={weather.weather} /> 
                 </div>
@@ -38,7 +43,7 @@ function Body({ weather }) {
         ) : (
             <div className={styles.body}>
                 <Header weather={weather.weather} />
-                <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} />
+                <WeatherToday weather={weather.weather} forecast={weather.forecast} extra={weather.extra} airQuality={weather.airQuality} />
                 <Rating weather={weather.weather} recentRain={weather.recentRain} />
                 <Clothing weather={weather.weather} /> 
                 <Forecast forecast={weather.forecast} />

@@ -58,6 +58,11 @@ const fetchHistoricalRain = async (location) => {
     }
 };
 
+const fetchAirQuality = async (lat, lon) => {
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`);
+    return response.data.list[0];
+};
+
 const fetchCoordinates = async (location, tempUnits) => {
     try {
         const coordResponse = await axios.get(
@@ -75,9 +80,12 @@ const fetchCoordinates = async (location, tempUnits) => {
 
         const historicalRain = await fetchHistoricalRain(location);
 
+        const airQuality = await fetchAirQuality(lat, lon);
+
         return {
             ...currentWeather,
-            recentRain: historicalRain 
+            recentRain: historicalRain,
+            airQuality,
         };
     } catch (error) {
         console.error('Error fetching coordinates:', error);
