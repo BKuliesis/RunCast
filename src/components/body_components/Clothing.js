@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import styles from './Clothing.module.css';
+// Import all svg files for icons
 import { ReactComponent as WarmHat } from "../../assets/clothing-icons/warmhat.svg";
 import { ReactComponent as Cap } from "../../assets/clothing-icons/cap.svg";
 import { ReactComponent as Gloves } from "../../assets/clothing-icons/gloves.svg";
@@ -23,9 +24,21 @@ const Clothing = ({ weather }) => {
     condition.main.toLowerCase().includes('rain')
   ) || false;
 
+  //Check if it is raining, or has rained recently, to see if high grip shoes are needed
+  const needsTraction = isRaining || recentRain?.rainedInLast6Hours;
+
+  // Convert temperature to celsius if needed (for recommendation logic)
+  const temperature = useMemo(() => {
+    const units = localStorage.getItem('tempUnits') || 'c';
+    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
+    return Math.round(convertedTemp * 2) / 2;
+  }, [rawTemp]);
+
+  //Generate the clothing recommendations for current weather conditions
   const recommendations = useMemo(() => {
     let recs = [];
     
+    //For extreme cold
     if (temperature < 0) {
       recs.push(
         { 
@@ -59,11 +72,12 @@ const Clothing = ({ weather }) => {
           explanation: "Insulated pants prevent heat loss from legs" 
         },
         { 
-          item: "Warm Running Shoes", 
+          item: "Winter Running Shoes", 
           icon: <WarmShoes className={styles.icon} />,
-          explanation: "Thermal and waterproof to protect feet from cold surfaces" 
+          explanation: "Thermal and waterproof to protect feet from cold surfaces and provide high grip" 
         }
       );
+      //For relatively cold weather
     } else if (temperature >= 0 && temperature < 5) {
       recs.push(
         { 
@@ -91,12 +105,15 @@ const Clothing = ({ weather }) => {
           icon: <Trousers className={styles.icon} />,
           explanation: "Protects legs from wind chill" 
         },
-        { 
-          item: "Running Shoes", 
+        { //Recommend different shoes based on surface conditions
+          item: needsTraction ? "High-Grip Running Shoes" : "Running Shoes", 
           icon: <Shoes className={styles.icon} />,
-          explanation: "Standard footwear with good grip for cold surfaces" 
+          explanation: needsTraction 
+            ? "Extra grip for wet or slippery conditions" 
+            : "Standard footwear with good grip for cold surfaces" 
         }
       );
+      //For slightly cold conditions
     } else if (temperature >= 5 && temperature < 10) {
       recs.push(
         { 
@@ -115,11 +132,14 @@ const Clothing = ({ weather }) => {
           explanation: "Light leg covering for cooler temperatures" 
         },
         { 
-          item: "Running Shoes", 
+          item: needsTraction ? "High-Grip Running Shoes" : "Running Shoes", 
           icon: <Shoes className={styles.icon} />,
-          explanation: "Standard running footwear" 
+          explanation: needsTraction 
+            ? "Extra grip for wet or slippery conditions" 
+            : "Standard running footwear" 
         }
       );
+      //For relatively warm conditions 
     } else if (temperature >= 10 && temperature < 20) {
       recs.push(
         { 
@@ -133,11 +153,14 @@ const Clothing = ({ weather }) => {
           explanation: "Allows for better airflow and cooling" 
         },
         { 
-          item: "Running Shoes", 
+          item: needsTraction ? "Trail Running Shoes" : "Running Shoes", 
           icon: <Shoes className={styles.icon} />,
-          explanation: "Standard running footwear" 
+          explanation: needsTraction 
+            ? "Extra grip for wet or slippery conditions" 
+            : "Standard running footwear" 
         }
       );
+      //For high-heat conditions
     } else if (temperature >= 20) {
       recs.push(
         { 
@@ -151,24 +174,30 @@ const Clothing = ({ weather }) => {
           explanation: "Maximizes airflow and prevents overheating" 
         },
         { 
-          item: "Light Running Shoes", 
+          item: needsTraction ? "High-Grip Running Shoes" : "Light Running Shoes", 
           icon: <Shoes className={styles.icon} />,
-          explanation: "Breathable footwear to prevent sweaty feet" 
+          explanation: needsTraction 
+            ? "Prevents slipping on wet surfaces in warm conditions" 
+            : "Breathable footwear to prevent overheating feet" 
         }
       );
     }
     
-    if (isRaining) {
+    //Recommend a cap to keep rain out of face, if it is raining
+    if (isRaining && temperature >= 0) {
       recs.push({ 
-        item: "Raincoat", 
-        icon: <LightJacket className={styles.icon} />,
-        explanation: "Waterproof layer to keep you dry and maintain body temperature" 
+        item: temperature >= 20 ? "Running Visor" : "Running Cap",
+        icon: <Cap className={styles.icon} />,
+        explanation: temperature >= 20 
+          ? "Keeps rain out of your eyes while allowing heat to escape" 
+          : "Protects your face from rain and helps maintain visibility"
       });
     }
     
     return recs;
-  }, [temperature, isRaining]);
+  }, [temperature, isRaining, needsTraction]);
 
+  //Display recommendations
   return (
     <div className="panel" style={{height: "fit-content"}}>
       <h2>Recommended Clothing</h2>
@@ -182,9 +211,6 @@ const Clothing = ({ weather }) => {
                 <p className={styles.explanation}>{rec.explanation}</p>
               )}
             </div>
-            {rec.item.includes('(optional)') && (
-              <span className={styles.optionalTag}>Optional</span>
-            )}
           </li>
         ))}
       </ul>
