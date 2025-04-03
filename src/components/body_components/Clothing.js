@@ -16,11 +16,11 @@ import { ReactComponent as Vest } from "../../assets/clothing-icons/vest.svg";
 import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmjacket.svg";
 import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
-import { ReactComponent as Reflective} from "../../assets/clothing-icons/warningsign.svg";
+import { TriangleAlert } from "lucide-react";
 
 const Clothing = ({ weather, recentRain }) => {
   //Get current temperature
-  const rawTemp = weather?.main?.temp || 0;
+  const temperature = weather?.main?.temp;
   //Get current mode
   const isProMode = localStorage.getItem('mode') === 'pro';
 
@@ -38,13 +38,6 @@ const Clothing = ({ weather, recentRain }) => {
     return weather.weather[0].icon.includes("n"); //'n' in icon indicates night
   }, [weather]);
 
-  // Convert temperature to celsius if needed (for recommendation logic)
-  const temperature = useMemo(() => {
-    const units = localStorage.getItem('tempUnits') || 'c';
-    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
-    return Math.round(convertedTemp * 2) / 2;
-  }, [rawTemp]);
-
   //Generate the clothing recommendations for current weather conditions
   const recommendations = useMemo(() => {
     let recs = [];
@@ -52,7 +45,7 @@ const Clothing = ({ weather, recentRain }) => {
     if (isNightTime){
       recs.push({
         item: "Reflective Gear", 
-        icon: <Reflective className={styles.icon} />,
+        icon: <TriangleAlert className={styles.icon} strokeWidth={1.25} />,
         explanation: "Increases visibility to drivers in low-light conditions"
       })
     }
