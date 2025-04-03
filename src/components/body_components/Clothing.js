@@ -16,14 +16,15 @@ import { ReactComponent as Vest } from "../../assets/clothing-icons/vest.svg";
 import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmjacket.svg";
 import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
+import { ReactComponent as Reflective} from "../../assets/clothing-icons/reflectivetriangle.svg";
 
 const Clothing = ({ weather, recentRain }) => {
-  // Get current mode
+  //Get current temperature
+  const rawTemp = weather?.main?.temp || 0;
+  //Get current mode
   const isProMode = localStorage.getItem('mode') === 'pro';
-  // Get the temperature
-  const temperature = weather?.main?.temp;
-  
-  // Check if it is raining
+
+  //Check if it is raining
   const isRaining = weather?.weather?.some(condition => 
     condition.main.toLowerCase().includes('rain')
   ) || false;
@@ -31,10 +32,39 @@ const Clothing = ({ weather, recentRain }) => {
   //Check if it is raining, or has rained recently, to see if high grip shoes are needed
   const needsTraction = isRaining || recentRain?.rainedInLast6Hours;
 
+  // Check if it's nighttime 
+  const isNightTime = useMemo(() => {
+    if (!weather?.weather?.[0]?.icon) return false;
+    return weather.weather[0].icon.includes("n"); //'n' in icon indicates night
+  }, [weather]);
+
+  // Convert temperature to celsius if needed (for recommendation logic)
+  const temperature = useMemo(() => {
+    const units = localStorage.getItem('tempUnits') || 'c';
+    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
+    return Math.round(convertedTemp * 2) / 2;
+  }, [rawTemp]);
+
   //Generate the clothing recommendations for current weather conditions
   const recommendations = useMemo(() => {
     let recs = [];
-    
+    //Recommend a cap to keep rain out of face, if it is raining
+    if (isNightTime){
+      recs.push({
+        item: "Reflective Gear", 
+        icon: <Reflective className={styles.icon} />,
+        explanation: "Increases visibility to drivers in low-light conditions"
+      })
+    }
+    if (isRaining && temperature >= 5) {
+      recs.push({ 
+        item: temperature >= 20 ? "Running Visor" : "Running Cap",
+        icon: <Cap className={styles.icon} />,
+        explanation: temperature >= 20 
+          ? "Keeps rain out of your eyes while allowing heat to escape" 
+          : "Protects your face from rain and helps maintain visibility"
+      });
+      }
     //For extreme cold
     if (temperature < 0) {
       recs.push(
@@ -150,7 +180,7 @@ const Clothing = ({ weather, recentRain }) => {
           explanation: "Allows for better airflow and cooling" 
         },
         { 
-          item: needsTraction ? "Trail Running Shoes" : "Running Shoes", 
+          item: needsTraction ? "High-Grip Running Shoes" : "Running Shoes", 
           icon: <Shoes className={styles.icon} />,
           explanation: needsTraction 
             ? "Extra grip for wet or slippery conditions" 
@@ -180,16 +210,7 @@ const Clothing = ({ weather, recentRain }) => {
       );
     }
     
-    //Recommend a cap to keep rain out of face, if it is raining
-    if (isRaining && temperature >= 0) {
-      recs.push({ 
-        item: temperature >= 20 ? "Running Visor" : "Running Cap",
-        icon: <Cap className={styles.icon} />,
-        explanation: temperature >= 20 
-          ? "Keeps rain out of your eyes while allowing heat to escape" 
-          : "Protects your face from rain and helps maintain visibility"
-      });
-    }
+
     
     return recs;
   }, [temperature, isRaining, needsTraction]);
