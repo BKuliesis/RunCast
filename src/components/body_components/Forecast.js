@@ -36,7 +36,7 @@ function Forecast ({ forecast }) {
         if (localStorage.getItem("speedUnits") === "mph") {
             if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
                 return <img src={isLightTheme ? WindyLM : WindyDM} alt="Windy" className={styles.weatherIcon}/>;
-            }
+            } // Depending on the theme of the website, it will use different versions of the icon.
         } else {
             if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
                 return <img src={isLightTheme ? WindyLM : WindyDM} alt="Windy" className={styles.weatherIcon}/>;
@@ -86,8 +86,10 @@ function Forecast ({ forecast }) {
             <div className="panel" style={{paddingRight: "12px"}}>
                 <h2>Hourly Forecast</h2>
                 <div className={styles.panelList}>    
-                    {forecast.list.slice(0, 8).map((hour, index) => (
-                    <div className={styles.panelListItem} key={index}>
+                    {forecast.list.slice(0, 8).map((hour, index) => ( 
+                    // Only shows first 8 hours from the list variable in the forecast object
+                    // and creates an array of div elements containing the hourly forecast data in the required format.
+                    <div className={styles.panelListItem} key={index}> 
                         <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
                             {index === 0 ? 'Now' : new Date(hour.dt * 1000).toLocaleTimeString('en-UK', {
                                 hour: '2-digit',
