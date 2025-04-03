@@ -17,22 +17,19 @@ import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmja
 import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
 
-const Clothing = ({ weather }) => {
+const Clothing = ({ weather, recentRain }) => {
+  // Get current mode
   const isProMode = localStorage.getItem('mode') === 'pro';
+  // Get the temperature
   const temperature = weather?.main?.temp;
+  
+  // Check if it is raining
   const isRaining = weather?.weather?.some(condition => 
     condition.main.toLowerCase().includes('rain')
   ) || false;
 
   //Check if it is raining, or has rained recently, to see if high grip shoes are needed
   const needsTraction = isRaining || recentRain?.rainedInLast6Hours;
-
-  // Convert temperature to celsius if needed (for recommendation logic)
-  const temperature = useMemo(() => {
-    const units = localStorage.getItem('tempUnits') || 'c';
-    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
-    return Math.round(convertedTemp * 2) / 2;
-  }, [rawTemp]);
 
   //Generate the clothing recommendations for current weather conditions
   const recommendations = useMemo(() => {
