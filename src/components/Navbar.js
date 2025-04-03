@@ -198,9 +198,8 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                 {showSuggestions && suggestions.length > 0 && (
                 <ul className={styles.suggestionsDropdown}>
                     {suggestions.map((suggestion, index) => (
-                        <>
+                        <div key={`${suggestion}-${index}`}>
                             <li 
-                                key={index} 
                                 onClick={() => {
                                     handleSearch(suggestion);
                                     setSearch("");
@@ -211,7 +210,7 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                                 {suggestion}
                             </li>
                             <hr />
-                        </>
+                        </div>
                     ))}
                 </ul>
             )}          

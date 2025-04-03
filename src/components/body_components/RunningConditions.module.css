@@ -59,6 +59,10 @@
   color: var(--conditions-explanation-color);
 }
 
+.information {
+  margin-top: calc(var(--spacing-sm) * 0.5);
+}
+
 .information hr {
   margin: var(--spacing-sm) 0;
 }

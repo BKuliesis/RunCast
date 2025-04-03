@@ -4,6 +4,7 @@ import "../../global.css";
 import { Thermometer, Droplets, Droplet, Wind, Sunrise, Sunset, MoveUp, Cloud, Eye, WindArrowDown, Sun, CloudFog } from "lucide-react";
 import { processDailyForecast } from "../../utils/DailyForecast";
 import { useEffect, useState } from "react";
+import { toF, toMph } from "../../utils/UnitsConversions";
 
 const size = 16;
 const strokeWidth = 1.5;
@@ -57,6 +58,14 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
 
     const dailyForecast = processDailyForecast(forecast);
 
+    const isC = localStorage.getItem("tempUnits") === "c";
+    const isMs = localStorage.getItem("speedUnits") === "m/s";
+
+    const maxTemp = isC ? Math.round(dailyForecast[0].maxTemp) : Math.round(toF(dailyForecast[0].maxTemp));
+    const minTemp = isC ? Math.round(dailyForecast[0].minTemp) : Math.round(toF(dailyForecast[0].minTemp));
+    const windSpeed = isMs ? Math.round(weather.wind.speed * 10) / 10 : Math.round(toMph(weather.wind.speed) * 10) / 10;
+    const visibility = isMs ? Math.round((weather.visibility / 1000) * 10) / 10 : Math.round((weather.visibility / 1609.34) * 10) / 10;
+
     return (
         <div className="panel">
             <h2>Weather Today</h2>
@@ -65,7 +74,7 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
                     <div className={styles.informationRow}>
                         <Thermometer size={size} strokeWidth={strokeWidth} />
                         <p>High/Low</p>
-                        <p>{dailyForecast[0].maxTemp}°/{dailyForecast[0].minTemp}°</p>
+                        <p>{maxTemp}°/{minTemp}°</p>
                     </div>
                     <hr />
                     <div className={styles.informationRow}>
@@ -95,7 +104,7 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
                         <p>Wind</p>
                         <div className={styles.wind}>
                             <MoveUp size={size} strokeWidth={strokeWidth} style={{ transform: `rotate(${weather.wind.deg}deg)` }} />
-                            <p>{weather.wind.speed}{weather.wind.unit === "mph" ? "mph" : "m/s"}</p>
+                            <p>{windSpeed}{isMs ? "m/s" : "mph"}</p>
                         </div>
                     </div>
                     <hr />
@@ -122,7 +131,7 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
                             <div className={styles.informationRow}>
                                 <Eye size={size} strokeWidth={strokeWidth} />
                                 <p>Visibility</p>
-                                <p>{weather.wind.unit === "m/s" ? `${Math.round((weather.visibility / 1000) * 10) / 10}km` : `${Math.round((weather.visibility / 1609.34) * 10) / 10}mi`}</p>
+                                <p>{visibility}{isMs ? "km" : "mi"}</p>
                             </div>
                             <hr />
                             <div className={styles.informationRow}>

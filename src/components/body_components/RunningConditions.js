@@ -6,6 +6,7 @@ import {
   Droplets,
   Wind
 } from 'lucide-react';
+import { toF, toMph } from "../../utils/UnitsConversions";
 
 // This component calculates and displays a running conditions rating based on weather data.
 function Rating({ weather, recentRain }) {
@@ -13,21 +14,19 @@ function Rating({ weather, recentRain }) {
   const condition = weather?.weather?.[0]?.main ?? "Unknown";
   const humidity = weather?.main?.humidity ?? 50;
   const windSpeed = weather?.wind?.speed ?? 0;
-  const windUnit = weather?.wind?.unit ?? "m/s";
-  const tempUnits = localStorage.getItem("tempUnits") || "c";
-  const tempC = tempUnits === "f" ? (temperature - 32) * (5 / 9) : temperature;
-  const windMS = windUnit === "mph" ? windSpeed / 2.23694 : windSpeed;
+  const windUnit = localStorage.getItem("speedUnits");
+  const tempUnits = localStorage.getItem("tempUnits");
 
   // Calculate the rating based on temperature, humidity, wind speed, and recent rain
   const rating = useMemo(() => {
     let score = 10;
 
     // Temperature score calculation
-    if (tempC < 0) score -= 2;
-    else if (tempC < 4) score -= 1;
-    else if (tempC > 35) score -= 3;
-    else if (tempC > 22) score -= 2;
-    else if (tempC > 15) score -= 1;
+    if (temperature < 0) score -= 2;
+    else if (temperature < 4) score -= 1;
+    else if (temperature > 35) score -= 3;
+    else if (temperature > 22) score -= 2;
+    else if (temperature > 15) score -= 1;
 
     // Humidity score calculation
     if (humidity < 30) score -= 1.5;
@@ -35,8 +34,8 @@ function Rating({ weather, recentRain }) {
     else if (humidity > 90) score -= 5;
 
     // Wind score calculation
-    if (windMS > 12) score -= 2;
-    else if (windMS > 8) score -= 1;
+    if (windSpeed > 12) score -= 2;
+    else if (windSpeed > 8) score -= 1;
 
     // Past Rain calculation
     if (recentRain?.rainedInLast6Hours) score -= 1;
@@ -49,7 +48,7 @@ function Rating({ weather, recentRain }) {
     if (lowerCond.includes("rain") || lowerCond.includes("drizzle")) score -= 1;
 
     return Math.max(1, Math.min(Math.round(score), 10));
-  }, [tempC, humidity, windMS, recentRain, condition]);
+  }, [temperature, humidity, windSpeed, recentRain, condition]);
 
   if (!weather || !weather.main || !weather.wind || !weather.weather) return null;
 
@@ -69,10 +68,10 @@ function Rating({ weather, recentRain }) {
     if (humidity > 90) return "Extremely humid - difficult conditions";
     if (humidity > 70) return "Very humid - hydration needed";
     if (humidity < 30) return "Dry air - hydration needed";
-    if (tempC < 0) return "Freezing temperatures - icy surfaces";
-    if (tempC > 35) return "Extreme heat - avoid running";
+    if (temperature < 0) return "Freezing temperatures - icy surfaces";
+    if (temperature > 35) return "Extreme heat - avoid running";
     if (lower.includes("rain") || lower.includes("drizzle")) return "Currently raining - caution while running";
-    if (windMS > 12) return "Strong winds - risk of imbalance";
+    if (windSpeed > 12) return "Strong winds - risk of imbalance";
     if (recentRain?.rainedInLast6Hours) return "Recent rain - surfaces may be wet";
     if (lower.includes("rain") || lower.includes("drizzle")) return "Current rain - low traction";
     if (lower.includes("fog")) return "Low visibility - run with caution";
@@ -87,8 +86,8 @@ function Rating({ weather, recentRain }) {
     if (lower.includes("rain") || lower.includes("drizzle")) return "Watch out for puddles and reduced grip.";
     if (recentRain?.rainedInLast6Hours) return `Rained ${recentRain.rainHoursCount} hour${recentRain.rainHoursCount === 1 ? "" : "s"} ago - trails may still be wet.`;
     if (humidity > 90) return "Heavy air - you may tire faster.";
-    if (tempC > 30) return "Hot conditions - slow pace, hydrate often.";
-    if (windMS > 12) return "Strong winds can affect balance.";
+    if (temperature > 30) return "Hot conditions - slow pace, hydrate often.";
+    if (windSpeed > 12) return "Strong winds can affect balance.";
     if (lower.includes("clear")) return "Ideal day for a run!";
     if (lower.includes("rain") || lower.includes("drizzle")) return "Active rain - expect low traction and wet conditions.";
     return "Check live updates before heading out.";
@@ -139,14 +138,14 @@ function Rating({ weather, recentRain }) {
           <div className={styles.informationRow}>
             <Thermometer size={16} strokeWidth={1.5} />
             <p>
-              {tempUnits === "f" ? Math.round((tempC * 9) / 5 + 32) : Math.round(tempC)}° -{" "}
-              {tempC < 0
+              {tempUnits === "f" ? Math.round(toF(temperature)) : Math.round(temperature)}° -{" "}
+              {temperature < 0
                 ? "Freezing - caution on icy surfaces"
-                : tempC > 35
+                : temperature > 35
                 ? "Extremely hot - avoid if possible"
-                : tempC > 22
+                : temperature > 22
                 ? "Warm - may affect endurance"
-                : tempC > 15
+                : temperature > 15
                 ? "Mild heat - hydrate well"
                 : "Ideal conditions"}
             </p>
@@ -181,11 +180,11 @@ function Rating({ weather, recentRain }) {
             <Wind size={16} strokeWidth={1.5} />
             <p>
               {windUnit === "mph"
-                ? (windMS * 2.23694).toFixed(1) + " mph"
-                : windMS.toFixed(1) + " m/s"} -{" "}
-              {windMS > 12
+                ? Math.round(toMph(windSpeed) * 10) / 10 + " mph"
+                : Math.round(windSpeed * 10) / 10 + " m/s"} -{" "}
+              {windSpeed > 12
                 ? "Strong wind - challenging"
-                : windMS > 8
+                : windSpeed > 8
                 ? "Moderate breeze - stay covered"
                 : "Ideal breeze for cooling"}
             </p>

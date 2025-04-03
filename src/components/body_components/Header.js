@@ -1,5 +1,6 @@
 import styles from './Header.module.css';
 import { Cloudy, CloudSun, CloudSunRain, CloudRainWind, CloudSnow, CloudLightning, CloudMoon, CloudMoonRain, Sun, Wind, Moon } from "lucide-react";
+import { toF } from "../../utils/UnitsConversions";
 
 function Header({ weather }) {
     function getDescription() {
@@ -38,14 +39,8 @@ function Header({ weather }) {
         const isNight = icon.includes("n");
     
         // Wind override — prioritize wind if strong and weather is otherwise calm
-        if (localStorage.getItem("speedUnits") === "mph") {
-            if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
-                return <Wind size={size} strokeWidth={strokeWidth} />;
-            }
-        } else {
-            if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-                return <Wind size={size} strokeWidth={strokeWidth} />;
-            }
+        if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
+            return <Wind size={size} strokeWidth={strokeWidth} />;
         }
 
         if (main === "Clear") {
@@ -152,9 +147,9 @@ function Header({ weather }) {
             </div>
             <div className={styles.body}>
                 <div className={styles.info}>
-                    <h1><span className="number">{weather.main.temp}</span>°</h1>
+                    <h1><span className="number">{localStorage.getItem("tempUnits") === "c" ? Math.round(weather.main.temp) : Math.round(toF(weather.main.temp))}</span>°</h1>
                     <h2>{getDescription()}</h2>
-                    <h2>Feels like: <span className="number">{weather.main.feels_like}</span>°</h2>
+                    <h2>Feels like: <span className="number">{localStorage.getItem("tempUnits") === "c" ? Math.round(weather.main.feels_like) : Math.round(toF(weather.main.feels_like))}</span>°</h2>
                 </div>
                 <div className={styles.weatherIcon}>
                     {getIcon()}

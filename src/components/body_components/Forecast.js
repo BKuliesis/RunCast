@@ -19,6 +19,7 @@ import SnowLM from "../../assets/weather-icons/snow-lm.svg";
 import WindyLM from "../../assets/weather-icons/windy-lm.svg";
 import { ReactComponent as Drop } from "../../assets/weather-icons/drop.svg";
 import { processDailyForecast } from "../../utils/DailyForecast";
+import { toF } from "../../utils/UnitsConversions";
 
 function Forecast ({ forecast }) {
     const isLightTheme = localStorage.getItem("theme") === "light";
@@ -33,14 +34,8 @@ function Forecast ({ forecast }) {
         let isNight = includeNight ? icon.includes("n") : false;
 
         // Wind override — prioritize wind if strong and weather is otherwise calm
-        if (localStorage.getItem("speedUnits") === "mph") {
-            if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
-                return <img src={isLightTheme ? WindyLM : WindyDM} alt="Windy" className={styles.weatherIcon}/>;
-            } // Depending on the theme of the website, it will use different versions of the icon.
-        } else {
-            if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-                return <img src={isLightTheme ? WindyLM : WindyDM} alt="Windy" className={styles.weatherIcon}/>;
-            }
+        if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
+            return <img src={isLightTheme ? WindyLM : WindyDM} alt="Windy" className={styles.weatherIcon}/>;
         }
     
         if (main === "Clear") {
@@ -97,7 +92,7 @@ function Forecast ({ forecast }) {
                                 timeZone: 'GMT'
                             })}
                         </p>
-                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{hour.main.temp}</span>°</p>
+                        <p className={`${styles.panelCell} ${styles.temp} ${index === 0 ? styles.bold : ""}`}><span className="number">{localStorage.getItem("tempUnits") === "c" ? Math.round(hour.main.temp) : Math.round(toF(hour.main.temp))}</span>°</p>
                         <p className={styles.panelCell}>{weatherIcon(hour)}</p>
                         <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}><Drop />{Math.round(hour.pop * 100)}%</p>                
                     </div>
@@ -107,7 +102,7 @@ function Forecast ({ forecast }) {
 
             <div className="panel">
                 <h2>Daily Forecast</h2>
-                <div className={styles.panelList} style={{ maxHeight: 'fit-content', overflow: 'hidden' }}>
+                <div className={styles.panelList} style={{ maxHeight: 'fit-content', overflow: 'hidden', padding: '0' }}>
                     {processDailyForecast(forecast).map((day, index) => (
                         <div className={`${styles.panelListItem} ${styles.dailyPanelListItem}`} key={index}>
                             <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
@@ -119,11 +114,11 @@ function Forecast ({ forecast }) {
                             </p>
                             <div className={`${styles.panelCell} ${styles.temp} ${styles.minMax} ${index === 0 ? styles.bold : ""}`}>
                                 <div>
-                                    <span className="number">{Math.round(day.maxTemp)}</span>°
+                                    <span className="number">{localStorage.getItem("tempUnits") === "c" ? Math.round(day.maxTemp) : Math.round(toF(day.maxTemp))}</span>°
                                 </div>
                                 <span className={styles.min}>/</span>
                                 <div className={styles.min}>
-                                    <span className="number">{Math.round(day.minTemp)}</span>°
+                                    <span className="number">{localStorage.getItem("tempUnits") === "c" ? Math.round(day.minTemp) : Math.round(toF(day.minTemp))}</span>°
                                 </div>
                             </div>
                             <p className={styles.panelCell}>{weatherIcon(day.middayEntry, false)}</p>

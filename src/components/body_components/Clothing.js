@@ -17,18 +17,11 @@ import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmsho
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
 
 const Clothing = ({ weather }) => {
-  const rawTemp = weather?.main?.temp || 0;
   const isProMode = localStorage.getItem('mode') === 'pro';
-
+  const temperature = weather?.main?.temp;
   const isRaining = weather?.weather?.some(condition => 
     condition.main.toLowerCase().includes('rain')
   ) || false;
-
-  const temperature = useMemo(() => {
-    const units = localStorage.getItem('tempUnits') || 'c';
-    const convertedTemp = units === 'f' ? (rawTemp - 32) * 5/9 : rawTemp;
-    return Math.round(convertedTemp * 2) / 2;
-  }, [rawTemp]);
 
   const recommendations = useMemo(() => {
     let recs = [];
