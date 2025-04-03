@@ -198,19 +198,16 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                 {showSuggestions && suggestions.length > 0 && (
                 <ul className={styles.suggestionsDropdown}>
                     {suggestions.map((suggestion, index) => (
-                        <div key={`${suggestion}-${index}`}>
-                            <li 
-                                onClick={() => {
-                                    handleSearch(suggestion);
-                                    setSearch("");
-                                    handleSearchInputChange("");
-                                    setShowSuggestions(false);
-                                }}
-                            >
-                                {suggestion}
-                            </li>
-                            <hr />
-                        </div>
+                        <li key={`${suggestion}-${index}`}
+                            onClick={() => {
+                                handleSearch(suggestion);
+                                setSearch("");
+                                handleSearchInputChange("");
+                                setShowSuggestions(false);
+                            }}
+                        >
+                            {suggestion}
+                        </li>
                     ))}
                 </ul>
             )}          
