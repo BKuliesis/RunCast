@@ -12,11 +12,13 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
     const [unitsActive, setUnitsActive] = useState(false);
     const [themeActive, setThemeActive] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
     const modeRef = useRef(null);
     const unitsRef = useRef(null);
     const themeRef = useRef(null);
     const menuRef = useRef(null);
+    const searchRef = useRef(null);
 
     const [search, setSearch] = useState("");
 
@@ -38,27 +40,24 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (desktopMenuActive) {
-                if (
-                    modeRef.current && !modeRef.current.contains(event.target) &&
-                    unitsRef.current && !unitsRef.current.contains(event.target) &&
-                    themeRef.current && !themeRef.current.contains(event.target)
-                ) {
-                    setModeActive(false);
-                    setUnitsActive(false);
-                    setThemeActive(false);
-                }
-            } else {
-                if (menuRef.current && !menuRef.current.contains(event.target)) {
-                    setMenuActive(false);
-                }
+            if (
+                !modeRef.current?.contains(event.target) &&
+                !unitsRef.current?.contains(event.target) &&
+                !themeRef.current?.contains(event.target) &&
+                !menuRef.current?.contains(event.target) &&
+                !searchRef.current?.contains(event.target)
+            ) {
+                setModeActive(false);
+                setUnitsActive(false);
+                setThemeActive(false);
+                setMenuActive(false);
+                setShowSuggestions(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [desktopMenuActive]);
+    
 
     const handleModeClick = () => {
         setModeActive(prev => !prev);
@@ -168,30 +167,51 @@ function Navbar({ handleSearch, handleSearchInputChange, suggestions, mode, temp
                     <Wind size={42} strokeWidth={1.7} />
                 </div>
             )}
-            <div className={styles.search}>
+            <div className={styles.search} ref={searchRef}>
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     handleSearch(search);
                     setSearch("");
-                    handleSearchInputChange(""); // clear suggestions
+                    handleSearchInputChange("");
                 }}>
-                    <input type="text" placeholder="Search location" value={search} onChange={(e) => {setSearch(e.target.value); handleSearchInputChange(e.target.value);}} />
+                    <input 
+                        type="text" 
+                        placeholder="Search location" 
+                        value={search} 
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            handleSearchInputChange(e.target.value);
+                            setShowSuggestions(e.target.value.length > 0);
+                        }} 
+                        onFocus={() => {
+                            if (search.length > 0) {
+                                setShowSuggestions(true);
+                            }
+                        }} 
+                    />   
                     <button type="submit">
                         <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                             <path d="M20.4167 21.875L13.8542 15.3125C13.3333 15.7292 12.7344 16.059 12.0573 16.3021C11.3802 16.5451 10.6597 16.6667 9.89583 16.6667C8.00347 16.6667 6.40191 16.0113 5.09115 14.7005C3.78038 13.3898 3.125 11.7882 3.125 9.89583C3.125 8.00347 3.78038 6.40191 5.09115 5.09115C6.40191 3.78038 8.00347 3.125 9.89583 3.125C11.7882 3.125 13.3898 3.78038 14.7005 5.09115C16.0113 6.40191 16.6667 8.00347 16.6667 9.89583C16.6667 10.6597 16.5451 11.3802 16.3021 12.0573C16.059 12.7344 15.7292 13.3333 15.3125 13.8542L21.875 20.4167L20.4167 21.875ZM9.89583 14.5833C11.1979 14.5833 12.3047 14.1276 13.2161 13.2161C14.1276 12.3047 14.5833 11.1979 14.5833 9.89583C14.5833 8.59375 14.1276 7.48698 13.2161 6.57552C12.3047 5.66406 11.1979 5.20833 9.89583 5.20833C8.59375 5.20833 7.48698 5.66406 6.57552 6.57552C5.66406 7.48698 5.20833 8.59375 5.20833 9.89583C5.20833 11.1979 5.66406 12.3047 6.57552 13.2161C7.48698 14.1276 8.59375 14.5833 9.89583 14.5833Z"/>
                         </svg>
                     </button>    
                 </form>
-                {suggestions.length > 0 && (
+                {showSuggestions && suggestions.length > 0 && (
                 <ul className={styles.suggestionsDropdown}>
                     {suggestions.map((suggestion, index) => (
-                        <li key={index} onClick={() => {
-                            setSearch(suggestion);
-                            handleSearch(suggestion);
-                            handleSearchInputChange(""); // clear suggestions
-                        }}>
-                            {suggestion}
-                        </li>
+                        <>
+                            <li 
+                                key={index} 
+                                onClick={() => {
+                                    handleSearch(suggestion);
+                                    setSearch("");
+                                    handleSearchInputChange("");
+                                    setShowSuggestions(false);
+                                }}
+                            >
+                                {suggestion}
+                            </li>
+                            <hr />
+                        </>
                     ))}
                 </ul>
             )}          

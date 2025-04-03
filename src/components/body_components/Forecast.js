@@ -117,7 +117,7 @@ function Forecast ({ forecast }) {
                                     timeZone: 'GMT'
                                 })}
                             </p>
-                            <p className={`${styles.panelCell} ${styles.temp} ${styles.minMax} ${index === 0 ? styles.bold : ""}`}>
+                            <div className={`${styles.panelCell} ${styles.temp} ${styles.minMax} ${index === 0 ? styles.bold : ""}`}>
                                 <div>
                                     <span className="number">{Math.round(day.maxTemp)}</span>°
                                 </div>
@@ -125,7 +125,7 @@ function Forecast ({ forecast }) {
                                 <div className={styles.min}>
                                     <span className="number">{Math.round(day.minTemp)}</span>°
                                 </div>
-                            </p>
+                            </div>
                             <p className={styles.panelCell}>{weatherIcon(day.middayEntry, false)}</p>
                             <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}>
                                 <Drop />{day.pop}%

@@ -55,11 +55,6 @@ function WeatherToday({ weather, forecast, extra, airQuality }) {
         }
     };
 
-    console.log(weather);
-    console.log(forecast);
-    console.log(extra);
-    console.log(airQuality);
-
     const dailyForecast = processDailyForecast(forecast);
 
     return (
