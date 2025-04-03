@@ -107,7 +107,7 @@ function Forecast ({ forecast }) {
 
             <div className="panel">
                 <h2>Daily Forecast</h2>
-                <div className={styles.panelList} style={{ maxHeight: 'fit-content', overflow: 'hidden' }}>
+                <div className={styles.panelList} style={{ maxHeight: 'fit-content', overflow: 'hidden', padding: '0' }}>
                     {processDailyForecast(forecast).map((day, index) => (
                         <div className={`${styles.panelListItem} ${styles.dailyPanelListItem}`} key={index}>
                             <p className={`${styles.panelCell} ${index === 0 ? styles.bold : ""}`}>
