@@ -1,13 +1,22 @@
 import styles from "./Forecast.module.css";
-import ClearNight from "../../assets/weather-icons/clear-moon-dm.svg";
-import ClearSun from "../../assets/weather-icons/clear-sun-dm.svg";
-import CloudyNight from "../../assets/weather-icons/cloudy-moon-dm.svg";
-import CloudyRain from "../../assets/weather-icons/rain-dm.svg";
-import CloudySun from "../../assets/weather-icons/cloudy-sun-dm.svg";
-import Cloudy from "../../assets/weather-icons/cloudy-dm.svg";
-import Lightning from "../../assets/weather-icons/lightning-dm.svg";
-import Snow from "../../assets/weather-icons/snow-dm.svg";
-import Windy from "../../assets/weather-icons/windy-dm.svg";
+import ClearNightDM from "../../assets/weather-icons/clear-moon-dm.svg";
+import ClearSunDM from "../../assets/weather-icons/clear-sun-dm.svg";
+import CloudyNightDM from "../../assets/weather-icons/cloudy-moon-dm.svg";
+import CloudyRainDM from "../../assets/weather-icons/rain-dm.svg";
+import CloudySunDM from "../../assets/weather-icons/cloudy-sun-dm.svg";
+import CloudyDM from "../../assets/weather-icons/cloudy-dm.svg";
+import LightningDM from "../../assets/weather-icons/lightning-dm.svg";
+import SnowDM from "../../assets/weather-icons/snow-dm.svg";
+import WindyDM from "../../assets/weather-icons/windy-dm.svg"
+import ClearNightLM from "../../assets/weather-icons/clear-moon-lm.svg";
+import ClearSunLM from "../../assets/weather-icons/clear-sun-lm.svg";
+import CloudyNightLM from "../../assets/weather-icons/cloudy-moon-lm.svg";  
+import CloudyRainLM from "../../assets/weather-icons/rain-lm.svg";
+import CloudySunLM from "../../assets/weather-icons/cloudy-sun-lm.svg";
+import CloudyLM from "../../assets/weather-icons/cloudy-lm.svg";
+import LightningLM from "../../assets/weather-icons/lightning-lm.svg";
+import SnowLM from "../../assets/weather-icons/snow-lm.svg";
+import WindyLM from "../../assets/weather-icons/windy-lm.svg";
 import { ReactComponent as Drop } from "../../assets/weather-icons/drop.svg";
 
 function Panels ({ forecast }) {
@@ -26,57 +35,50 @@ function Panels ({ forecast }) {
         // Wind override — prioritize wind if strong and weather is otherwise calm
         if (localStorage.getItem("speedUnits") === "mph") {
             if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
-                return <img src={Windy} alt="Windy" style={style}/>;
+                return <img src={isLightTheme === "light" ? WindyLM : WindyDM} alt="Windy" style={style}/>;
             }
         } else {
             if (windSpeed > 10 && (main === "Clear" || main === "Clouds")) {
-                return <img src={Windy} alt="Windy" style={style}/>;
+                return <img src={isLightTheme === "light" ? WindyLM : WindyDM} alt="Windy" style={style}/>;
             }
         }
     
         if (main === "Clear") {
             return isNight
-                ? <img src={ClearNight} alt="Clear Night" style={style}/>
-                : <img src={ClearSun} alt="Clear Sun" style={style}/>;
+                ? <img src={isLightTheme === "light" ? ClearNightLM : ClearNightDM} alt="Clear Night" style={style}/>
+                : <img src={isLightTheme === "light" ? ClearSunLM : ClearSunDM} alt="Clear Sun" style={style}/>;
         }
     
         if (main === "Clouds") {
             if (["few clouds", "scattered clouds"].includes(description)) {
                 return isNight
-                    ? <img src={CloudyNight} alt="Cloudy Night" style={style}/>
-                    : <img src={CloudySun} alt="Cloudy Sun" style={style}/>;
+                    ? <img src={isLightTheme === "light" ? CloudyNightLM : CloudyNightDM} alt="Cloudy Night" style={style}/>
+                    : <img src={isLightTheme === "light" ? CloudySunLM : CloudySunDM} alt="Cloudy Sun" style={style}/>;
             }
             return isNight
-                ? <img src={CloudyNight} alt="Cloudy Night" style={style}/>
-                : <img src={Cloudy} alt="Cloudy" style={style}/>;
+                ? <img src={isLightTheme === "light" ? CloudyNightLM : CloudyNightDM} alt="Cloudy Night" style={style}/>
+                : <img src={isLightTheme === "light" ? CloudyLM : CloudyDM} alt="Cloudy" style={style}/>;
         }
     
         if (main === "Rain") {
-            if (description.includes("light")) {
-                return isNight
-                    ? <img src={CloudyRain} alt="Cloudy Rain" style={style}/>
-                    : <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
-            }
-            return <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
+            return <img src={isLightTheme === "light" ? CloudyRainLM : CloudyRainDM} alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Drizzle") {
-            return isNight
-                ? <img src={CloudyRain} alt="Cloudy Rain" style={style}/>
-                : <img src={CloudyRain} alt="Cloudy Rain" style={style}/>;
+            return <img src={isLightTheme === "light" ? CloudyRainLM : CloudyRainDM} alt="Cloudy Rain" style={style}/>;
         }
     
         if (main === "Thunderstorm") {
-            return <img src={Lightning} alt="Lightning" style={style}/>;
+            return <img src={isLightTheme === "light" ? LightningLM : LightningDM} alt="Lightning" style={style}/>;
         }
     
         if (main === "Snow") {
-            return <img src={Snow} alt="Snow" style={style}/>;
+            return <img src={isLightTheme === "light" ? SnowLM : SnowDM} alt="Snow" style={style}/>;
         }
     
         return isNight
-            ? <img src={CloudyNight} alt="Cloudy Night" style={style}/>
-            : <img src={Cloudy} alt="Cloudy" style={style}/>;
+            ? <img src={isLightTheme === "light" ? CloudyNightLM : CloudyNightDM} alt="Cloudy Night" style={style}/>
+            : <img src={isLightTheme === "light" ? CloudyLM : CloudyDM} alt="Cloudy" style={style}/>;
     }
 
     const processDailyForecast = (forecast) => {
