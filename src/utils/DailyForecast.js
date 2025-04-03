@@ -1,10 +1,10 @@
 export const processDailyForecast = (forecast) => {
     const dailyData = forecast.list.reduce((acc, entry) => {
         const date = new Date(entry.dt * 1000).toISOString().split("T")[0]; // Extract YYYY-MM-DD
-        if (!acc[date]) acc[date] = { temps: [], midday: null, pop: 0, entries: 0 };
+        if (!acc[date]) acc[date] = { temps: [], midday: null, pops: [], entries: 0 };
 
         acc[date].temps.push(entry.main.temp);
-        acc[date].pop += entry.pop; // Accumulate precipitation probability
+        acc[date].pops.push(entry.pop);
         acc[date].entries++;
 
         // Select the midday entry (12:00 PM UTC)
@@ -18,6 +18,6 @@ export const processDailyForecast = (forecast) => {
         maxTemp: Math.max(...day.temps),
         minTemp: Math.min(...day.temps),
         middayEntry: day.midday || forecast.list.find(e => new Date(e.dt * 1000).getUTCHours() === 12), 
-        pop: Math.round((day.pop / day.entries) * 100),
+        pop: Math.round(Math.max(...day.pops) * 100),
     }));
 };

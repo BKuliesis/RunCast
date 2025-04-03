@@ -27,11 +27,6 @@
     --header-overlay: rgba(13, 31, 78, 0.6);
 
     /* Weather Icon Colors */
-    --sun-color: #FBB930;
-    --cloud-color: #A3B6C2;
-    --rain-color: #2F85BF;
-    --snow-color: #D3E0E0;
-    --wind-color: #A3B6C2;
     --precipitation-color: #35ABFA;
     
     /* Running Conditions Colors */
@@ -74,11 +69,6 @@
         --image-overlay: rgba(0, 0, 0, 0.25);
     
         /* Weather Icon Colors */
-        --sun-color: #FFDA46;
-        --cloud-color: #FFFFFF;
-        --rain-color: #25A8FF;
-        --snow-color: #FFFFFF;
-        --wind-color: #c4d5e0;
         --precipitation-color: #31C5FF;
         
         /* Running Conditions Colors */

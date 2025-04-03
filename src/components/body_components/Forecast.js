@@ -27,11 +27,11 @@ function Forecast ({ forecast }) {
         return <p>Loading forecast...</p>
     }
 
-    function weatherIcon( weather ) {
+    function weatherIcon( weather, includeNight = true ) {
         const { main, description, icon } = weather.weather[0];
         const windSpeed = weather.wind.speed;
-        const isNight = icon.includes("n");
-    
+        let isNight = includeNight ? icon.includes("n") : false;
+
         // Wind override — prioritize wind if strong and weather is otherwise calm
         if (localStorage.getItem("speedUnits") === "mph") {
             if (windSpeed > 10 * 2.23694 && (main === "Clear" || main === "Clouds")) {
@@ -124,7 +124,7 @@ function Forecast ({ forecast }) {
                                     <span className="number">{Math.round(day.minTemp)}</span>°
                                 </div>
                             </p>
-                            <p className={styles.panelCell}>{weatherIcon(day.middayEntry)}</p>
+                            <p className={styles.panelCell}>{weatherIcon(day.middayEntry, false)}</p>
                             <p className={`${styles.panelCell} ${styles.drop} ${index === 0 ? styles.bold : ""}`}>
                                 <Drop />{day.pop}%
                             </p>
