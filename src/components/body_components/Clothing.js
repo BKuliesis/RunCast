@@ -17,13 +17,9 @@ import { ReactComponent as WarmJacket } from "../../assets/clothing-icons/warmja
 import { ReactComponent as WarmShoes } from "../../assets/clothing-icons/warmshoes.svg";
 import { ReactComponent as TShirt } from "../../assets/clothing-icons/tshirt.svg";
 
-const Clothing = ({ weather, recentRain }) => {
-  //Get current temperature
-  const rawTemp = weather?.main?.temp || 0;
-  //Get current mode
+const Clothing = ({ weather }) => {
   const isProMode = localStorage.getItem('mode') === 'pro';
-
-  //Check if it is raining
+  const temperature = weather?.main?.temp;
   const isRaining = weather?.weather?.some(condition => 
     condition.main.toLowerCase().includes('rain')
   ) || false;

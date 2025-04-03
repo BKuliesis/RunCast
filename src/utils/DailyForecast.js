@@ -15,7 +15,7 @@ export const processDailyForecast = (forecast) => {
 
     return Object.values(dailyData).slice(0, 5).map((day) => ({
         maxTemp: Math.max(...day.temps), // Finds maximum temperature for the day in the hourly list for that day
-        minTemp: Math.min(...day.temps),
+        minTemp: Math.min(...day.temps), // Finds minimum temperature for the day in the hourly list for that day
         middayEntry: day.midday || forecast.list.find(e => new Date(e.dt * 1000).getUTCHours() === 12), 
         pop: Math.round(day.maxPop * 100),
     }));

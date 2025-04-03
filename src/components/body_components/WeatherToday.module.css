@@ -15,3 +15,17 @@
     align-items: center;
     column-gap: var(--spacing-sm);
 }
+
+.proLayout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 518px) {
+    .proLayout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

@@ -29,7 +29,7 @@
 }
 
 .dailyPanelListItem {
-    grid-template-columns: 50px 93px 50px 62px
+    grid-template-columns: 50px 93px 50px 62px;
 }
 
 .panelListItem:last-child {
@@ -70,7 +70,6 @@
 .min {
     font-size: 16px;
     font-weight: 200;
-    margin-top: 0.8em;
 }
 
 .drop {
@@ -85,6 +84,15 @@
 
 
 /* Responsive Design */
+@media screen and (max-width: 935px) {
+    .panelList {
+        max-height: 100%;
+        padding-right: 0;
+        overflow-y: auto;
+        padding-right: var(--spacing-sm); 
+    }
+}
+
 @media screen and (max-width: 463px) {
     .panelListItem {
         grid-template-columns: 45px 40px 40px 62px;

@@ -1,0 +1,79 @@
+.content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.circleWrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.circleSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.bg {
+  stroke: var(--circle-bg-color);
+}
+
+.good {
+  stroke: var(--circle-good-color);
+}
+
+.moderate {
+  stroke: var(--circle-moderate-color);
+}
+
+.severe {
+  stroke: var(--circle-severe-color);
+}
+
+.number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.status {
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.subtext {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--conditions-explanation-color);
+}
+
+.information {
+  margin-top: calc(var(--spacing-sm) * 0.5);
+}
+
+.information hr {
+  margin: var(--spacing-sm) 0;
+}
+
+.informationRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--spacing-sm);
+}
+
+.informationRow svg {
+  margin-top: 4px;
+}
