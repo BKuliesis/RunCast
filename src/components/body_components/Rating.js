@@ -19,13 +19,14 @@ function Rating({ weather, recentRain }) {
   const windMS = windUnit === "mph" ? windSpeed / 2.23694 : windSpeed;
 
   const rating = useMemo(() => {
-    let baseRating;
+    let baseRating = 3;
 
-    if (tempC < -10) baseRating = 9;
-    else if (tempC < 0) baseRating = 7;
-    else if (tempC < 10) baseRating = 5;
-    else if (tempC < 25) baseRating = 3;
-    else if (tempC < 35) baseRating = 6;
+    // 🌡️ Temperature logic (in Celsius)
+    if (tempC < 0) baseRating = 7;
+    else if (tempC < 4) baseRating = 5;
+    else if (tempC <= 15) baseRating = 2;
+    else if (tempC <= 22) baseRating = 4;
+    else if (tempC <= 35) baseRating = 6;
     else baseRating = 9;
 
     const lowerCond = condition.toLowerCase();
@@ -33,13 +34,12 @@ function Rating({ weather, recentRain }) {
     if (lowerCond.includes("snow")) baseRating += 2;
     else if (lowerCond.includes("rain") || lowerCond.includes("drizzle")) baseRating += 1;
     else if (lowerCond.includes("fog")) baseRating += 1;
-    else if (lowerCond.includes("clear")) baseRating -= 1;
 
     let modifier = 0;
     if (recentRain?.rainedInLast6Hours) modifier += 1;
     if (windMS > 12) modifier += 1;
     else if (windMS > 8) modifier += 0.5;
-    if (humidity < 30 || humidity > 80) modifier += 0.5;
+    if (humidity > 70 || humidity < 30) modifier += 1;
 
     baseRating += Math.min(modifier, 2);
     return 11 - Math.max(1, Math.min(Math.round(baseRating), 10));
@@ -55,56 +55,49 @@ function Rating({ weather, recentRain }) {
     return "var(--circle-severe-color)";
   };
 
-  const getStatusLabel = (temp, humidity, wind, condition) => {
+  const getPriorityLabel = () => {
     const lower = condition.toLowerCase();
-    let reasons = [];
 
-    if (lower.includes("storm") || lower.includes("thunder")) return "Storm risk – avoid running";
+    if (lower.includes("storm") || lower.includes("tornado") || lower.includes("thunder")) {
+      return "Storm risk – avoid running";
+    }
 
-    if (lower.includes("snow")) reasons.push("Snowy conditions");
-    if (lower.includes("rain") || lower.includes("drizzle")) reasons.push("Wet and slippery");
-    if (recentRain?.rainedInLast6Hours) reasons.push("Recent rainfall");
-    if (lower.includes("fog")) reasons.push("Low visibility");
-    if (temp < 0) reasons.push("Freezing temperatures");
-    else if (temp >= 30) reasons.push("High heat – hydrate well");
-    if (humidity > 70) reasons.push("Extremely humid");
-    else if (humidity > 50) reasons.push("Humid air");
-    else if (humidity < 30) reasons.push("Dry air");
-    if (wind > 12) reasons.push("Strong winds");
-    else if (wind > 8) reasons.push("Windy conditions");
+    if (humidity > 70) return "Extremely humid – hard to breathe";
+    if (humidity > 50) return "High humidity – may affect comfort";
+    if (humidity < 30) return "Too dry – stay hydrated";
 
-    if (reasons.length === 0 && lower.includes("clear")) return "Ideal conditions";
-    return reasons.join(" · ");
+    if (tempC < 0) return "Freezing – risk of icy paths";
+    if (tempC > 35) return "Too hot – not safe to run";
+    if (recentRain?.rainedInLast6Hours) return `Rain ${recentRain.rainHoursCount}h ago – wet surfaces`;
+    if (windMS > 12) return "Strong winds – challenging pace";
+
+    if (lower.includes("snow")) return "Snowy terrain – watch footing";
+    if (lower.includes("rain") || lower.includes("drizzle")) return "Wet and slippery";
+
+    return "Ideal conditions";
   };
 
-  const getSubtext = (temp, humidity, wind, condition, rainData) => {
+  const getSubtext = () => {
     const lower = condition.toLowerCase();
 
-    if (lower.includes("storm") || lower.includes("thunder")) {
-      return "Avoid outdoor activity until conditions improve.";
+    if (lower.includes("storm") || lower.includes("tornado")) {
+      return "Postpone your run until the storm clears.";
     }
 
     if (lower.includes("snow")) {
-      return "Icy surfaces possible – run with caution.";
+      return "Snow and ice may impact safety.";
     }
 
-    if (lower.includes("rain") || lower.includes("drizzle")) {
-      return "Wet ground and puddles may affect traction.";
+    if (recentRain?.rainedInLast6Hours) {
+      return `Rain occurred ${recentRain.rainHoursCount}h ago – watch for puddles.`;
     }
 
-    if (rainData?.rainedInLast6Hours) {
-      return `It rained ${rainData.rainHoursCount} hour(s) ago – surfaces may still be wet or muddy.`;
-    }
+    if (humidity > 70) return "Hydrate well and monitor fatigue.";
+    if (tempC > 35) return "Avoid long runs in this heat.";
+    if (windMS > 12) return "Gusts may impact your pace.";
 
-    if (lower.includes("fog")) return "Wear reflective gear for safety.";
-    if (humidity > 70) return "Extremely humid – overheating likely. Hydrate often.";
-    else if (humidity > 50) return "High humidity – runs may feel harder.";
-    else if (humidity < 30) return "Dry air – may affect breathing.";
-    if (temp >= 30) return "Hot conditions – take it easy and stay hydrated.";
-    if (wind > 12) return "Strong gusts may affect your pace and balance.";
-
-    if (lower.includes("clear")) return "Ideal weather – go enjoy your run!";
-    return "Conditions mixed – use your best judgment.";
+    if (lower.includes("clear")) return "Excellent weather – enjoy your run!";
+    return "Mixed conditions – stay aware.";
   };
 
   return (
@@ -129,12 +122,8 @@ function Rating({ weather, recentRain }) {
           <span className={styles.number}>{rating}</span>
         </div>
         <div className={styles.details}>
-          <p className={styles.status}>
-            {getStatusLabel(tempC, humidity, windMS, condition)}
-          </p>
-          <p className={styles.subtext}>
-            {getSubtext(tempC, humidity, windMS, condition, recentRain)}
-          </p>
+          <p className={styles.status}>{getPriorityLabel()}</p>
+          <p className={styles.subtext}>{getSubtext()}</p>
         </div>
       </div>
 
@@ -151,14 +140,16 @@ function Rating({ weather, recentRain }) {
                 tempUnits === "f"
                   ? Math.round((tempC * 9) / 5 + 32) + "°F"
                   : Math.round(tempC) + "°C"
-              }
-              {" – "}
-              {
+              } – {
                 tempC < 0
-                  ? "Freezing conditions – risk of icy surfaces"
-                  : tempC >= 30
-                    ? "High heat – hydrate well and slow your pace"
-                    : "Ideal temperature for running"
+                  ? "Freezing – icy paths likely"
+                  : tempC <= 15
+                    ? "Ideal for running"
+                    : tempC <= 22
+                      ? "Mild heat – may feel slower"
+                      : tempC <= 35
+                        ? "High heat – hydrate often"
+                        : "Too hot – not advised"
               }
             </p>
           </div>
@@ -173,14 +164,12 @@ function Rating({ weather, recentRain }) {
                 windUnit === "mph"
                   ? (windMS * 2.23694).toFixed(1) + " mph"
                   : windMS.toFixed(1) + " m/s"
-              }
-              {" – "}
-              {
+              } – {
                 windMS > 12
-                  ? "Strong winds may affect balance and pace"
+                  ? "Strong winds – challenging pace"
                   : windMS > 8
-                    ? "Noticeable breeze – adjust clothing"
-                    : "Light breeze – ideal for running"
+                    ? "Breezy – may impact form"
+                    : "Calm – perfect running conditions"
               }
             </p>
           </div>
@@ -191,15 +180,14 @@ function Rating({ weather, recentRain }) {
               <p>Humidity</p>
             </div>
             <p>
-              {humidity + "% – "}
-              {
+              {humidity + "% – "} {
                 humidity > 70
-                  ? "Extremely humid – high risk of overheating"
+                  ? "Extremely humid – hard to breathe"
                   : humidity > 50
-                    ? "High humidity – runs may feel harder"
+                    ? "High humidity – discomfort possible"
                     : humidity < 30
-                      ? "Dry air – can cause dry skin and respiratory issues"
-                      : "Optimal for running"
+                      ? "Too dry – hydrate often"
+                      : "Perfect humidity for running"
               }
             </p>
           </div>
@@ -220,8 +208,8 @@ function Rating({ weather, recentRain }) {
             <p>
               {
                 recentRain?.rainedInLast6Hours
-                  ? `Rained ${recentRain.rainHoursCount} hour(s) ago – paths may still be wet or muddy`
-                  : "No rain in the past 6 hours"
+                  ? `Rained ${recentRain.rainHoursCount}h ago – may be muddy`
+                  : "Dry – no recent rain"
               }
             </p>
           </div>
@@ -232,6 +220,8 @@ function Rating({ weather, recentRain }) {
 }
 
 export default Rating;
+
+
 
 
 
